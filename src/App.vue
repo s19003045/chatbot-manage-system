@@ -10,7 +10,7 @@
 <script>
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./views/components/Navbar";
 
 export default {
   name: "App",
