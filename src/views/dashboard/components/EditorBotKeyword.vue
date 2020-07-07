@@ -1,6 +1,6 @@
 <template>
   <div class="my-2">
-    <h3>關鍵字回應</h3>
+    <!-- <h3>關鍵字回應</h3> -->
     <div class="container">
       <div class="row my-4">
         <div class="col col-2">
@@ -52,25 +52,33 @@ export default {
       );
 
       if (statusText === "OK") {
-        console.log("response:", data);
         this.moduleKeywords = data.data.moduleKeywords;
 
-        Toast.fire({
+        return Toast.fire({
           icon: "success",
           title: "成功取得資料",
           text: ""
         });
+      } else {
+        return Toast.fire({
+          icon: "error",
+          title: "取得資料失敗，請稍後再試",
+          text: ""
+        });
       }
     } catch (err) {
-      console.log(err);
-      Toast.fire({
+      return Toast.fire({
         icon: "error",
         title: "取得資料失敗，請稍後再試",
         text: `${err.message}`
       });
     }
   },
-  computed: {},
-  methods: {}
+  methods: {
+    //子層點擊新增模組按鈕事件觸發父層
+    afterCreateModuleKeyword(moduleKeyword) {
+      this.moduleKeywords.push(moduleKeyword);
+    }
+  }
 };
 </script>
