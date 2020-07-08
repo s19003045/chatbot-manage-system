@@ -93,11 +93,17 @@ export default {
     //子層點擊〈模組區塊〉事件觸發父層
     afterClickModule([index]) {
       //該模組的 replyMessage 放至 ReplyMsgEditor component
-      const replyMsgToComponent = this.moduleKeywords[index].ReplyMessage;
+      const replyMsgToComponent =
+        this.moduleKeywords[index] && this.moduleKeywords[index].ReplyMessage
+          ? this.moduleKeywords[index].ReplyMessage
+          : {};
       this.replyMessage = replyMsgToComponent;
 
       //該模組的 textEvents 放至 EventEditor component
-      this.textEvents = replyMsgToComponent.TextEvents;
+      this.textEvents =
+        replyMsgToComponent && replyMsgToComponent.TextEvents
+          ? replyMsgToComponent.TextEvents
+          : [];
     }
     //
   }

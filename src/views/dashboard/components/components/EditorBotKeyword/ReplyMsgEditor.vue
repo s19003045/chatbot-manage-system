@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5 py-1 px-1 border border-secondary rounded">
-    <h4 class="mb-5 py-1 px-1 bg-secondary text-light border border-secondary rounded">
+    <h4 class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded">
       {{replyMessage.name}}
       <small>回應訊息</small>
     </h4>
@@ -15,7 +15,9 @@
         disabled
       ></textarea>
     </div>
-    <div v-if="Object.entries(replyMessage).length === 0"></div>
+    <div
+      v-if="replyMessage === null ? Object.entries({}).length === 0 : Object.entries(replyMessage).length === 0"
+    ></div>
     <div v-else>
       <ul class="list-group my-3 p-2 bg-secondary">
         <li
