@@ -204,6 +204,10 @@ export default {
           text: `${err.message}`
         });
       }
+    },
+    //json editor error event
+    onError() {
+      console.log("error");
     }
   }
 };
