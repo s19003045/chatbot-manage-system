@@ -8,11 +8,14 @@
       </thead>
       <tbody>
         <tr v-for="(moduleKeyword,index) in moduleKeywords" v-bind:key="moduleKeyword.id">
-          <td :data-module-keyword-uuid="moduleKeyword.uuid">
+          <td
+            :data-module-keyword-uuid="moduleKeyword.uuid"
+            @click.stop.prevent="handleClickModule(index)"
+          >
             <div class="mb-2">{{moduleKeyword.name === null ? "尚未命名模組" : moduleKeyword.name}}</div>
             <button
               class="btn btn-danger btn-sm"
-              @click="handleDeleteBtnClick(index,moduleKeyword.uuid)"
+              @click.stop.prevent="handleDeleteBtnClick(index, moduleKeyword.uuid)"
             >刪除</button>
           </td>
         </tr>
@@ -39,6 +42,7 @@ export default {
   },
   created() {},
   methods: {
+    // 點擊〈新增模組按鍵〉
     async handleAddBtnClick() {
       //faked data
       const apiData = {
@@ -73,6 +77,7 @@ export default {
         });
       }
     },
+    // 點擊〈刪除模組按鍵〉
     async handleDeleteBtnClick(index, uuid) {
       try {
         //faked data
@@ -112,6 +117,10 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    // 點擊〈模組區塊〉
+    async handleClickModule(index) {
+      // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
+      this.$emit("after-click-module", [index]);
     }
   }
 };

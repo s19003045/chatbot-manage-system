@@ -4,13 +4,13 @@
     <div class="container">
       <div class="row my-4">
         <div class="col col-2">
-          <ModuleList :module-keywords="moduleKeywords" />
+          <ModuleList :module-keywords="moduleKeywords" @after-click-module="afterClickModule" />
         </div>
         <div class="col col-5">
-          <EventEditor />
+          <EventEditor :text-events="textEvents" />
         </div>
         <div class="col col-5">
-          <ReplyMsgEditor />
+          <ReplyMsgEditor :reply-message="replyMessage" />
         </div>
       </div>
     </div>
@@ -36,7 +36,9 @@ export default {
   },
   data() {
     return {
-      moduleKeywords: []
+      moduleKeywords: [],
+      replyMessage: {},
+      textEvents: []
     };
   },
   props: {},
@@ -82,11 +84,22 @@ export default {
     //子層點擊新增模組按鈕事件觸發父層 => 暫無用途
     afterCreateModuleKeyword(moduleKeyword) {
       this.moduleKeywords.push(moduleKeyword);
-    }
+    },
     //子層點擊新增模組按鈕事件觸發父層 => 暫無用途
-    // afterDeleteModuleKeyword(moduleKeyword) {
-    //   this.moduleKeywords.push(moduleKeyword);
-    // }
+    // afterDeleteModuleKeyword(index,moduleKeyword) {
+
+    // },
+
+    //子層點擊〈模組區塊〉事件觸發父層
+    afterClickModule([index]) {
+      //該模組的 replyMessage 放至 ReplyMsgEditor component
+      const replyMsgToComponent = this.moduleKeywords[index].ReplyMessage;
+      this.replyMessage = replyMsgToComponent;
+
+      //該模組的 textEvents 放至 EventEditor component
+      this.textEvents = replyMsgToComponent.TextEvents;
+    }
+    //
   }
 };
 </script>
