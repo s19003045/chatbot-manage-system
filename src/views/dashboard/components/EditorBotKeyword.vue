@@ -43,12 +43,16 @@ export default {
   async created() {
     try {
       //faked data
-      let botId = "bot-abakdss",
-        ChatbotId = 1;
-
+      let apiData = {
+        params: {
+          botId: "bot-abakdss"
+        },
+        query: {
+          ChatbotId: 1
+        }
+      };
       const { statusText, data } = await keywordReplyAPI.getKeywordReply(
-        botId,
-        ChatbotId
+        apiData
       );
 
       if (statusText === "OK") {
@@ -75,10 +79,14 @@ export default {
     }
   },
   methods: {
-    //子層點擊新增模組按鈕事件觸發父層
+    //子層點擊新增模組按鈕事件觸發父層 => 暫無用途
     afterCreateModuleKeyword(moduleKeyword) {
       this.moduleKeywords.push(moduleKeyword);
     }
+    //子層點擊新增模組按鈕事件觸發父層 => 暫無用途
+    // afterDeleteModuleKeyword(moduleKeyword) {
+    //   this.moduleKeywords.push(moduleKeyword);
+    // }
   }
 };
 </script>
