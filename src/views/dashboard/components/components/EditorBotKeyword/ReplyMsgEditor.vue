@@ -85,7 +85,11 @@ export default {
   },
   //資料變更時
   beforeUpdate() {
-    this.replyMessageTexts = this.replyMessage.messageTemplate;
+    //取得 messageTemplate(json) 資料
+    this.replyMessageTexts =
+      this.replyMessage && this.replyMessage.messageTemplate
+        ? this.replyMessage.messageTemplate
+        : [];
 
     console.log("this.replyMessageTexts  => ", this.replyMessageTexts);
   },
@@ -170,11 +174,16 @@ export default {
     },
     async handleClickAddBtn() {
       try {
+        this.isProcessing = true;
         //faked data
         const apiData = {
-          params: {},
+          params: {
+            botId: 1 //之後會從 this.$store 或從 this.$route 取得
+          },
           query: {},
-          data: {}
+          data: {
+            ChatbotId: 1 //之後會從 this.$store 取得
+          }
         };
 
         const { statusText, data } = await keywordReplyAPI.createReplyMessage(
@@ -182,21 +191,30 @@ export default {
         );
 
         if (statusText === "OK") {
+          this.isProcessing = false;
+
           console.log("statusText:", statusText);
           console.log("data:", data);
+
+          this.replyMessage = data.data.replyMessage;
+
           return Toast.fire({
             icon: "success",
-            title: "成功刪除",
+            title: "成功新增",
             text: ""
           });
         } else {
+          this.isProcessing = false;
+
           return Toast.fire({
             icon: "error",
-            title: "刪除失敗，請稍後再試",
+            title: "新增失敗，請稍後再試",
             text: ""
           });
         }
       } catch (err) {
+        this.isProcessing = false;
+
         console.log(err);
         return Toast.fire({
           icon: "error",

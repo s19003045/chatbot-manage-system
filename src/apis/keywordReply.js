@@ -26,6 +26,16 @@ export default {
   },
   // 新增 reply message
 
+  // 新增 reply message
+  createReplyMessage({
+    params: {
+      botId: botId
+    },
+    data: data
+  }) {
+    console.log('arguments:', arguments)
+    return apiHelper.post(`/bots/${botId}/reply-message`, data)
+  },
   // 刪除 reply message
 
   // 新增 text event
