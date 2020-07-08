@@ -4,21 +4,25 @@
       {{replyMessage.name}}
       <small>回應訊息</small>
     </h4>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">編輯區(JSON)</span>
-      </div>
-      <textarea
-        class="form-control"
-        aria-label="With textarea"
-        v-model="replyMessage.messageTemplate"
-        disabled
-      ></textarea>
-    </div>
+    <!-- 編輯區一： json editor -->
+    <h6>JSON 編輯區</h6>
+    <v-jsoneditor v-model="replyMessageTexts" :options="options" :plus="false" @error="onError" />
+
+    <!-- 編輯區二：使用選單 -->
+
+    <!-- 當 replyMessage 為空時 -->
     <div
       v-if="replyMessage === null ? Object.entries({}).length === 0 : Object.entries(replyMessage).length === 0"
-    ></div>
+    >
+      <button
+        class="btn btn-primary btn-sm my-3"
+        @click="handleClickAddBtn"
+        :disabled="isProcessing"
+      >新增回應訊息</button>
+    </div>
+    <!-- 當 replyMessage 不為空時 -->
     <div v-else>
+      <h6 class="mt-4">回應訊息顯示區</h6>
       <ul class="list-group my-3 p-2 bg-secondary">
         <li
           class="list-group-item my-1 border border-secondary rounded-pill"
@@ -26,20 +30,19 @@
           v-bind:key="index"
         >{{replyMessageText.text}}</li>
       </ul>
-      <div v-if="replyMessage !== null">
+      <div>
         <button
           class="btn btn-info btn-sm mx-2 my-2"
           :data-reply-message-uuid="replyMessage.uuid"
           @click="handleClickEditBtn(replyMessage.uuid)"
+          :disabled="isProcessing"
         >編輯回應訊息</button>
         <button
           class="btn btn-warning btn-sm mx-2 my-2"
           :data-reply-message-uuid="replyMessage.uuid"
           @click="handleClickDeleteBtn(replyMessage.uuid)"
+          :disabled="isProcessing"
         >刪除回應訊息</button>
-      </div>
-      <div v-else>
-        <button class="btn btn-primary btn-sm" @click="handleClickAddBtn">新增回應訊息</button>
       </div>
     </div>
   </div>
@@ -50,8 +53,14 @@
 import keywordReplyAPI from "../../../../../apis/keywordReply.js";
 import { Toast } from "../../../../../utils/helpers";
 
+// //json editor
+import VJsoneditor from "v-jsoneditor/src/index";
+
 export default {
   name: "ReplyMsgEditor",
+  components: {
+    VJsoneditor
+  },
   props: {
     replyMessage: {
       type: Object
@@ -59,7 +68,16 @@ export default {
   },
   data() {
     return {
-      replyMessageTexts: []
+      replyMessageTexts: [],
+      isProcessing: false,
+      options: {
+        mode: "text",
+        //json editor focus event
+        onFocus({ type, target }) {
+          console.log("type:", type);
+          console.log("target:", target);
+        }
+      }
     };
   },
   created() {
