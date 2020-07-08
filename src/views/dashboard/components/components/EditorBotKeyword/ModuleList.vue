@@ -117,6 +117,7 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
     // 點擊〈模組區塊〉
     async handleClickModule(index) {
       // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
