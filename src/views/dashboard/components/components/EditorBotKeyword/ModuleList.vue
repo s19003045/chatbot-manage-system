@@ -7,12 +7,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="moduleKeyword in moduleKeywords" v-bind:key="moduleKeyword.id">
+        <tr v-for="(moduleKeyword,index) in moduleKeywords" v-bind:key="moduleKeyword.id">
           <td :data-module-keyword-uuid="moduleKeyword.uuid">
             <div class="mb-2">{{moduleKeyword.name === null ? "尚未命名模組" : moduleKeyword.name}}</div>
             <button
               class="btn btn-danger btn-sm"
-              @click="handleDeleteBtnClick(moduleKeyword.uuid)"
+              @click="handleDeleteBtnClick(index,moduleKeyword.uuid)"
             >刪除</button>
           </td>
         </tr>
@@ -41,14 +41,14 @@ export default {
   methods: {
     async handleAddBtnClick() {
       //faked data
-      const fakedDataCreateModule = {
+      const apiData = {
         params: 1,
         data: {
           ChatbotId: 1
         }
       };
       const { statusText, data } = await keywordReplyAPI.createModuleKeyword(
-        fakedDataCreateModule
+        apiData
       );
 
       if (statusText === "OK") {
@@ -73,31 +73,29 @@ export default {
         });
       }
     },
-    async handleDeleteBtnClick(uuid) {
+    async handleDeleteBtnClick(index, uuid) {
       try {
-        console.log("uuid:", uuid);
         //faked data
-        const fakedDataDeleteModule = {
+        const apiData = {
           params: {
             botId: 1
           },
-          data: {
+          query: {
             ChatbotId: 1,
-            moduleKeyword: {
-              uuid: uuid
-            }
+            moduleKeywordUuid: uuid
           }
         };
 
         const { statusText, data } = await keywordReplyAPI.deleteModuleKeyword(
-          fakedDataDeleteModule
+          apiData
         );
 
         if (statusText === "OK") {
           console.log("data:", data);
-
-          // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
-          // this.$emit("after-create-module-keyword", data.data.moduleKeyword);
+          console.log("before:", this.moduleKeywords);
+          // 刪除該筆數據
+          this.moduleKeywords.splice(index, 1);
+          console.log("after:", this.moduleKeywords);
 
           return Toast.fire({
             icon: "success",

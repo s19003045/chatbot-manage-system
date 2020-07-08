@@ -15,11 +15,14 @@ export default {
     params: {
       botId: botId
     },
-    data: data
+    query: {
+      ChatbotId: ChatbotId,
+      moduleKeywordUuid: moduleKeywordUuid
+    }
   }) {
-    console.log('data:', data)
-    //
-    return apiHelper.post(`/bots/${botId}/module-keyword`, data)
+    let queryString = `ChatbotId=${ChatbotId}&moduleKeywordUuid=${moduleKeywordUuid}`
+
+    return apiHelper.delete(`/bots/${botId}/module-keyword?${queryString}`)
   },
 
   // 取得關鍵字回應模組
