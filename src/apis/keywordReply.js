@@ -36,6 +36,16 @@ export default {
     return apiHelper.post(`/bots/${botId}/reply-message`, data)
   },
   // 刪除 reply message
+  deleteReplyMessage({
+    params: {
+      botId: botId
+    },
+    query: {
+      ChatbotId: ChatbotId,
+      replyMessageUuid: replyMessageUuid
+    }
+  }) {
+    let queryString = `ChatbotId=${ChatbotId}&replyMessageUuid=${replyMessageUuid}`
 
   // 新增 text event
 

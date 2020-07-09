@@ -30,6 +30,7 @@
                 :reply-message="replyMessage"
                 :module-index="moduleIndex"
                 @after-create-reply-message="afterCreateReplyMessage"
+                @after-delete-reply-message="afterDeleteReplyMessage"
               />
             </div>
           </div>
@@ -122,6 +123,14 @@ export default {
       this.moduleKeywords[moduleIndex].ReplyMessage = replyMessageCreated;
       // 異動要傳遞至子層的資料
       this.replyMessage = replyMessageCreated;
+    },
+
+    //子層點擊〈刪除回應訊息按鈕〉事件觸發父層 => 暫無用途
+    afterDeleteReplyMessage([moduleIndex]) {
+      //異動父層的資料
+      this.moduleKeywords[moduleIndex].ReplyMessage = {};
+      //異動要傳遞至子層的資料
+      this.replyMessage = {};
     },
 
     //子層點擊〈模組區塊〉事件觸發父層

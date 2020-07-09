@@ -136,13 +136,20 @@ export default {
         });
       }
     },
+    //點擊〈刪除回應訊息〉按鈕
     async handleClickDeleteBtn(uuid) {
       try {
-        console.log("uuid:", uuid);
+        this.isProcessing = true;
+
         //faked data
         const apiData = {
-          params: {},
-          query: {},
+          params: {
+            botId: 1 //之後會從 this.$store 或從 this.$route 取得
+          },
+          query: {
+            ChatbotId: 1, //之後會從 this.$store 取得
+            replyMessageUuid: uuid
+          },
           data: {}
         };
 
@@ -150,9 +157,12 @@ export default {
           apiData
         );
 
-        if (statusText === "OK") {
-          console.log("statusText:", statusText);
-          console.log("data:", data);
+        if (statusText === "OK" && data.status === "success") {
+          this.isProcessing = false;
+          this.isEditing = false;
+
+          //傳遞事件至父層
+          this.$emit("after-delete-reply-message", [this.moduleIndex]);
 
           return Toast.fire({
             icon: "success",
@@ -160,6 +170,8 @@ export default {
             text: ""
           });
         } else {
+          this.isProcessing = false;
+
           return Toast.fire({
             icon: "error",
             title: "刪除失敗，請稍後再試",
@@ -167,7 +179,8 @@ export default {
           });
         }
       } catch (err) {
-        console.log(err);
+        this.isProcessing = false;
+
         return Toast.fire({
           icon: "error",
           title: "系統異常，請稍後再試",
