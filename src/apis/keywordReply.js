@@ -50,7 +50,19 @@ export default {
     return apiHelper.post(`/bots/${botId}/text-event`, data)
   },
   // 刪除 text event
+  deleteTextEvent({
+    params: {
+      botId: botId
+    },
+    query: {
+      ChatbotId: ChatbotId,
+      uuid: textEventUuid
+    }
+  }) {
+    let queryString = `ChatbotId=${ChatbotId}&textEventUuid=${textEventUuid}`
 
+    return apiHelper.delete(`/bots/${botId}/text-event?${queryString}`)
+  },
   // 儲存關鍵字回應模組
 
 

@@ -37,7 +37,8 @@
         <button
           class="btn btn-warning btn-sm mx-2 my-2"
           :data-text-event-uuid="textEvent.uuid"
-          @click="handleClickDeleteBtn(textEvent.uuid)"
+          @click="handleClickDeleteBtn(index, textEvent.uuid)"
+          :disabled="isProcessing"
         >刪除</button>
       </div>
     </div>
@@ -45,7 +46,7 @@
 
     <!-- 當 textEvents 陣列為空時，也可以新增關鍵字 -->
     <!-- <div v-else> -->
-    <button class="btn btn-primary btn-sm" @click="handleClickAddBtn">新增關鍵字</button>
+    <button class="btn btn-primary btn-sm" @click="handleClickAddBtn" :disabled="isProcessing">新增關鍵字</button>
     <!-- </div> -->
   </div>
 </template>
@@ -73,12 +74,68 @@ export default {
     console.log("this.textEvents  =>  ", this.textEvents);
   },
   methods: {
-    handleClickEditBtn(uuid) {
-      console.log(uuid);
+    // 暫時用不到編輯按鈕
+    // 使用者點擊〈編輯按鈕〉
+    // handleClickEditBtn(uuid) {
+    //   console.log(uuid);
+    // },
+
+    // 使用者點擊〈刪除按鈕〉
+    async handleClickDeleteBtn(index, uuid) {
+      try {
+        this.isProcessing = true;
+        //faked data
+        const apiData = {
+          params: {
+            botId: 1 //之後會從 this.$store 或從 this.$route 取得
+          },
+          query: {
+            ChatbotId: 1, //之後會從 this.$store 取得
+            uuid: uuid
+          },
+          data: {}
+        };
+
+        const { statusText, data } = await keywordReplyAPI.deleteTextEvent(
+          apiData
+        );
+
+        if (statusText === "OK") {
+          this.isProcessing = false;
+
+          console.log("statusText:", statusText);
+          console.log("data:", data);
+
+          //將 textEvent 從 textEvents 中刪除
+          this.textEvents.splice(index, 1);
+
+          return Toast.fire({
+            icon: "success",
+            title: "成功刪除",
+            text: ""
+          });
+        } else {
+          this.isProcessing = false;
+
+          return Toast.fire({
+            icon: "error",
+            title: "刪除失敗，請稍後再試",
+            text: ""
+          });
+        }
+      } catch (err) {
+        this.isProcessing = false;
+
+        console.log(err);
+        return Toast.fire({
+          icon: "error",
+          title: "系統異常，請稍後再試",
+          text: `${err.message}`
+        });
+      }
     },
-    handleClickDeleteBtn(uuid) {
-      console.log(uuid);
-    },
+
+    // 使用者點擊〈新增按鈕〉
     async handleClickAddBtn() {
       try {
         this.isProcessing = true;
