@@ -2,15 +2,33 @@
   <div class="my-2">
     <!-- <h3>關鍵字回應</h3> -->
     <div class="container">
+      <div class="row">
+        <div class="col d-flex justify-content-end">
+          <button
+            class="btn btn-info rounded"
+            @click.stop.prevent="handleClickSaveBtn"
+            :disabled="isProcessing"
+          >儲存所有模組</button>
+        </div>
+      </div>
       <div class="row my-4">
         <div class="col col-2">
           <ModuleList :module-keywords="moduleKeywords" @after-click-module="afterClickModule" />
         </div>
-        <div class="col col-5">
-          <EventEditor :text-events="textEvents" />
-        </div>
-        <div class="col col-5">
-          <ReplyMsgEditor :reply-message="replyMessage" />
+        <div class="col col-10">
+          <div class="row">
+            <div class="col col-12">
+              <ModuleEditor :module-keyword="moduleKeyword" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-6">
+              <EventEditor :text-events="textEvents" />
+            </div>
+            <div class="col col-6">
+              <ReplyMsgEditor :reply-message="replyMessage" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -22,6 +40,7 @@
 import ModuleList from "./components/EditorBotKeyword/ModuleList.vue";
 import EventEditor from "./components/EditorBotKeyword/EventEditor.vue";
 import ReplyMsgEditor from "./components/EditorBotKeyword/ReplyMsgEditor.vue";
+import ModuleEditor from "./components/EditorBotKeyword/ModuleEditor.vue";
 
 // import helpers
 import keywordReplyAPI from "../../../apis/keywordReply.js";
@@ -32,13 +51,16 @@ export default {
   components: {
     ModuleList,
     EventEditor,
-    ReplyMsgEditor
+    ReplyMsgEditor,
+    ModuleEditor
   },
   data() {
     return {
       moduleKeywords: [],
       replyMessage: {},
-      textEvents: []
+      textEvents: [],
+      moduleKeyword: {},
+      isProcessing: false
     };
   },
   props: {},
@@ -92,11 +114,21 @@ export default {
 
     //子層點擊〈模組區塊〉事件觸發父層
     afterClickModule([index]) {
+      //該模組的資料放至 moduleEditor component
+      this.moduleKeyword = Array.isArray(this.moduleKeywords) && [
+        this.moduleKeywords[index]
+      ]
+        ? this.moduleKeywords[index]
+        : {};
+
       //該模組的 replyMessage 放至 ReplyMsgEditor component
       const replyMsgToComponent =
-        this.moduleKeywords[index] && this.moduleKeywords[index].ReplyMessage
+        Array.isArray(this.moduleKeywords) &&
+        this.moduleKeywords[index] &&
+        this.moduleKeywords[index].ReplyMessage
           ? this.moduleKeywords[index].ReplyMessage
           : {};
+
       this.replyMessage = replyMsgToComponent;
 
       //該模組的 textEvents 放至 EventEditor component
