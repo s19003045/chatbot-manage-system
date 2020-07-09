@@ -64,6 +64,9 @@ export default {
   props: {
     replyMessage: {
       type: Object
+    },
+    moduleIndex: {
+      type: Number
     }
   },
   data() {
@@ -193,10 +196,13 @@ export default {
         if (statusText === "OK") {
           this.isProcessing = false;
 
-          console.log("statusText:", statusText);
-          console.log("data:", data);
+          const replyMessageCreated = data.data.replyMessage;
 
-          this.replyMessage = data.data.replyMessage;
+          //傳遞事件至父層
+          this.$emit("after-create-reply-message", [
+            replyMessageCreated,
+            this.moduleIndex
+          ]);
 
           return Toast.fire({
             icon: "success",
@@ -215,7 +221,6 @@ export default {
       } catch (err) {
         this.isProcessing = false;
 
-        console.log(err);
         return Toast.fire({
           icon: "error",
           title: "系統異常，請稍後再試",

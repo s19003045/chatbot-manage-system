@@ -26,7 +26,11 @@
               <EventEditor :text-events="textEvents" />
             </div>
             <div class="col col-6">
-              <ReplyMsgEditor :reply-message="replyMessage" />
+              <ReplyMsgEditor
+                :reply-message="replyMessage"
+                :module-index="moduleIndex"
+                @after-create-reply-message="afterCreateReplyMessage"
+              />
             </div>
           </div>
         </div>
@@ -60,6 +64,7 @@ export default {
       replyMessage: {},
       textEvents: [],
       moduleKeyword: {},
+      moduleIndex: -1,
       isProcessing: false
     };
   },
@@ -111,6 +116,13 @@ export default {
     // afterDeleteModuleKeyword(index,moduleKeyword) {
 
     // },
+    //子層點擊〈新增回應訊息按鈕〉事件觸發父層
+    afterCreateReplyMessage([replyMessageCreated, moduleIndex]) {
+      // 異動父層的資料
+      this.moduleKeywords[moduleIndex].ReplyMessage = replyMessageCreated;
+      // 異動要傳遞至子層的資料
+      this.replyMessage = replyMessageCreated;
+    },
 
     //子層點擊〈模組區塊〉事件觸發父層
     afterClickModule([index]) {
@@ -130,6 +142,7 @@ export default {
           : {};
 
       this.replyMessage = replyMsgToComponent;
+      this.moduleIndex = index;
 
       //該模組的 textEvents 放至 EventEditor component
       this.textEvents =

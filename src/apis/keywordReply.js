@@ -33,7 +33,6 @@ export default {
     },
     data: data
   }) {
-    console.log('arguments:', arguments)
     return apiHelper.post(`/bots/${botId}/reply-message`, data)
   },
   // 刪除 reply message
