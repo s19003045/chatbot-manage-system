@@ -40,6 +40,15 @@ export default {
 
   // 新增 text event
 
+  // 新增 text event
+  createTextEvent({
+    params: {
+      botId: botId
+    },
+    data: data
+  }) {
+    return apiHelper.post(`/bots/${botId}/text-event`, data)
+  },
   // 刪除 text event
 
   // 儲存關鍵字回應模組
