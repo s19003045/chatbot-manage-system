@@ -1,7 +1,8 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-const apiBaseURL = 'https://d89ffcebf90b.ngrok.io/api'
+const baseURL = 'https://158f2e03bb5d.ngrok.io'
+const apiBaseURL = `${baseURL}/api`
 
 export const apiHelper = axios.create({
   baseURL: apiBaseURL
