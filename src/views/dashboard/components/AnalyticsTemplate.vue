@@ -1,17 +1,17 @@
 <template>
-  <div class="my-5">
+  <div class="my-3">
     <div class="container">
-      <div class="row my-2">
+      <div class="row py-5">
         <div class="col">
           <ModuleKeywordAnalysis />
         </div>
       </div>
-      <div class="row my-2">
+      <div class="row py-5">
         <div class="col">
           <ModulePostBackAnalysis />
         </div>
       </div>
-      <div class="row my-2">
+      <div class="row py-5">
         <div class="col">
           <ReplyMessageAnalysis />
         </div>
