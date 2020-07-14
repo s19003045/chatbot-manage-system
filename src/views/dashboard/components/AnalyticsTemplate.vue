@@ -1,7 +1,5 @@
 <template>
-  <div class="my-2">
-    <h1>AnalyticsTemplate</h1>
-
+  <div class="my-5">
     <div class="container">
       <div class="row my-2">
         <div class="col">
