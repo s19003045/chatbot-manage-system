@@ -73,14 +73,18 @@ export default {
             {
               label: "模組已閱次數",
               type: "line",
-              data: [],
-              barPercentage: 0.6,
-              barThickness: "flex",
-              borderWidth: 1
+              data: []
             }
           ]
         },
         options: {
+          //setting for title
+          title: {
+            display: true,
+            fontSize: 20,
+            text: "回傳動作模組分析"
+          },
+          //setting for scales
           scales: {
             yAxes: [
               {
@@ -100,6 +104,7 @@ export default {
               }
             ]
           },
+          //setting for legend
           legend: {
             position: "right",
             display: true,

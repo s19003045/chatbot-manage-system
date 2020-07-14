@@ -73,14 +73,16 @@ export default {
             {
               label: "模組已閱次數",
               type: "line",
-              data: [],
-              barPercentage: 0.6,
-              barThickness: "flex",
-              borderWidth: 1
+              data: []
             }
           ]
         },
         options: {
+          title: {
+            display: true,
+            fontSize: 20,
+            text: "關鍵字模組分析"
+          },
           scales: {
             yAxes: [
               {

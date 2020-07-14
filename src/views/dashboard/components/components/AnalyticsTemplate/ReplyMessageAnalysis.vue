@@ -1,6 +1,6 @@
 <template>
   <div class>
-    <h3>回傳訊息樣版分析</h3>
+    <h3>回應訊息樣版分析</h3>
     <table class="table">
       <thead>
         <tr>
