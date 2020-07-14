@@ -1,25 +1,33 @@
 <template>
-  <div class>
+  <div class="row">
     <h3>回應訊息樣版分析</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <td>#</td>
-          <td>樣版名稱</td>
-          <td>樣版使用次數</td>
-          <td>使用者已讀次數</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(value, key) in ReplyMessageAnalysis" :key="key">
-          <td>{{key}}</td>
-          <td>{{value.name}}</td>
-          <td>{{value.replyMsgCount}}</td>
-          <td>{{value.readMsgCount}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <canvas id="reply-msg-chart"></canvas>
+    <div class="col col-12">
+      <h5 class="py-2">截取使用次數前 {{reservedDataNumber}} 名</h5>
+    </div>
+
+    <div class="col col-12 col-lg-5">
+      <table class="table">
+        <thead>
+          <tr>
+            <td>#</td>
+            <td>樣版名稱</td>
+            <td>樣版使用次數</td>
+            <td>使用者已讀次數</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(value, key) in ReplyMessageAnalysis" :key="key">
+            <td>{{key}}</td>
+            <td>{{value.name}}</td>
+            <td>{{value.replyMsgCount}}</td>
+            <td>{{value.readMsgCount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col col-12 col-lg-7">
+      <canvas id="reply-msg-chart"></canvas>
+    </div>
   </div>
 </template>
 
@@ -103,7 +111,7 @@ export default {
             ]
           },
           legend: {
-            position: "right",
+            position: "top",
             display: true
             // labels: {
             //   fontColor: "black",

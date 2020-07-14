@@ -1,25 +1,32 @@
 <template>
-  <div class>
-    <h3>回傳動作模組分析</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <td>#</td>
-          <td>模組名稱</td>
-          <td>模組使用次數</td>
-          <td>使用者已讀次數</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(value, key) in ModulePostBackAnalysis" :key="key">
-          <td>{{key}}</td>
-          <td>{{value.name}}</td>
-          <td>{{value.moduleUsedCount}}</td>
-          <td>{{value.moduleReadCount}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <canvas id="postback-chart"></canvas>
+  <div class="row">
+    <div class="col col-12">
+      <h3>回傳動作模組分析</h3>
+      <h5 class="py-2">截取使用次數前 {{reservedDataNumber}} 名</h5>
+    </div>
+    <div class="col col-12 col-lg-5">
+      <table class="table">
+        <thead>
+          <tr>
+            <td>#</td>
+            <td>模組名稱</td>
+            <td>模組使用次數</td>
+            <td>使用者已讀次數</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(value, key) in ModulePostBackAnalysis" :key="key">
+            <td>{{key}}</td>
+            <td>{{value.name}}</td>
+            <td>{{value.moduleUsedCount}}</td>
+            <td>{{value.moduleReadCount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col col-12 col-lg-7">
+      <canvas id="postback-chart"></canvas>
+    </div>
   </div>
 </template>
 
@@ -106,7 +113,7 @@ export default {
           },
           //setting for legend
           legend: {
-            position: "right",
+            position: "top",
             display: true,
             labels: {
               fontColor: "black",
