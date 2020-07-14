@@ -12,7 +12,7 @@
       </thead>
       <tbody>
         <tr v-for="(value, key) in moduleKeywordAnalysis" :key="key">
-          <td>{{key}}}</td>
+          <td>{{key}}</td>
           <td>{{value.name}}</td>
           <td>{{value.moduleUsedCount}}</td>
           <td>{{value.moduleReadCount}}</td>
@@ -34,7 +34,7 @@ export default {
   name: "ModuleKeywordAnalysis",
   data() {
     return {
-      moduleKeywordAnalysis: {},
+      moduleKeywordAnalysis: [],
       chartData: {
         type: "bar",
         data: {
@@ -114,7 +114,8 @@ export default {
             }
           }
         }
-      }
+      },
+      reservedDataNumber: 6
     };
   },
   async created() {
@@ -127,8 +128,7 @@ export default {
         query: {
           ChatbotId: 1 //之後會從 this.$store 取得
         },
-        data: {},
-        reservedDataNumber: 6
+        data: {}
       };
 
       const { statusText, data } = await analyticsAPI.getModuleKeywordAnalysis(
@@ -138,15 +138,18 @@ export default {
       if (statusText === "OK") {
         const keywordAnalysis = [...data.data.keywordAnalysis];
 
+        //sort : descending
         keywordAnalysis.sort((a, b) => {
           return b.moduleUsedCount - a.moduleUsedCount;
         });
+
         //只保留前幾名數據
         keywordAnalysis.splice(this.reservedDataNumber);
 
+        //指派給 local variable
         this.moduleKeywordAnalysis = keywordAnalysis;
 
-        // 組裝成 chart 需要的 data
+        //組裝成 chart 需要的 data
         this.moduleKeywordAnalysis.forEach(element => {
           //為每筆數據命名
           this.chartData.data.labels.push(element.name);
