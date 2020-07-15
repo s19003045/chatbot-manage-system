@@ -1,13 +1,14 @@
 <template>
   <div class="mb-5 py-1 px-1 border border-secondary rounded">
-    <h4 class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded">
+    <h4 class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded" ref="editor">
       {{replyMessage.name}}
       <small>回應訊息</small>
     </h4>
     <!-- 編輯區一： json editor -->
     <h6>JSON 編輯區</h6>
-    <v-jsoneditor v-model="replyMessageTexts" :options="options" :plus="false" @error="onError" />
-
+    <div class v-if="isEditing">
+      <v-jsoneditor v-model="replyMessageTexts" :options="options" :plus="false" @error="onError" />
+    </div>
     <!-- 編輯區二：使用選單 -->
 
     <!-- 當 replyMessage 為空時 -->
@@ -44,14 +45,26 @@
           :disabled="isProcessing"
         >刪除回應訊息</button>
       </div>
+
+      <!-- 測試 ref -->
+      <div ref="test" @click="handleClickTestRef">
+        test ref
+        <div>
+          1
+          <div>
+            2
+            <div>3</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 // import helpers
-import keywordReplyAPI from "../../../../../apis/keywordReply.js";
-import { Toast } from "../../../../../utils/helpers";
+import keywordReplyAPI from "../../../../apis/keywordReply.js";
+import { Toast } from "../../../../utils/helpers";
 
 // //json editor
 import VJsoneditor from "v-jsoneditor/src/index";
@@ -79,11 +92,18 @@ export default {
         onFocus({ type, target }) {
           console.log("type:", type);
           console.log("target:", target);
+        },
+        onChange() {
+          console.log("this => ", this);
         }
-      }
+      },
+      isEditing: false
     };
   },
   created() {
+    console.log("this.$refs.editor  =>", this.$refs.editor);
+    // const JSONEditor = new VJsoneditor(this.$ref.editor, this.options);
+    // console.log(JSONEditor);
     // this.replyMessageTexts = this.replyMessage.messageTemplate;
   },
   //資料變更時
@@ -97,44 +117,14 @@ export default {
     console.log("this.replyMessageTexts  => ", this.replyMessageTexts);
   },
   methods: {
-    async handleClickEditBtn(uuid) {
-      try {
-        console.log("uuid:", uuid);
-        //faked data
-        const apiData = {
-          params: {},
-          query: {},
-          data: {}
-        };
+    handleClickTestRef() {
+      const testBtn = this.$refs.test;
+      console.log("testBtn:", testBtn);
+    },
+    handleClickEditBtn(uuid) {
+      this.isEditing = true;
 
-        const { statusText, data } = await keywordReplyAPI.editReplyMessage(
-          apiData
-        );
-
-        if (statusText === "OK") {
-          console.log("statusText:", statusText);
-          console.log("data:", data);
-
-          return Toast.fire({
-            icon: "success",
-            title: "成功刪除",
-            text: ""
-          });
-        } else {
-          return Toast.fire({
-            icon: "error",
-            title: "刪除失敗，請稍後再試",
-            text: ""
-          });
-        }
-      } catch (err) {
-        console.log(err);
-        return Toast.fire({
-          icon: "error",
-          title: "系統異常，請稍後再試",
-          text: `${err.message}`
-        });
-      }
+      console.log("uuid:", uuid);
     },
     //點擊〈刪除回應訊息〉按鈕
     async handleClickDeleteBtn(uuid) {

@@ -53,14 +53,17 @@
 
 <script>
 // import helpers
-import keywordReplyAPI from "../../../../../apis/keywordReply.js";
-import { Toast } from "../../../../../utils/helpers";
+import keywordReplyAPI from "../../../../apis/keywordReply.js";
+import { Toast } from "../../../../utils/helpers";
 
 export default {
   name: "EventEditor",
   props: {
     textEvents: {
       type: Array
+    },
+    moduleIndex: {
+      type: Number
     }
   },
   data() {
@@ -105,8 +108,8 @@ export default {
 
           console.log("statusText:", statusText);
           console.log("data:", data);
-
-          //將 textEvent 從 textEvents 中刪除
+          // this.$emit()
+          //將 textEvent 從 textEvents 中刪除=>不建議
           this.textEvents.splice(index, 1);
 
           return Toast.fire({
@@ -154,14 +157,23 @@ export default {
           apiData
         );
 
-        if (statusText === "OK") {
+        if (statusText === "OK" && data.status === "success") {
           this.isProcessing = false;
 
           console.log("statusText:", statusText);
           console.log("data:", data);
 
-          //將取得的 textEvent 存進 textEvents
-          this.textEvents.push(data.data.textEvent);
+          //將取得的 textEvent 存進 textEvents =>不建議
+          // this.textEvents.push(data.data.textEvent);
+          const textEventCreated = data.data.textEvent;
+          this.$emit("after-create-text-event", [
+            this.moduleIndex,
+            textEventCreated
+          ]);
+          // this.$emit("after-create-text-event", [
+          //   this.moduleIndex,
+          //   textEventCreated
+          // ]);
 
           return Toast.fire({
             icon: "success",

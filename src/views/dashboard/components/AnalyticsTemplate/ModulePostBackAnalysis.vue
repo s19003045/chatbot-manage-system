@@ -32,7 +32,7 @@
 
 <script>
 // import helpers
-import analyticsAPI from "../../../../../apis/analytics.js";
+import analyticsAPI from "../../../../apis/analytics.js";
 
 // import package
 import Chart from "chart.js";

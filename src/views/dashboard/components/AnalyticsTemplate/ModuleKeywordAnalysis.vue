@@ -1,7 +1,7 @@
 <template>
   <div class="row">
-    <h3>回應訊息樣版分析</h3>
     <div class="col col-12">
+      <h3>關鍵字模組分析</h3>
       <h5 class="py-2">截取使用次數前 {{reservedDataNumber}} 名</h5>
     </div>
 
@@ -10,46 +10,46 @@
         <thead>
           <tr>
             <td>#</td>
-            <td>樣版名稱</td>
-            <td>樣版使用次數</td>
+            <td>模組名稱</td>
+            <td>模組使用次數</td>
             <td>使用者已讀次數</td>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(value, key) in ReplyMessageAnalysis" :key="key">
+          <tr v-for="(value, key) in moduleKeywordAnalysis" :key="key">
             <td>{{key}}</td>
             <td>{{value.name}}</td>
-            <td>{{value.replyMsgCount}}</td>
-            <td>{{value.readMsgCount}}</td>
+            <td>{{value.moduleUsedCount}}</td>
+            <td>{{value.moduleReadCount}}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="col col-12 col-lg-7">
-      <canvas id="reply-msg-chart"></canvas>
+      <canvas id="keyword-chart"></canvas>
     </div>
   </div>
 </template>
 
 <script>
 // import helpers
-import analyticsAPI from "../../../../../apis/analytics.js";
+import analyticsAPI from "../../../../apis/analytics.js";
 
 // import package
 import Chart from "chart.js";
 
 export default {
-  name: "ReplyMessageAnalysis",
+  name: "ModuleKeywordAnalysis",
   data() {
     return {
-      ReplyMessageAnalysis: [],
+      moduleKeywordAnalysis: [],
       chartData: {
         type: "bar",
         data: {
           labels: [],
           datasets: [
             {
-              label: "樣版使用次數",
+              label: "模組使用次數",
               type: "bar",
               data: [],
               barPercentage: 0.6,
@@ -79,7 +79,7 @@ export default {
               borderWidth: 1
             },
             {
-              label: "樣版已閱次數",
+              label: "模組已閱次數",
               type: "line",
               data: []
             }
@@ -89,7 +89,7 @@ export default {
           title: {
             display: true,
             fontSize: 20,
-            text: "回應訊息樣版分析"
+            text: "關鍵字模組分析"
           },
           scales: {
             yAxes: [
@@ -112,11 +112,11 @@ export default {
           },
           legend: {
             position: "top",
-            display: true
-            // labels: {
-            //   fontColor: "black",
-            //   fontFamily: "'Noto Sans TC', 'Lato', sans-serif"
-            // }
+            display: true,
+            labels: {
+              fontColor: "black",
+              fontFamily: "'Noto Sans TC', 'Lato', sans-serif"
+            }
           }
         }
       },
@@ -136,36 +136,35 @@ export default {
         data: {}
       };
 
-      const { statusText, data } = await analyticsAPI.getReplyMessageAnalysis(
+      const { statusText, data } = await analyticsAPI.getModuleKeywordAnalysis(
         apiData
       );
 
       if (statusText === "OK") {
-        const replyMsgAnalysis = [...data.data.replyMsgAnalysis];
+        const keywordAnalysis = [...data.data.keywordAnalysis];
 
         //sort : descending
-        replyMsgAnalysis.sort((a, b) => {
-          return b.replyMsgCount - a.replyMsgCount;
+        keywordAnalysis.sort((a, b) => {
+          return b.moduleUsedCount - a.moduleUsedCount;
         });
 
         //只保留前幾名數據
-        replyMsgAnalysis.splice(this.reservedDataNumber);
+        keywordAnalysis.splice(this.reservedDataNumber);
 
         //指派給 local variable
-        this.ReplyMessageAnalysis = replyMsgAnalysis;
+        this.moduleKeywordAnalysis = keywordAnalysis;
 
         //組裝成 chart 需要的 data
-        this.ReplyMessageAnalysis.forEach(element => {
+        this.moduleKeywordAnalysis.forEach(element => {
           //為每筆數據命名
           this.chartData.data.labels.push(element.name);
-          //異動 replyMsgCount
-          this.chartData.data.datasets[0].data.push(element.replyMsgCount);
+          //異動 moduleUsedCount
+          this.chartData.data.datasets[0].data.push(element.moduleUsedCount);
           //異動 moduleReadCount
-          this.chartData.data.datasets[1].data.push(element.readMsgCount);
+          this.chartData.data.datasets[1].data.push(element.moduleReadCount);
         });
-
         //繪製chart
-        this.createChart("reply-msg-chart", this.chartData);
+        this.createChart("keyword-chart", this.chartData);
       }
     } catch (err) {
       console.log(err);
@@ -186,3 +185,6 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+</style>

@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import ModuleKeywordAnalysis from "./components/AnalyticsTemplate/ModuleKeywordAnalysis.vue";
-import ModulePostBackAnalysis from "./components/AnalyticsTemplate/ModulePostBackAnalysis.vue";
-import ReplyMessageAnalysis from "./components/AnalyticsTemplate/ReplyMessageAnalysis.vue";
+import ModuleKeywordAnalysis from "../components/AnalyticsTemplate/ModuleKeywordAnalysis.vue";
+import ModulePostBackAnalysis from "../components/AnalyticsTemplate/ModulePostBackAnalysis.vue";
+import ReplyMessageAnalysis from "../components/AnalyticsTemplate/ReplyMessageAnalysis.vue";
 
 //chart default setting
 import Chart from "chart.js";
