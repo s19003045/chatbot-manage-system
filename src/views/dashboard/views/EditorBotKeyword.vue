@@ -118,43 +118,42 @@ export default {
       try {
         this.isProcessing = true;
 
-        //faked data => 尚待商確資料格式(要儲存所有模組 or 單一模組)??
-        const apiData = {
-          params: {
-            botId: 1 //之後會從 this.$store 或從 this.$route 取得
-          },
-          query: {},
-          data: {
-            ChatbotId: 1, //之後會從 this.$store 取得
-            module: this.moduleKeywords,
-            textEvents: this.moduleKeywords,
-            replyMessage: {}
-          }
-        };
-
-        const { statusText, data } = await keywordReplyAPI.postKeywordReply(
-          apiData
-        );
-
-        if (statusText === "OK" && data.status === "success") {
-          this.isProcessing = false;
-
-          this.replyMessage = data.data.replyMessage;
-
-          return Toast.fire({
-            icon: "success",
-            title: "成功新增",
-            text: ""
-          });
-        } else {
-          this.isProcessing = false;
-
-          return Toast.fire({
-            icon: "error",
-            title: "新增失敗，請稍後再試",
-            text: ""
+        //製做 apiData (array)
+        const apiData = [];
+        for (let i = 0; i < this.moduleKeywords.length; i++) {
+          apiData.push({
+            params: {
+              botId: 1 //之後會從 this.$store 或從 this.$route 取得
+            },
+            query: {},
+            data: {
+              ChatbotId: 1, //之後會從 this.$store 取得
+              module: this.moduleKeywords[i],
+              textEvents: this.moduleKeywords[i].TextEvents,
+              replyMessage: this.moduleKeywords[i].ReplyMessage
+            }
           });
         }
+
+        //製做 requests
+        const requests = [];
+        for (let i = 0; i < apiData.length; i++) {
+          requests.push(await keywordReplyAPI.postKeywordReply(apiData[i]));
+        }
+
+        Promise.all(requests)
+          .then(res => {
+            this.isProcessing = false;
+
+            return Toast.fire({
+              icon: "success",
+              title: "成功新增",
+              text: ""
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       } catch (err) {
         this.isProcessing = false;
 

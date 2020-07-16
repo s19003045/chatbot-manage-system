@@ -91,7 +91,15 @@ export default {
     })
   },
   // 修改關鍵字回應模組
-
+  postKeywordReply({
+    params: {
+      botId: botId
+    },
+    data: data
+  }) {
+    return apiHelper.post(`/bots/${botId}/keyword-reply`, data)
+  },
   // 刪除關鍵字回應模組
+
 
 }
