@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-const baseURL = 'https://158f2e03bb5d.ngrok.io'
-const apiBaseURL = `${baseURL}/api`
+
+const apiBaseURL = process.env.NODE_ENV === 'production' ? `https://medical-chatbotserver.herokuapp.com/api` : 'http://localhost:3000/api'
+
 
 export const apiHelper = axios.create({
   baseURL: apiBaseURL
