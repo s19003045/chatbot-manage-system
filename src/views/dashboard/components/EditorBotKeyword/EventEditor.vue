@@ -37,7 +37,7 @@
         <button
           class="btn btn-warning btn-sm mx-2 my-2"
           :data-text-event-uuid="textEvent.uuid"
-          @click="handleClickDeleteBtn(index, textEvent.uuid)"
+          @click="handleClickDeleteBtn(index)"
           :disabled="isProcessing"
         >刪除</button>
       </div>
@@ -53,8 +53,8 @@
 
 <script>
 // import helpers
-import keywordReplyAPI from "../../../../apis/keywordReply.js";
-import { Toast } from "../../../../utils/helpers";
+// import keywordReplyAPI from "../../../../apis/keywordReply.js";
+// import { Toast } from "../../../../utils/helpers";
 
 export default {
   name: "EventEditor",
@@ -84,60 +84,9 @@ export default {
     // },
 
     // 使用者點擊〈刪除按鈕〉
-    async handleClickDeleteBtn(index, uuid) {
-      try {
-        this.isProcessing = true;
-        //faked data
-        const apiData = {
-          params: {
-            botId: 1 //之後會從 this.$store 或從 this.$route 取得
-          },
-          query: {
-            ChatbotId: 1, //之後會從 this.$store 取得
-            uuid: uuid
-          },
-          data: {}
-        };
-
-        const { statusText, data } = await keywordReplyAPI.deleteTextEvent(
-          apiData
-        );
-
-        if (statusText === "OK") {
-          this.isProcessing = false;
-
-          console.log("statusText:", statusText);
-          console.log("data:", data);
-          // this.$emit()
-          //將 textEvent 從 textEvents 中刪除=>不建議
-          this.textEvents.splice(index, 1);
-
-          return Toast.fire({
-            icon: "success",
-            title: "成功刪除",
-            text: ""
-          });
-        } else {
-          this.isProcessing = false;
-
-          return Toast.fire({
-            icon: "error",
-            title: "刪除失敗，請稍後再試",
-            text: ""
-          });
-        }
-      } catch (err) {
-        this.isProcessing = false;
-
-        console.log(err);
-        return Toast.fire({
-          icon: "error",
-          title: "系統異常，請稍後再試",
-          text: `${err.message}`
-        });
-      }
+    handleClickDeleteBtn(index) {
+      this.textEvents.splice(index, 1);
     },
-
     // 使用者點擊〈新增按鈕〉
     handleClickAddBtn() {
       this.textEvents.push({
