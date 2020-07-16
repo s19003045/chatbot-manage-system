@@ -144,7 +144,7 @@ export default {
         Promise.all(requests)
           .then(res => {
             this.isProcessing = false;
-
+            console.log(res);
             return Toast.fire({
               icon: "success",
               title: "成功新增",
