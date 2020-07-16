@@ -139,66 +139,12 @@ export default {
     },
 
     // 使用者點擊〈新增按鈕〉
-    async handleClickAddBtn() {
-      try {
-        this.isProcessing = true;
-        //faked data
-        const apiData = {
-          params: {
-            botId: 1 //之後會從 this.$store 或從 this.$route 取得
-          },
-          query: {},
-          data: {
-            ChatbotId: 1 //之後會從 this.$store 取得
-          }
-        };
-
-        const { statusText, data } = await keywordReplyAPI.createTextEvent(
-          apiData
-        );
-
-        if (statusText === "OK" && data.status === "success") {
-          this.isProcessing = false;
-
-          console.log("statusText:", statusText);
-          console.log("data:", data);
-
-          //將取得的 textEvent 存進 textEvents =>不建議
-          // this.textEvents.push(data.data.textEvent);
-          const textEventCreated = data.data.textEvent;
-          this.$emit("after-create-text-event", [
-            this.moduleIndex,
-            textEventCreated
-          ]);
-          // this.$emit("after-create-text-event", [
-          //   this.moduleIndex,
-          //   textEventCreated
-          // ]);
-
-          return Toast.fire({
-            icon: "success",
-            title: "成功新增",
-            text: ""
-          });
-        } else {
-          this.isProcessing = false;
-
-          return Toast.fire({
-            icon: "error",
-            title: "新增失敗，請稍後再試",
-            text: ""
-          });
-        }
-      } catch (err) {
-        this.isProcessing = false;
-
-        console.log(err);
-        return Toast.fire({
-          icon: "error",
-          title: "系統異常，請稍後再試",
-          text: `${err.message}`
-        });
-      }
+    handleClickAddBtn() {
+      this.textEvents.push({
+        type: "text",
+        text: "",
+        uuid: ""
+      });
     }
   }
 };
