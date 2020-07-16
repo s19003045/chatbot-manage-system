@@ -64,6 +64,7 @@ export default {
       );
 
       if (statusText === "OK") {
+        this.isProcessing = false;
         console.log("data:", data);
 
         //將新增的資料存進 moduleKeywords
@@ -72,14 +73,13 @@ export default {
         // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
         this.$emit("after-create-module-keyword", data.data.moduleKeyword);
 
-        this.isProcessing = false;
-
         return Toast.fire({
           icon: "success",
-          title: "成功建立",
+          title: "成功建立1",
           text: ""
         });
       } else {
+        this.isProcessing = false;
         return Toast.fire({
           icon: "error",
           title: "建立失敗，請稍後再試",
