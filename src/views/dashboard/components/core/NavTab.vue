@@ -47,6 +47,17 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        id="editor-bot-post-back-tab"
+        data-toggle="tab"
+        :to="{name:'editor-bot-post-back'}"
+        role="tab"
+        aria-controls="editor-bot-post-back"
+        aria-selected="false"
+      >回傳動作模組</router-link>
+    </li>
+    <li class="nav-item" role="presentation">
+      <router-link
+        class="nav-link"
         id="editor-bot-auto-reply-tab"
         data-toggle="tab"
         :to="{name:'editor-bot-auto-reply'}"
