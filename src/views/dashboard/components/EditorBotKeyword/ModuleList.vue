@@ -36,7 +36,7 @@
 <script>
 // import helpers
 import keywordReplyAPI from "../../../../apis/keywordReply.js";
-import { Toast } from "../../../../utils/helpers";
+import { Toast, ToastDelete } from "../../../../utils/helpers";
 
 export default {
   name: "ModuleList",
@@ -96,42 +96,56 @@ export default {
     },
     // 點擊〈刪除模組按鍵〉
     async handleDeleteBtnClick(index, moduleKeywordUuid) {
-      this.isProcessing = true;
-      //先詢問使用者是否確定要刪除
+      try {
+        this.isProcessing = true;
+        //先詢問使用者是否確定要刪除
+        ToastDelete.fire().then(async result => {
+          //不要刪除
+          if (!result.value) {
+            this.isProcessing = false;
+          }
+          //確定要刪除
+          if (result.value) {
+            //faked data
+            const apiData = {
+              params: 1,
+              data: {},
+              query: {
+                ChatbotId: 1,
+                moduleKeywordUuid: moduleKeywordUuid
+              }
+            };
+            const { statusText } = await keywordReplyAPI.deleteModuleKeyword(
+              apiData
+            );
 
-      //若不要刪除 =>
+            if (statusText === "OK") {
+              this.isProcessing = false;
 
-      //確定要刪除 =>
+              // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
+              this.$emit("after-delete-module-keyword", [index]);
 
-      //faked data
-      const apiData = {
-        params: 1,
-        data: {},
-        query: {
-          ChatbotId: 1,
-          moduleKeywordUuid: moduleKeywordUuid
-        }
-      };
-
-      const { statusText } = await keywordReplyAPI.deleteModuleKeyword(apiData);
-
-      if (statusText === "OK") {
-        this.isProcessing = false;
-
-        // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
-        this.$emit("after-delete-module-keyword", [index]);
-
-        return Toast.fire({
-          icon: "success",
-          title: "成功刪除",
-          text: ""
+              return Toast.fire({
+                icon: "success",
+                title: "成功刪除",
+                text: ""
+              });
+            } else {
+              this.isProcessing = false;
+              return Toast.fire({
+                icon: "error",
+                title: "刪除失敗，請稍後再試",
+                text: ""
+              });
+            }
+          }
         });
-      } else {
+      } catch (err) {
         this.isProcessing = false;
         return Toast.fire({
           icon: "error",
           title: "刪除失敗，請稍後再試",
-          text: ""
+          text: err.message
         });
       }
     },
