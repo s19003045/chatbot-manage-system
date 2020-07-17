@@ -15,7 +15,7 @@
             <div class="mb-2">{{moduleKeyword.name === null ? "尚未命名模組" : moduleKeyword.name}}</div>
             <button
               class="btn btn-danger btn-sm"
-              @click.stop.prevent="handleDeleteBtnClick(index, moduleKeyword.uuid)"
+              @click.stop.prevent="handleDeleteBtnClick(index,moduleKeyword.uuid)"
               :disabled="isProcessing"
             >刪除</button>
           </td>
@@ -75,7 +75,7 @@ export default {
 
         return Toast.fire({
           icon: "success",
-          title: "成功建立1",
+          title: "成功建立",
           text: ""
         });
       } else {
