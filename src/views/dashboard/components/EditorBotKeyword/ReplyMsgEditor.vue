@@ -1,9 +1,16 @@
 <template>
   <div class="mb-5 py-1 px-1 border border-secondary rounded">
-    <h6 class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded" ref="editor">
-      <label for="reply-message-name">回應訊息名稱：</label>
-      <input type="text" class="my-2" id="reply-message-name" v-model="replyMessage.name" />
-    </h6>
+    <h5 class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded" ref="editor">
+      <small for="reply-message-name">回應訊息名稱：</small>
+
+      <input
+        type="text"
+        class="my-2"
+        id="reply-message-name"
+        v-if="moduleClick.status"
+        v-model="replyMessage.name"
+      />
+    </h5>
 
     <!-- 編輯區一： json editor -->
     <h6>JSON 編輯區</h6>
@@ -15,7 +22,7 @@
         @error="onError"
       />
     </div>
-    <div>
+    <div v-if="moduleClick.status">
       <button
         v-if="!isEditing"
         class="btn btn-info btn-sm mx-2 my-2"
@@ -58,6 +65,9 @@ export default {
     },
     moduleIndex: {
       type: Number
+    },
+    moduleClick: {
+      type: Object
     }
   },
   data() {

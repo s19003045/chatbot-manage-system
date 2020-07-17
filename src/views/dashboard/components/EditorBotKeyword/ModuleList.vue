@@ -43,6 +43,9 @@ export default {
   props: {
     moduleKeywords: {
       type: Array
+    },
+    moduleClick: {
+      type: Object
     }
   },
   data() {
@@ -136,6 +139,7 @@ export default {
     // 點擊〈模組區塊〉
     async handleClickModule(index) {
       this.moduleClickIndex = index;
+      this.moduleClick.status = true;
       // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
       this.$emit("after-click-module", [index]);
     }

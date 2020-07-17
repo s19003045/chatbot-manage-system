@@ -14,6 +14,7 @@
         <div class="col col-2">
           <ModuleList
             :module-keywords="moduleKeywords"
+            :module-click="moduleClick"
             @after-delete-module-keyword="afterDeleteModuleKeyword"
             @after-click-module="afterClickModule"
           />
@@ -33,11 +34,13 @@
                 :module-index="moduleIndex"
                 :after-create-text-event="afterCreateTextEvent"
                 :after-delete-text-event="afterDeleteTextEvent"
+                :module-click="moduleClick"
               />
             </div>
             <div class="col col-6">
               <ReplyMsgEditor
                 :reply-message="replyMessage"
+                :module-click="moduleClick"
                 :module-index="moduleIndex"
                 @after-create-reply-message="afterCreateReplyMessage"
                 @after-delete-reply-message="afterDeleteReplyMessage"
@@ -77,7 +80,8 @@ export default {
       moduleKeyword: {},
       moduleIndex: -1,
       isProcessing: false,
-      revealModuleName: false
+      revealModuleName: false,
+      moduleClick: { status: false }
     };
   },
   props: {},
