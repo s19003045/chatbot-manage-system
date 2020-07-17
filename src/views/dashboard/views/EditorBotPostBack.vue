@@ -1,9 +1,30 @@
 <template>
-  <div class="row">
-    <div class="col col-12">
-      <h3>EditorBotPostBack</h3>
+  <div class="row mt-5">
+    <div class="col col-6">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
+        </div>
+        <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
+          <option value="TextMessage">文字訊息</option>
+          <option value="QuickReplyMessage">快速回覆訊息</option>
+          <option value="ConfirmTemplateMessage">快速回覆訊息</option>
+          <option value="ButtonTemplateMessage">按鍵範本訊息</option>
+          <option value="CarouselTemplateMessage" selected>輪播範本訊息</option>
+        </select>
+      </div>
 
-      <div class="row"></div>
+      <div class="row">
+        <ButtonTemplateMessage v-if="componentSelect === 'ButtonTemplateMessage'" />
+        <CarouselTemplateMessage v-if="componentSelect === 'CarouselTemplateMessage'" />
+        <ConfirmTemplateMessage v-if="componentSelect === 'ConfirmTemplateMessage'" />
+        <QuickReplyMessage v-if="componentSelect === 'QuickReplyMessage'" />
+        <TextMessage v-if="componentSelect === 'TextMessage'" />
+
+        <ImageMapMessage />
+        <ImageMessage />
+        <VideoMessage />
+      </div>
     </div>
   </div>
 </template>
@@ -12,11 +33,12 @@
 import ButtonTemplateMessage from "../components/EditorBotPostBack/ButtonTemplateMessage";
 import CarouselTemplateMessage from "../components/EditorBotPostBack/CarouselTemplateMessage";
 import ConfirmTemplateMessage from "../components/EditorBotPostBack/ConfirmTemplateMessage";
-import ImageMapMessage from "../components/EditorBotPostBack/ImageMapMessage";
-import ImageMessage from "../components/EditorBotPostBack/ImageMessage";
 import QuickReplyMessage from "../components/EditorBotPostBack/QuickReplyMessage";
 import TextMessage from "../components/EditorBotPostBack/TextMessage";
-import VideoMessage from "../components/EditorBotPostBack/VideoMessage";
+
+// import ImageMapMessage from "../components/EditorBotPostBack/ImageMapMessage";
+// import ImageMessage from "../components/EditorBotPostBack/ImageMessage";
+// import VideoMessage from "../components/EditorBotPostBack/VideoMessage";
 
 export default {
   name: "EditorBotPostBack",
@@ -24,14 +46,17 @@ export default {
     ButtonTemplateMessage,
     CarouselTemplateMessage,
     ConfirmTemplateMessage,
-    ImageMapMessage,
-    ImageMessage,
     QuickReplyMessage,
-    TextMessage,
-    VideoMessage
+    TextMessage
+
+    // ImageMapMessage,
+    // ImageMessage,
+    // VideoMessage
   },
   data() {
-    return {};
+    return {
+      componentSelect: ""
+    };
   },
   created() {},
   beforeUpdate() {},
