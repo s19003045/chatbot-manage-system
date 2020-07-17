@@ -24,7 +24,6 @@ export default {
 
     return apiHelper.delete(`/bots/${botId}/module-keyword?${queryString}`)
   },
-  // 新增 reply message
 
   // 新增 reply message
   createReplyMessage({
@@ -47,7 +46,8 @@ export default {
   }) {
     let queryString = `ChatbotId=${ChatbotId}&replyMessageUuid=${replyMessageUuid}`
 
-  // 新增 text event
+    return apiHelper.delete(`/bots/${botId}/reply-message?${queryString}`)
+  },
 
   // 新增 text event
   createTextEvent({
@@ -72,8 +72,6 @@ export default {
 
     return apiHelper.delete(`/bots/${botId}/text-event?${queryString}`)
   },
-  // 儲存關鍵字回應模組
-
 
 
   // 取得關鍵字回應模組
@@ -99,7 +97,7 @@ export default {
   }) {
     return apiHelper.post(`/bots/${botId}/keyword-reply`, data)
   },
-  // 刪除關鍵字回應模組
+
 
 
 }

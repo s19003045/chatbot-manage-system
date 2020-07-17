@@ -10,9 +10,7 @@
       class="input-group mb-3"
       :data-text-event-uuid="textEvent.uuid"
     >
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">{{index}}</span>
-      </div>
+      <span class="input-group-text" id="basic-addon1">{{index+1}}</span>
       <input
         type="text"
         class="form-control"
@@ -58,9 +56,8 @@ export default {
   },
   created() {},
   //資料變更時
-  beforeUpdate() {
-    console.log("this.textEvents  =>  ", this.textEvents);
-  },
+  beforeUpdate() {},
+  mounted() {},
   methods: {
     // 使用者點擊〈刪除按鈕〉
     handleClickDeleteBtn(index) {
