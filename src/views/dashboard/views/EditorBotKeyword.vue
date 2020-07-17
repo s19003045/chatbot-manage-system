@@ -20,8 +20,10 @@
         </div>
         <div class="col col-10">
           <div class="row">
-            <div class="col col-12">
-              <ModuleEditor :module-keyword="moduleKeyword" />
+            <div v-if="revealModuleName" class>
+              <div class="col">
+                <ModuleEditor :module-keyword="moduleKeyword" />
+              </div>
             </div>
           </div>
           <div class="row">
@@ -74,7 +76,8 @@ export default {
       textEvents: [],
       moduleKeyword: {},
       moduleIndex: -1,
-      isProcessing: false
+      isProcessing: false,
+      revealModuleName: false
     };
   },
   props: {},
@@ -181,6 +184,9 @@ export default {
 
     //子層點擊〈模組區塊〉事件觸發父層
     afterClickModule([index]) {
+      //顯示模組名稱
+      this.revealModuleName = true;
+
       //該模組的資料放至 moduleEditor component
       this.moduleKeyword = Array.isArray(this.moduleKeywords) && [
         this.moduleKeywords[index]
