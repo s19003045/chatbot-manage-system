@@ -12,7 +12,11 @@
       </div>
       <div class="row my-4">
         <div class="col col-2">
-          <ModuleList :module-keywords="moduleKeywords" @after-click-module="afterClickModule" />
+          <ModuleList
+            :module-keywords="moduleKeywords"
+            @after-delete-module-keyword="afterDeleteModuleKeyword"
+            @after-click-module="afterClickModule"
+          />
         </div>
         <div class="col col-10">
           <div class="row">
@@ -170,8 +174,10 @@ export default {
       this.moduleKeywords.push(moduleKeyword);
     },
     //子層點擊刪除模組按鈕事件觸發父層 => 暫無用途
-    // afterDeleteModuleKeyword(index,moduleKeyword) {
-    // },
+    afterDeleteModuleKeyword([index]) {
+      console.log("(父層)index=>", index);
+      this.moduleKeywords.splice(index, 1);
+    },
 
     //子層點擊〈模組區塊〉事件觸發父層
     afterClickModule([index]) {

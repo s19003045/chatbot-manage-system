@@ -88,52 +88,46 @@ export default {
       }
     },
     // 點擊〈刪除模組按鍵〉
-    async handleDeleteBtnClick(index, uuid) {
-      try {
-        this.isProcessing = true;
-        //faked data
-        const apiData = {
-          params: {
-            botId: 1
-          },
-          query: {
-            ChatbotId: 1,
-            moduleKeywordUuid: uuid
-          }
-        };
+    async handleDeleteBtnClick(index, moduleKeywordUuid) {
+      this.isProcessing = true;
+      //先詢問使用者是否確定要刪除
 
-        const { statusText, data } = await keywordReplyAPI.deleteModuleKeyword(
-          apiData
-        );
+      //若不要刪除 =>
 
-        if (statusText === "OK") {
-          console.log("data:", data);
-          console.log("before:", this.moduleKeywords);
-          // 刪除該筆數據
-          this.moduleKeywords.splice(index, 1);
-          console.log("after:", this.moduleKeywords);
-          this.isProcessing = false;
-          return Toast.fire({
-            icon: "success",
-            title: "成功刪除",
-            text: ""
-          });
-        } else {
-          this.isProcessing = false;
+      //確定要刪除 =>
 
-          return Toast.fire({
-            icon: "error",
-            title: "刪除失敗，請稍後再試",
-            text: ""
-          });
+      //faked data
+      const apiData = {
+        params: 1,
+        data: {},
+        query: {
+          ChatbotId: 1,
+          moduleKeywordUuid: moduleKeywordUuid
         }
-      } catch (err) {
+      };
+
+      const { statusText } = await keywordReplyAPI.deleteModuleKeyword(apiData);
+
+      if (statusText === "OK") {
         this.isProcessing = false;
 
-        console.log(err);
+        // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
+        this.$emit("after-delete-module-keyword", [index]);
+
+        return Toast.fire({
+          icon: "success",
+          title: "成功刪除",
+          text: ""
+        });
+      } else {
+        this.isProcessing = false;
+        return Toast.fire({
+          icon: "error",
+          title: "刪除失敗，請稍後再試",
+          text: ""
+        });
       }
     },
-    // 點擊〈編輯模組按鍵〉
 
     // 點擊〈模組區塊〉
     async handleClickModule(index) {
