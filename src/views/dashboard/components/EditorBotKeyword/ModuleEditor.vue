@@ -8,6 +8,7 @@
         id="moduleKeywordName"
         aria-describedby
         v-model="moduleKeyword.name"
+        ref="moduleName"
       />
       <small id class="form-text text-muted"></small>
     </div>
@@ -26,7 +27,16 @@ export default {
     return {};
   },
   created() {},
-  beforeUpdate() {},
-  methods: {}
+  beforeUpdate() {
+    this.focusInput();
+  },
+  mounted() {
+    this.focusInput();
+  },
+  methods: {
+    focusInput() {
+      this.$refs.moduleName.focus();
+    }
+  }
 };
 </script>
