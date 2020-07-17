@@ -42,7 +42,7 @@
 <script>
 // import helpers
 // import keywordReplyAPI from "../../../../apis/keywordReply.js";
-// import { Toast } from "../../../../utils/helpers";
+import { Toast, ToastDelete } from "../../../../utils/helpers";
 
 export default {
   name: "EventEditor",
@@ -69,7 +69,14 @@ export default {
   methods: {
     // 使用者點擊〈刪除按鈕〉
     handleClickDeleteBtn(index) {
-      this.textEvents.splice(index, 1);
+      ToastDelete.fire().then(result => {
+        if (result.value) {
+          //提示刪除成功
+          Toast.fire("Deleted!", "Your file has been deleted.", "success");
+          //刪除父層的該筆資料
+          this.textEvents.splice(index, 1);
+        }
+      });
     },
     // 使用者點擊〈新增按鈕〉
     handleClickAddBtn() {
