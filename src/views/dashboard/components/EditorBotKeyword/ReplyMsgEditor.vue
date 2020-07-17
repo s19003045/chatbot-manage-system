@@ -50,6 +50,7 @@
 
 <script>
 // import helpers
+import { Toast, ToastDelete } from "../../../../utils/helpers";
 
 // //json editor
 import VJsoneditor from "v-jsoneditor/src/index";
@@ -92,8 +93,17 @@ export default {
     },
     //點擊〈刪除回應訊息〉按鈕
     handleClickClearBtn() {
-      this.replyMessage.messageTemplate = {};
       //跳出警示訊息，詢問是否清空
+      ToastDelete.fire().then(result => {
+        //確定要刪除
+        if (result.value) {
+          //提示刪除成功
+          Toast.fire("Deleted!", "Your file has been deleted.", "success");
+          //刪除父層的該筆資料
+          this.replyMessage.messageTemplate = {};
+          this.isEditing = false;
+        }
+      });
     },
 
     //json editor error event
