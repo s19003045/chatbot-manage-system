@@ -11,8 +11,11 @@
           <td
             :data-module-keyword-uuid="moduleKeyword.uuid"
             @click.stop.prevent="handleClickModule(index)"
+            :class="{'module-select-color':moduleClickIndex===index}"
           >
-            <div class="mb-2">{{moduleKeyword.name === null ? "尚未命名模組" : moduleKeyword.name}}</div>
+            <div
+              class="mb-2"
+            >{{moduleKeyword.name === null || moduleKeyword.name === "" || moduleKeyword.name === undefined ? "尚未命名" : moduleKeyword.name}}</div>
             <button
               class="btn btn-danger btn-sm"
               @click.stop.prevent="handleDeleteBtnClick(index,moduleKeyword.uuid)"
@@ -44,7 +47,8 @@ export default {
   },
   data() {
     return {
-      isProcessing: false
+      isProcessing: false,
+      moduleClickIndex: -1
     };
   },
   created() {},
@@ -131,9 +135,16 @@ export default {
 
     // 點擊〈模組區塊〉
     async handleClickModule(index) {
+      this.moduleClickIndex = index;
       // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
       this.$emit("after-click-module", [index]);
     }
   }
 };
 </script>
+
+<style  scoped>
+.module-select-color {
+  background-color: #d1dae3;
+}
+</style>
