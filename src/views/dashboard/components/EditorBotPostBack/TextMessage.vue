@@ -1,5 +1,18 @@
 <template>
-  <div class>TextMessage</div>
+  <div class>
+    <h3>TextMessage</h3>
+    <div class>
+      <ul>
+        <li v-for="(item,index) in context" :key="index">
+          <div class="input-group">
+            <input type="text" v-model="item.text" />
+          </div>
+        </li>
+      </ul>
+    </div>
+    <button @click="addText">新增一個文字訊息</button>
+    <button @click="addQuickReply">加入快速回覆</button>
+  </div>
 </template>
 
 <script>
@@ -95,5 +108,22 @@ export default {
       context: []
     };
   },
+  created() {
+    this.context.push({ ...this.textSchema });
+  },
+  mounted() {},
+  beforeUpdate() {},
+  methods: {
+    //新增一個文字訊息
+    addText() {
+      this.context.push({ ...this.textSchema });
+    },
+    //新增 quick reply
+    addQuickReply() {
+      this.context[this.context.length - 1].quickReply = {
+        ...this.quickReplySchema
+      };
+    }
+  }
 };
 </script>
