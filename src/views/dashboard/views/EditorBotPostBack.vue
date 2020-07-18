@@ -15,15 +15,17 @@
       </div>
 
       <div class="row">
-        <ButtonTemplateMessage v-if="componentSelect === 'ButtonTemplateMessage'" />
-        <CarouselTemplateMessage v-if="componentSelect === 'CarouselTemplateMessage'" />
-        <ConfirmTemplateMessage v-if="componentSelect === 'ConfirmTemplateMessage'" />
-        <QuickReplyMessage v-if="componentSelect === 'QuickReplyMessage'" />
-        <TextMessage v-if="componentSelect === 'TextMessage'" />
+        <div class="col">
+          <ButtonTemplateMessage v-if="componentSelect === 'ButtonTemplateMessage'" />
+          <CarouselTemplateMessage v-if="componentSelect === 'CarouselTemplateMessage'" />
+          <ConfirmTemplateMessage v-if="componentSelect === 'ConfirmTemplateMessage'" />
+          <QuickReplyMessage v-if="componentSelect === 'QuickReplyMessage'" />
+          <TextMessage v-if="componentSelect === 'TextMessage'" />
 
-        <ImageMapMessage />
-        <ImageMessage />
-        <VideoMessage />
+          <!-- <ImageMapMessage />
+          <ImageMessage />
+          <VideoMessage />-->
+        </div>
       </div>
     </div>
   </div>
