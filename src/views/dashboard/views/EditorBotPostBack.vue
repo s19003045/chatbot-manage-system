@@ -1,6 +1,7 @@
 <template>
   <div class="row mt-5">
     <div class="col col-6">
+      <h5 class="mb-4">回傳訊息設定</h5>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
