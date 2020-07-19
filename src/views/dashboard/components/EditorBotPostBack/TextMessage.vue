@@ -302,10 +302,13 @@ export default {
       if (this.actionSelect === "") {
         return;
       }
-      //若已選擇，則在 this.quickReply 加入合適的 action schema
-      this.quickReply.quickReply.items.push(
-        this.actionSchemaForQuick[this.actionSelect]
-      );
+      //若已選擇
+      //使用者選定的 action schema
+      const actionSchemaSelect = {
+        ...this.actionSchemaForQuick[this.actionSelect]
+      };
+      //在 this.quickReply 加入合適的 action schema
+      this.quickReply.quickReply.items.push(actionSchemaSelect);
       //清空 this.actionSelect
       this.actionSelect = "";
     }
