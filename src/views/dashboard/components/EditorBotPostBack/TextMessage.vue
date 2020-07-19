@@ -1,23 +1,37 @@
 <template>
   <div class="col border mt-4 mb-5 pb-5">
     <h5 class="my-4">文字訊息編輯區</h5>
+    <span class="text-muted">訊息數：{{this.textCount}} / 5</span>
     <div class="py-3 px-2 mb-2 border">
-      <div class="d-flex">
-        <button class="btn btn-primary btn-sm m-2" @click="addText">新增一個文字訊息</button>
+      <div class>
+        <button class="btn btn-primary btn-sm m-2" @click="addText">新增文字訊息</button>
       </div>
       <!-- 編輯 text 區 -->
-      <div v-for="(item,index) in context" :key="index" class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon1">{{index + 1}}</span>
+      <div v-for="(item,index) in context" :key="index">
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">{{index + 1}}</span>
+          </div>
+          <textarea
+            v-model="item.text"
+            type="text"
+            class="form-control"
+            :maxlength="textMaxLength"
+            placeholder="Username"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+          />
         </div>
-        <input
-          v-model="item.text"
-          type="text"
-          class="form-control"
-          placeholder="Username"
-          aria-label="Username"
-          aria-describedby="basic-addon1"
-        />
+        <div class="mt-2 mb-3">
+          <button
+            class="btn btn-danger btn-sm mx-2"
+            @click="deleteText(index)"
+            :disabled="isProcessing"
+          >刪除</button>
+          <small
+            class="text-muted text-left mx-5"
+          >字數統計： {{textMaxLength - item.text.length}} / {{textMaxLength}}</small>
+        </div>
       </div>
     </div>
 
@@ -27,7 +41,12 @@
         class="btn btn-primary btn-sm"
         @click="setUpQuickReply"
       >建立快速回覆</button>
-      <button v-else class="btn btn-warning btn-sm" @click="clearQuickReply">清空快速回覆</button>
+      <button
+        v-else
+        class="btn btn-warning btn-sm"
+        @click="clearQuickReply"
+        :disabled="isProcessing"
+      >清空快速回覆</button>
       <!-- 編輯 quick reply -->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
         <select class="custom-select" id="actionSelect" v-model="actionSelect">
@@ -73,6 +92,9 @@
 </template>
 
 <script>
+// import helpers
+import { Toast, ToastDelete } from "../../../../utils/helpers";
+
 export default {
   name: "TextMessage",
   data() {
@@ -156,7 +178,12 @@ export default {
           min: "2017-12-25t00:00"
         }
       },
-
+      //每筆訊息長度限制
+      textMaxLength: 5000,
+      //是否正在編輯中
+      isEditing: false,
+      //是否正在處理中
+      isProcessing: false,
       //使用者編輯的內容
       context: [],
       //使用者編輯的 quickReply 於儲存時，再存進 context[context.length - 1]
@@ -164,18 +191,61 @@ export default {
       //建立快速回覆(預設 false)
       quickReplyDisplay: false,
       //使用者選取的動作
-      actionSelect: ""
+      actionSelect: "",
+      //整合 context及 quickReply
+      contextMix: []
     };
   },
   created() {
     this.context.push({ ...this.textSchema });
   },
-  mounted() {},
-  beforeUpdate() {},
+
+  beforeUpdate() {
+    this.contextMix = [...this.context];
+  },
+  computed: {
+    textCount() {
+      //若 quickReply 為空，總長度為 context.length
+      if (
+        Object.keys(this.quickReply).length === 0 &&
+        this.quickReply.constructor === Object
+      ) {
+        return this.context.length;
+      } else {
+        //若 quickReply 不為空，總長度為 context.length
+        return this.context.length + 1;
+      }
+    }
+  },
+
   methods: {
     //新增一個文字訊息
     addText() {
+      //文字訊息一次最多五筆
+      if (this.textCount === 5) {
+        return;
+      }
+
       this.context.push({ ...this.textSchema });
+    },
+    //刪除文字訊息
+    deleteText(index) {
+      this.isEditing = true;
+      //跳出警示訊息，詢問是否清空
+      ToastDelete.fire().then(result => {
+        if (!result.value) {
+          this.isEditing = false;
+          return;
+        }
+        //確定要刪除
+        if (result.value) {
+          this.context.splice(index, 1);
+          //提示刪除成功
+          Toast.fire("Deleted!", "Text has been deleted.", "success");
+
+          this.isEditing = false;
+        }
+      });
     },
     //建立快速回覆
     setUpQuickReply() {
@@ -186,10 +256,25 @@ export default {
     },
     //清空快速回覆
     clearQuickReply() {
-      //清空使用者建立的 quickReply
-      this.quickReply = {};
-      //隱藏 quickReply 編輯區
-      this.quickReplyDisplay = false;
+      this.isProcessing = true;
+      //跳出警示訊息，詢問是否清空
+      ToastDelete.fire().then(result => {
+        if (!result.value) {
+          this.isProcessing = false;
+          return;
+        }
+        //確定要刪除
+        if (result.value) {
+          //清空使用者建立的 quickReply
+          this.quickReply = {};
+          //隱藏 quickReply 編輯區
+          this.quickReplyDisplay = false;
+          //提示刪除成功
+          Toast.fire("Deleted!", "Quick reply has been deleted.", "success");
+
+          this.isProcessing = false;
+        }
+      });
     },
     //新增一個 quick reply
     addQuickReply() {
