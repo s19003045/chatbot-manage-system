@@ -10,6 +10,20 @@ export default {
   }) {
     return apiHelper.post(`/bots/${botId}/module-postback`, data)
   },
+  // 刪除 module postback
+  deleteModulePostBack({
+    params: {
+      botId: botId
+    },
+    query: {
+      ChatbotId: ChatbotId,
+      modulePostBackUuid: modulePostBackUuid
+    }
+  }) {
+    let queryString = `ChatbotId=${ChatbotId}&modulePostBackUuid=${modulePostBackUuid}`
+
+    return apiHelper.delete(`/bots/${botId}/module-postback?${queryString}`)
+  },
   // 取得回傳動作(postback)回應模組
   getPostBackReply({
     params: {
