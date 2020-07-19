@@ -24,6 +24,7 @@ export default {
 
     return apiHelper.delete(`/bots/${botId}/module-postback?${queryString}`)
   },
+
   // 取得回傳動作(postback)回應模組
   getPostBackReply({
     params: {
@@ -37,6 +38,15 @@ export default {
 
     return apiHelper.get(`/bots/${botId}/postback-reply?${queryString}`, {
     })
+  },
+  // 儲存回傳動作(postback)回應模組
+  postPostBackReply({
+    params: {
+      botId: botId
+    },
+    data: data
+  }) {
+    return apiHelper.post(`/bots/${botId}/postback-reply`, data)
   },
 
 }
