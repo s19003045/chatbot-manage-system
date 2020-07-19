@@ -43,6 +43,9 @@ import TextMessage from "../components/EditorBotPostBack/TextMessage";
 // import ImageMessage from "../components/EditorBotPostBack/ImageMessage";
 // import VideoMessage from "../components/EditorBotPostBack/VideoMessage";
 
+// import helpers
+import postBackReplyAPI from "../../../apis/postBackReply.js";
+import { Toast } from "../../../utils/helpers";
 export default {
   name: "EditorBotPostBack",
   components: {
@@ -58,10 +61,58 @@ export default {
   },
   data() {
     return {
+      modulePostBacks: [],
+      replyMessage: {},
+      postBackEvents: [],
+      modulePostBack: {},
+      moduleIndex: -1,
+      isProcessing: false,
+      revealModuleName: false,
+      moduleClick: { status: false },
+
+      //使用者選擇的回應訊息樣版
       componentSelect: ""
     };
   },
-  created() {},
+  props: {},
+  async created() {
+    try {
+      //faked data
+      let apiData = {
+        params: {
+          botId: "bot-abakdss"
+        },
+        query: {
+          ChatbotId: 1
+        }
+      };
+      const { statusText, data } = await postBackReplyAPI.getPostBackReply(
+        apiData
+      );
+
+      if (statusText === "OK") {
+        this.modulePostBacks = data.data.modulePostBacks;
+
+        return Toast.fire({
+          icon: "success",
+          title: "成功取得資料",
+          text: ""
+        });
+      } else {
+        return Toast.fire({
+          icon: "error",
+          title: "取得資料失敗，請稍後再試",
+          text: ""
+        });
+      }
+    } catch (err) {
+      return Toast.fire({
+        icon: "error",
+        title: "取得資料失敗，請稍後再試",
+        text: `${err.message}`
+      });
+    }
+  },
   beforeUpdate() {},
   mounted() {},
   methods: {}
