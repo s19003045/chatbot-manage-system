@@ -45,13 +45,17 @@
                 </select>
               </div>
 
+              <!-- 顯示各類訊息編輯區(載入 component) -->
               <div class="row">
                 <div class="col">
                   <ButtonTemplateMessage v-if="componentSelect === 'ButtonTemplateMessage'" />
                   <CarouselTemplateMessage v-if="componentSelect === 'CarouselTemplateMessage'" />
                   <ConfirmTemplateMessage v-if="componentSelect === 'ConfirmTemplateMessage'" />
                   <QuickReplyMessage v-if="componentSelect === 'QuickReplyMessage'" />
-                  <TextMessage v-if="componentSelect === 'TextMessage'" />
+                  <TextMessage
+                    v-if="componentSelect === 'TextMessage'"
+                    :reply-message="componentSelect === 'TextMessage' && replyMessage.type === 'text'? replyMessage : null"
+                  />
 
                   <!-- <ImageMapMessage />
           <ImageMessage />

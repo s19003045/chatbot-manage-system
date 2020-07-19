@@ -97,6 +97,11 @@ import { Toast, ToastDelete } from "../../../../utils/helpers";
 
 export default {
   name: "TextMessage",
+  props: {
+    replyMessage: {
+      type: Object
+    }
+  },
   data() {
     return {
       textSchema: {
