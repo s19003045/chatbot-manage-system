@@ -1,31 +1,66 @@
 <template>
-  <div class="row mt-5">
-    <div class="col col-12 col-md-8 col-lg-6">
-      <h5 class="mb-4">回傳訊息設定</h5>
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
-        </div>
-        <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
-          <option value="TextMessage">文字訊息</option>
-          <option value="QuickReplyMessage">快速回覆訊息</option>
-          <option value="ConfirmTemplateMessage">快速回覆訊息</option>
-          <option value="ButtonTemplateMessage">按鍵範本訊息</option>
-          <option value="CarouselTemplateMessage" selected>輪播範本訊息</option>
-        </select>
-      </div>
-
+  <div class="my-2">
+    <div class="container">
+      <!-- 儲存模組區 -->
       <div class="row">
-        <div class="col">
-          <ButtonTemplateMessage v-if="componentSelect === 'ButtonTemplateMessage'" />
-          <CarouselTemplateMessage v-if="componentSelect === 'CarouselTemplateMessage'" />
-          <ConfirmTemplateMessage v-if="componentSelect === 'ConfirmTemplateMessage'" />
-          <QuickReplyMessage v-if="componentSelect === 'QuickReplyMessage'" />
-          <TextMessage v-if="componentSelect === 'TextMessage'" />
+        <div class="col d-flex justify-content-end">
+          <button
+            class="btn btn-info rounded"
+            @click.stop.prevent="handleClickSaveBtn"
+            :disabled="isProcessing"
+          >儲存所有模組</button>
+        </div>
+      </div>
+      <div class="row my-4">
+        <!-- 模組列表 -->
+        <div class="col col-lg-2">
+          <ModuleList />
+        </div>
+        <div class="col col-lg-10">
+          <div class="row">
+            <!-- 模組名稱編輯區 -->
+            <ModuleEditor />
+          </div>
+          <!-- Event 編輯區 & 回應訊息編輯區 -->
+          <div class="row">
+            <!-- Event 編輯區 -->
+            <div class="col col-12 col-lg-6">
+              <PostBackEventEditor />
+            </div>
+            <!-- 回應訊息編輯區 -->
+            <div class="col col-12 col-lg-6">
+              <ReplyMsgEditor />
+              <!-- 下面為回應訊息類別選擇區 -->
+              <h5 class="mb-4">回傳訊息設定</h5>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
+                </div>
+                <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
+                  <option value="TextMessage">文字訊息</option>
+                  <option value="QuickReplyMessage">快速回覆訊息</option>
+                  <option value="ConfirmTemplateMessage">快速回覆訊息</option>
+                  <option value="ButtonTemplateMessage">按鍵範本訊息</option>
+                  <option value="CarouselTemplateMessage" selected>輪播範本訊息</option>
+                </select>
+              </div>
 
-          <!-- <ImageMapMessage />
+              <div class="row">
+                <div class="col">
+                  <ButtonTemplateMessage v-if="componentSelect === 'ButtonTemplateMessage'" />
+                  <CarouselTemplateMessage v-if="componentSelect === 'CarouselTemplateMessage'" />
+                  <ConfirmTemplateMessage v-if="componentSelect === 'ConfirmTemplateMessage'" />
+                  <QuickReplyMessage v-if="componentSelect === 'QuickReplyMessage'" />
+                  <TextMessage v-if="componentSelect === 'TextMessage'" />
+
+                  <!-- <ImageMapMessage />
           <ImageMessage />
-          <VideoMessage />-->
+                  <VideoMessage />-->
+                </div>
+              </div>
+              <!-- 上面為回應訊息類別選擇區 -->
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -43,9 +78,14 @@ import TextMessage from "../components/EditorBotPostBack/TextMessage";
 // import ImageMessage from "../components/EditorBotPostBack/ImageMessage";
 // import VideoMessage from "../components/EditorBotPostBack/VideoMessage";
 
+import ModuleList from "../components/EditorBotPostBack/ModuleList.vue";
+import ModuleEditor from "../components/EditorBotPostBack/ModuleEditor.vue";
+import PostBackEventEditor from "../components/EditorBotPostBack/PostBackEventEditor.vue";
+
 // import helpers
 import postBackReplyAPI from "../../../apis/postBackReply.js";
 import { Toast } from "../../../utils/helpers";
+
 export default {
   name: "EditorBotPostBack",
   components: {
@@ -53,11 +93,15 @@ export default {
     CarouselTemplateMessage,
     ConfirmTemplateMessage,
     QuickReplyMessage,
-    TextMessage
+    TextMessage,
 
     // ImageMapMessage,
     // ImageMessage,
     // VideoMessage
+
+    ModuleList,
+    ModuleEditor,
+    PostBackEventEditor
   },
   data() {
     return {
