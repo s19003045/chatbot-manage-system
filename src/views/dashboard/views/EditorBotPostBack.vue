@@ -1,6 +1,6 @@
 <template>
   <div class="row mt-5">
-    <div class="col col-6">
+    <div class="col col-12 col-md-8 col-lg-6">
       <h5 class="mb-4">回傳訊息設定</h5>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
