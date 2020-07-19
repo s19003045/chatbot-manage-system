@@ -203,6 +203,19 @@ export default {
   },
   created() {
     this.context.push({ ...this.textSchema });
+    //當點擊 模組列表區 之模組時，將各 type 回應訊息資料傳遞至合適的編輯區
+
+    //若 replyMessage 為空時
+    if (this.replyMessage === null || this.replyMessage === undefined) {
+      return;
+    }
+    //若 replyMessage 為 array
+    if (Array.isArray(this.replyMessage.messageTemplate)) {
+      this.context = [...this.replyMessage.messageTemplate];
+    } else {
+      //若 replyMessage 不為 array
+      this.context = [{ ...this.replyMessage.messageTemplate }];
+    }
   },
 
   beforeUpdate() {
@@ -254,9 +267,11 @@ export default {
     },
     //建立快速回覆
     setUpQuickReply() {
+      //複製 schema
       this.quickReply = {
         ...this.quickReplySchema
       };
+      //顯示 quickReply 編輯 區
       this.quickReplyDisplay = true;
     },
     //清空快速回覆
