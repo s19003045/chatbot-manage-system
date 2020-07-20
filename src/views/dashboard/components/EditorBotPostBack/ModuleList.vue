@@ -11,7 +11,7 @@
           <td
             :data-module-post-back-uuid="modulePostBack.uuid"
             @click.stop.prevent="handleClickModule(index)"
-            :class="{'module-select-color':moduleClickIndex === index}"
+            :class="{'module-select-color':moduleClick.index === index}"
           >
             <div
               class="mb-2"
@@ -50,8 +50,7 @@ export default {
   },
   data() {
     return {
-      isProcessing: false,
-      moduleClickIndex: -1
+      isProcessing: false
     };
   },
   created() {},
@@ -148,6 +147,14 @@ export default {
         });
       }
     },
+
+    // 點擊〈模組區塊〉
+    async handleClickModule(index) {
+      this.moduleClick.index = index;
+      this.moduleClick.status = true;
+      // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
+      this.$emit("after-click-module", [index]);
+    }
   }
 };
 </script>

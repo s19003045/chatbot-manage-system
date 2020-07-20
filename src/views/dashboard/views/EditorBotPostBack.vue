@@ -16,20 +16,24 @@
         <div class="col col-lg-2">
           <ModuleList
             :module-post-backs="modulePostBacks"
-            @after-delete-module-post-back="afterDeleteModulePostBack"
             :module-click="moduleClick"
+            @after-delete-module-post-back="afterDeleteModulePostBack"
+            @after-click-module="afterClickModule"
           />
         </div>
         <div class="col col-lg-10">
           <div class="row">
             <!-- 模組名稱編輯區 -->
-            <ModuleEditor />
+            <ModuleEditor :module-post-back="modulePostBack" :module-click="  moduleClick" />
           </div>
           <!-- Event 編輯區 & 回應訊息編輯區 -->
           <div class="row">
             <!-- Event 編輯區 -->
             <div class="col col-12 col-lg-6">
-              <PostBackEventEditor />
+              <PostBackEventEditor
+                :post-back-events="postBackEvents"
+                :module-click="  moduleClick"
+              />
             </div>
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col col-12 col-lg-6">
@@ -64,11 +68,7 @@
                   @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
                   :disabled="isProcessing"
                 >刪除</button>
-                <ReplyMsgEditor
-                  :message-template-item="template"
-                  :template-index="index"
-                  :delete-msg-template-item="deleteMsgTemplateItem"
-                />
+                <ReplyMsgEditor :message-template-item="template" :template-index="index" />
               </div>
 
               <!-- 新增回應訊息按鈕 -->
@@ -227,10 +227,12 @@ export default {
       },
       postBackEvents: [],
       modulePostBack: {},
-      moduleIndex: -1,
       isProcessing: false,
       revealModuleName: false,
-      moduleClick: { status: false },
+      moduleClick: {
+        status: false,
+        index: -1
+      },
 
       //使用者選擇的回應訊息樣版
       componentSelect: ""
@@ -347,11 +349,19 @@ export default {
       }
     },
 
-    //子層點擊刪除模組按鈕事件觸發父層 => 暫無用途
+    //子層點擊刪除模組按鈕事件觸發父層
     afterDeleteModulePostBack([index]) {
       this.modulePostBacks.splice(index, 1);
     },
-
+    //子層點擊模組事件觸發父層
+    afterClickModule([index]) {
+      //傳遞資料至 ModuleEditor component
+      this.modulePostBack = this.modulePostBacks[index];
+      //傳遞資料至 replyMsgEditor component
+      this.replyMessage = this.modulePostBacks[index].ReplyMessage;
+      //傳遞資料至 PostBackEventEditor component
+      this.postBackEvents = this.modulePostBacks[index].PostBackEvents;
+    },
     //新增回應訊息
     async handleClickAddReplyMsgBtn() {
       try {
