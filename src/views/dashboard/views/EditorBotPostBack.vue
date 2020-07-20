@@ -14,7 +14,7 @@
       <div class="row my-4">
         <!-- 模組列表 -->
         <div class="col col-lg-2">
-          <ModuleList />
+          <ModuleList :module-post-backs="modulePostBacks" :module-click="  moduleClick" />
         </div>
         <div class="col col-lg-10">
           <div class="row">
