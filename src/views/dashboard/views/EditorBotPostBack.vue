@@ -354,6 +354,11 @@ export default {
             text: "已超出訊息限制 5 則!"
           });
           return;
+        } else if (this.componentSelect === "") {
+          Toast.fire({
+            icon: "warning",
+            text: "請選擇訊息類別!"
+          });
         } else {
           // 若 length < 5，則replyMessage.messageTemplate.push(合適的樣版)
           //帶入參數產生新樣版
@@ -371,7 +376,7 @@ export default {
       } catch (err) {
         Toast.fire({
           icon: "warning",
-          text: "請選擇訊息類別!"
+          text: "系統異常!"
         });
       }
     },
