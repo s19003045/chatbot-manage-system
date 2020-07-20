@@ -38,10 +38,22 @@
 
                 <input type="text" class="my-2" id="reply-message-name" v-model="replyMessage.name" />
               </h5>
+              <!-- 顯示總訊息數 -->
+              <span class="text-muted">訊息數：{{replyMessage.messageTemplate.length}} / 5</span>
+
               <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
 
               <div v-for="(template, index) in replyMessage.messageTemplate" :key="index">
-                <ReplyMsgEditor :message-template-item="template" :template-index="index" />
+                <button
+                  class="btn btn-danger btn-sm ml-5"
+                  @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
+                  :disabled="isProcessing"
+                >刪除</button>
+                <ReplyMsgEditor
+                  :message-template-item="template"
+                  :template-index="index"
+                  :delete-msg-template-item="deleteMsgTemplateItem"
+                />
               </div>
 
               <!-- 新增回應訊息按鈕 -->
@@ -298,6 +310,11 @@ export default {
           text: `${err.message}`
         });
       }
+    // 刪除 messageTemplateItem
+    handleClickDeleteReplyMsgBtn(index) {
+      this.replyMessage.messageTemplate.splice(index, 1);
+      //提示刪除成功
+      Toast.fire("Deleted!", "Text has been deleted.", "success");
     }
   }
 };

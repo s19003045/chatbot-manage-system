@@ -1,19 +1,10 @@
 <template>
   <div class="col border mt-4 mb-5 pb-5">
-    <h5 class="my-4">文字訊息編輯區</h5>
-    <!-- <span class="text-muted">訊息數：{{this.textCount}} / 5</span> -->
-    <div class="py-3 px-2 mb-2 border">
-      <!-- <div class>
-        <button class="btn btn-primary btn-sm m-2" @click="addText">新增文字訊息</button>
-      </div>-->
+    <h6 class="my-4">文字訊息編輯區</h6>
 
-      <!-- 編輯 text 區 -->
-      <!-- <div v-for="(item,index) in context" :key="index"> -->
-      <!-- 若 message type 為 text -->
+    <div class="py-3 px-2 mb-2 border">
+      <!-- 顯示文字內容 -->
       <div class="input-group mb-2">
-        <!-- <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">{{index + 1}}</span>
-        </div>-->
         <textarea
           v-model="messageTemplateItem.text"
           type="text"
@@ -24,16 +15,15 @@
           aria-describedby="basic-addon1"
         />
       </div>
+      <!-- 顯示字數統計 -->
       <div class="mt-2 mb-3">
-        <button class="btn btn-danger btn-sm mx-2" @click="deleteText" :disabled="isProcessing">刪除</button>
         <small
           class="text-muted text-left mx-5"
         >字數統計： {{textMaxLength - messageTemplateItem.text.length}} / {{textMaxLength}}</small>
       </div>
-
-      <!-- </div> -->
     </div>
 
+    <!-- 是否建立 quick reply -->
     <div class="py-3 px-2 border">
       <button
         v-if="!quickReplyDisplay"
@@ -46,9 +36,8 @@
         @click="clearQuickReply"
         :disabled="isProcessing"
       >清空快速回覆</button>
-      <!-- 編輯 quick reply -->
+      <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
-        <!-- 載入 QuickReply component-->
         <QuickReply :quick-reply="messageTemplateItem.quickReply" />
       </div>
     </div>
@@ -147,28 +136,7 @@ export default {
 
     //   this.context.push({ ...this.textSchema });
     // },
-    //刪除文字訊息
-    deleteText() {
-      this.isEditing = true;
-      //跳出警示訊息，詢問是否清空
-      ToastDelete.fire().then(result => {
-        if (!result.value) {
-          this.isEditing = false;
-          return;
-        }
-        //確定要刪除
-        if (result.value) {
-          // 傳遞事件至父層(ReplyMsgEditor)的父層(EditorBotPostBack) => 未完成
 
-          // this.context.splice(index, 1);
-
-          //提示刪除成功
-          Toast.fire("Deleted!", "Text has been deleted.", "success");
-
-          this.isEditing = false;
-        }
-      });
-    },
     //建立快速回覆
     setUpQuickReply() {
       //複製 schema

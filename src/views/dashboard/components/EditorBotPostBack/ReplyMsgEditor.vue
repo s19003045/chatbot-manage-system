@@ -7,18 +7,22 @@
         <ButtonTemplateMessage
           v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'buttons'"
           :message-template-item="messageTemplateItem"
+          :template-index="templateIndex"
         />
         <CarouselTemplateMessage
           v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'carousel'"
           :message-template-item="messageTemplateItem"
+          :template-index="templateIndex"
         />
         <ConfirmTemplateMessage
           v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'confirm'"
           :message-template-item="messageTemplateItem"
+          :template-index="templateIndex"
         />
         <TextMessage
           v-if="messageTemplateItem.type === 'text'"
           :message-template-item="messageTemplateItem"
+          :template-index="templateIndex"
         />
 
         <!-- <ImageMapMessage />
@@ -39,6 +43,9 @@ import TextMessage from "../ReplyMessage/TextMessage";
 // import ImageMessage from "../components/EditorBotPostBack/ImageMessage";
 // import VideoMessage from "../components/EditorBotPostBack/VideoMessage";
 
+// import helpers
+// import { Toast, ToastDelete } from "../../../../utils/helpers";
+
 export default {
   props: {
     messageTemplateItem: {
@@ -57,6 +64,7 @@ export default {
     // ImageMapMessage,
     // ImageMessage,
     // VideoMessage
-  }
+  },
+  methods: {}
 };
 </script>
