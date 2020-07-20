@@ -54,8 +54,7 @@
                 </div>
                 <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
                   <option value="TextMessage" selected>文字訊息</option>
-                  <option value="QuickReplyMessage">快速回覆訊息</option>
-                  <option value="ConfirmTemplateMessage">快速回覆訊息</option>
+                  <option value="ConfirmTemplateMessage">確認範本訊息</option>
                   <option value="ButtonTemplateMessage">按鍵範本訊息</option>
                   <option value="CarouselTemplateMessage" selected>輪播範本訊息</option>
                 </select>
