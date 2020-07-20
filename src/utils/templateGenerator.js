@@ -9,7 +9,7 @@ const carouselTemplateSchema = require('./messageSchema/carouselTemplateSchema.j
 
 function templateGenerator(config) {
   if (config.type === undefined) {
-    return new Error("config.type undefined !!")
+    throw new Error("config.type undefined !!")
   }
 
   switch (config.type) {
@@ -22,7 +22,7 @@ function templateGenerator(config) {
     case 'carouselTemplate':
       return carouselTemplateSchema
     default:
-      return new Error("We don't have such type!!")
+      throw new Error("We don't have such type!!")
   }
 }
 
