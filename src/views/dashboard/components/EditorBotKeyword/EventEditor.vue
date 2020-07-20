@@ -4,29 +4,26 @@
       <small>關鍵字編輯</small>
     </h5>
     <div v-if="moduleClick.status" class>
-      <div
-        v-for="(textEvent, index) in textEvents"
-        v-bind:key="index"
-        class="input-group mb-3"
-        :data-text-event-uuid="textEvent.uuid"
-      >
-        <span class="input-group-text" id="basic-addon1">{{index+1}}</span>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Username"
-          aria-label="Username"
-          aria-describedby="basic-addon1"
-          v-model="textEvent.text"
-        />
-        <div class="input-group-append">
-          <!-- 刪除該筆資料 -->
-          <button
-            class="btn btn-warning btn-sm mx-2 my-2"
-            :data-text-event-uuid="textEvent.uuid"
-            @click="handleClickDeleteBtn(index)"
-            :disabled="isProcessing"
-          >刪除</button>
+      <div v-for="(textEvent, index) in textEvents" v-bind:key="index" class="mb-3">
+        <div class="input-group" :data-text-event-uuid="textEvent.uuid">
+          <span class="input-group-text" id="basic-addon1">{{index+1}}</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Username"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            v-model="textEvent.text"
+          />
+          <div class="input-group-append">
+            <!-- 刪除該筆資料 -->
+            <button
+              class="btn btn-warning btn-sm mx-2"
+              :data-text-event-uuid="textEvent.uuid"
+              @click="handleClickDeleteBtn(index)"
+              :disabled="isProcessing"
+            >刪除</button>
+          </div>
         </div>
       </div>
 
