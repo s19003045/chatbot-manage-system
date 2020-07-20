@@ -30,22 +30,33 @@
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col col-12 col-lg-6">
               <!-- 編輯回應訊息名稱 -->
-              <h5
-                class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded"
-                ref="editor"
-              >
-                <small for="reply-message-name">回應訊息名稱：</small>
+              <div class="mb-4">
+                <h5
+                  class="mb-2 py-2 px-3 bg-secondary text-light border border-secondary rounded"
+                  ref="editor"
+                >
+                  <small for="reply-message-name">回應訊息名稱：</small>
 
-                <input type="text" class="my-2" id="reply-message-name" v-model="replyMessage.name" />
-              </h5>
-              <!-- 顯示總訊息數 -->
-              <span class="text-muted">訊息數：{{replyMessage.messageTemplate.length}} / 5</span>
+                  <input
+                    type="text"
+                    class="my-2"
+                    id="reply-message-name"
+                    v-model="replyMessage.name"
+                  />
+                </h5>
+                <!-- 顯示總訊息數 -->
+                <span class="text-muted">訊息數：{{replyMessage.messageTemplate.length}} / 5</span>
+              </div>
 
               <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
 
-              <div v-for="(template, index) in replyMessage.messageTemplate" :key="index">
+              <div
+                v-for="(template, index) in replyMessage.messageTemplate"
+                :key="index"
+                class="mt-2"
+              >
                 <button
-                  class="btn btn-danger btn-sm ml-5"
+                  class="btn btn-danger btn-sm mb-0"
                   @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
                   :disabled="isProcessing"
                 >刪除</button>
@@ -278,6 +289,7 @@ export default {
   },
   beforeUpdate() {},
   mounted() {},
+  computed: {},
   methods: {
     //儲存所有模組
     async handleClickSaveBtn() {
