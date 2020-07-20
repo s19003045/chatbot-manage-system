@@ -8,6 +8,7 @@
       </div>
       <!-- 編輯 text 區 -->
       <div v-for="(item,index) in context" :key="index">
+        <!-- 若 message type 為 text -->
         <div class="input-group mb-2">
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">{{index + 1}}</span>
@@ -28,10 +29,13 @@
             @click="deleteText(index)"
             :disabled="isProcessing"
           >刪除</button>
-          <small
+          <!-- <small
             class="text-muted text-left mx-5"
-          >字數統計： {{textMaxLength - item.text.length}} / {{textMaxLength}}</small>
+          >字數統計： {{textMaxLength - item.text.length}} / {{textMaxLength}}</small>-->
         </div>
+
+        <!-- 若 message type 為 template -->
+        <!-- 此區尚未完成 -->
       </div>
     </div>
 
@@ -126,6 +130,10 @@ export default {
           type: "message",
           label: "",
           text: ""
+        },
+        camera: {
+          type: "camera",
+          label: "camera"
         },
         cameraRoll: {
           type: "cameraRoll",
