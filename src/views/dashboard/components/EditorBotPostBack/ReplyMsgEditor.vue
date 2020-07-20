@@ -1,19 +1,25 @@
 <template>
   <!-- 單一回應訊息編輯區 -->
   <div class="col">
-    <!-- 顯示 messageTemplate -->
+    <!-- 顯示 messageTemplateItem -->
     <div class="row">
       <div class="col">
         <ButtonTemplateMessage
-          v-if="messageTemplate.type === 'template' && messageTemplate.template.type === 'buttons'"
+          v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'buttons'"
+          :message-template-item="messageTemplateItem"
         />
         <CarouselTemplateMessage
-          v-if="messageTemplate.type === 'template' && messageTemplate.template.type === 'carousel'"
+          v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'carousel'"
+          :message-template-item="messageTemplateItem"
         />
         <ConfirmTemplateMessage
-          v-if="messageTemplate.type === 'template' && messageTemplate.template.type === 'confirm'"
+          v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'confirm'"
+          :message-template-item="messageTemplateItem"
         />
-        <TextMessage v-if="messageTemplate.type === 'text'" />
+        <TextMessage
+          v-if="messageTemplateItem.type === 'text'"
+          :message-template-item="messageTemplateItem"
+        />
 
         <!-- <ImageMapMessage />
           <ImageMessage />
@@ -35,7 +41,7 @@ import TextMessage from "../ReplyMessage/TextMessage";
 
 export default {
   props: {
-    messageTemplate: {
+    messageTemplateItem: {
       type: Object
     },
     templateIndex: {

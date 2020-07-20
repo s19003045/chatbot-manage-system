@@ -41,7 +41,7 @@
               <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
 
               <div v-for="(template, index) in replyMessage.messageTemplate" :key="index">
-                <ReplyMsgEditor :message-template="template" :template-index="index" />
+                <ReplyMsgEditor :message-template-item="template" :template-index="index" />
               </div>
 
               <!-- 新增回應訊息按鈕 -->
