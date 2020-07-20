@@ -30,10 +30,7 @@
           <div class="row">
             <!-- Event 編輯區 -->
             <div class="col col-12 col-lg-6">
-              <PostBackEventEditor
-                :post-back-events="postBackEvents"
-                :module-click="  moduleClick"
-              />
+              <EventEditor :post-back-events="postBackEvents" :module-click="  moduleClick" />
             </div>
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col col-12 col-lg-6">
@@ -101,7 +98,7 @@
 //import components
 import ModuleList from "../components/EditorBotPostBack/ModuleList.vue";
 import ModuleEditor from "../components/EditorBotPostBack/ModuleEditor.vue";
-import PostBackEventEditor from "../components/EditorBotPostBack/PostBackEventEditor.vue";
+import EventEditor from "../components/EditorBotPostBack/EventEditor.vue";
 import ReplyMsgEditor from "../components/EditorBotPostBack/ReplyMsgEditor.vue";
 
 // import helpers
@@ -114,7 +111,7 @@ export default {
   components: {
     ModuleList,
     ModuleEditor,
-    PostBackEventEditor,
+    EventEditor,
     ReplyMsgEditor
   },
   data() {
