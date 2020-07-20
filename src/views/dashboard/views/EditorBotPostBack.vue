@@ -14,7 +14,11 @@
       <div class="row my-4">
         <!-- 模組列表 -->
         <div class="col col-lg-2">
-          <ModuleList :module-post-backs="modulePostBacks" :module-click="  moduleClick" />
+          <ModuleList
+            :module-post-backs="modulePostBacks"
+            @after-delete-module-post-back="afterDeleteModulePostBack"
+            :module-click="moduleClick"
+          />
         </div>
         <div class="col col-lg-10">
           <div class="row">
@@ -341,6 +345,11 @@ export default {
           text: `${err.message}`
         });
       }
+    },
+
+    //子層點擊刪除模組按鈕事件觸發父層 => 暫無用途
+    afterDeleteModulePostBack([index]) {
+      this.modulePostBacks.splice(index, 1);
     },
 
     //新增回應訊息

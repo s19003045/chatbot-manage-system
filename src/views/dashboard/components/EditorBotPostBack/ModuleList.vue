@@ -72,7 +72,6 @@ export default {
 
       if (statusText === "OK") {
         this.isProcessing = false;
-        console.log("data:", data);
 
         //將新增的資料存進 modulePostBacks
         this.modulePostBacks.push(data.data.modulePostBack);
@@ -94,7 +93,61 @@ export default {
         });
       }
     },
+    // 點擊〈刪除模組按鍵〉
+    async handleDeleteBtnClick(index, modulePostBackUuid) {
+      try {
+        this.isProcessing = true;
+        //先詢問使用者是否確定要刪除
+        ToastDelete.fire().then(async result => {
+          //不要刪除
+          if (!result.value) {
+            this.isProcessing = false;
+          }
+          //確定要刪除
+          if (result.value) {
+            //faked data
+            const apiData = {
+              params: 1,
+              data: {},
+              query: {
+                ChatbotId: 1,
+                modulePostBackUuid: modulePostBackUuid
+              }
+            };
+            const { statusText } = await postBackReplyAPI.deleteModulePostBack(
+              apiData
+            );
 
+            if (statusText === "OK") {
+              this.isProcessing = false;
+
+              // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
+              this.$emit("after-delete-module-post-back", [index]);
+
+              return Toast.fire({
+                icon: "success",
+                title: "成功刪除",
+                text: ""
+              });
+            } else {
+              this.isProcessing = false;
+              return Toast.fire({
+                icon: "error",
+                title: "刪除失敗，請稍後再試",
+                text: ""
+              });
+            }
+          }
+        });
+      } catch (err) {
+        this.isProcessing = false;
+        return Toast.fire({
+          icon: "error",
+          title: "刪除失敗，請稍後再試",
+          text: err.message
+        });
+      }
+    },
   }
 };
 </script>
