@@ -237,6 +237,22 @@ export default {
       if (statusText === "OK") {
         this.modulePostBacks = data.data.modulePostBacks;
 
+        // 整理 replyMessage.messageTemplate 成 array 格式
+        this.modulePostBacks.forEach(d => {
+          //  若 messageTemplate 未定義
+          if (!d.ReplyMessage.messageTemplate) {
+            d.ReplyMessage.messageTemplate = [];
+          } else if (
+            !Array.isArray(d.ReplyMessage.messageTemplate) &&
+            typeof d.ReplyMessage.messageTemplate === "object"
+          ) {
+            // 當 messageTemplate 為 {} 格式時，轉成 array，方便傳遞至 component
+            d.ReplyMessage.messageTemplate = [
+              { ...d.ReplyMessage.messageTemplate }
+            ];
+          }
+        });
+
         return Toast.fire({
           icon: "success",
           title: "成功取得資料",
