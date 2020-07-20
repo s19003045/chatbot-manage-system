@@ -58,21 +58,23 @@
 
               <!-- 新增回應訊息按鈕 -->
               <!-- 下面為回應訊息類別選擇區 -->
-              <button class="btn-btn-primary btn-sm" @click="handleClickAddReplyMsgBtn">新增回應訊息</button>
-              <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
+              <div class="mb-5 mt-4">
+                <button class="btn btn-info btn-sm mb-2" @click="handleClickAddReplyMsgBtn">新增回應訊息</button>
+                <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
+                  </div>
+                  <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
+                    <option value="text" selected>文字訊息</option>
+                    <option value="confirmTemplate">確認範本訊息</option>
+                    <option value="buttonsTemplate">按鍵範本訊息</option>
+                    <option value="carouselTemplate" selected>輪播範本訊息</option>
+                  </select>
                 </div>
-                <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
-                  <option value="TextMessage" selected>文字訊息</option>
-                  <option value="ConfirmTemplateMessage">確認範本訊息</option>
-                  <option value="ButtonTemplateMessage">按鍵範本訊息</option>
-                  <option value="CarouselTemplateMessage" selected>輪播範本訊息</option>
-                </select>
               </div>
+              <!-- ↑ ↑ 回應訊息編輯區 ↑ ↑ -->
             </div>
-            <!-- ↑ ↑ 回應訊息編輯區 ↑ ↑ -->
           </div>
         </div>
       </div>
@@ -90,6 +92,7 @@ import ReplyMsgEditor from "../components/EditorBotPostBack/ReplyMsgEditor.vue";
 // import helpers
 import postBackReplyAPI from "../../../apis/postBackReply.js";
 import { Toast } from "../../../utils/helpers";
+import templateGenerator from "../../../utils/templateGenerator";
 
 export default {
   name: "EditorBotPostBack",
@@ -326,6 +329,41 @@ export default {
           text: `${err.message}`
         });
       }
+    },
+
+    //新增回應訊息
+    async handleClickAddReplyMsgBtn() {
+      try {
+        // 先判斷 replyMessage.messageTemplate.length
+        // 若 length === 5，則跳出訊息"已超過訊息數限制"
+        if (this.replyMessage.messageTemplate.length === 5) {
+          Toast.fire({
+            icon: "warning",
+            text: "已超出訊息限制 5 則!"
+          });
+          return;
+        } else {
+          // 若 length < 5，則replyMessage.messageTemplate.push(合適的樣版)
+          //帶入參數產生新樣版
+          const messageTemplateCreate = templateGenerator({
+            type: this.componentSelect
+          });
+          //將新樣版整合至  messageTemplate
+          this.replyMessage.messageTemplate.push(messageTemplateCreate);
+          // 成功新增訊息
+          Toast.fire({
+            icon: "success",
+            text: "訊息已新增"
+          });
+        }
+      } catch (err) {
+        Toast.fire({
+          icon: "warning",
+          text: "請選擇訊息類別!"
+        });
+      }
+    },
+
     // 刪除 messageTemplateItem
     handleClickDeleteReplyMsgBtn(index) {
       this.replyMessage.messageTemplate.splice(index, 1);
