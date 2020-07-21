@@ -1,4 +1,7 @@
 {
-  "type": "cameraRoll",
-  "label": "Camera roll"
+  "type": "action",
+  "action": {
+    "type": "cameraRoll",
+    "label": "Camera roll"
+  }
 }

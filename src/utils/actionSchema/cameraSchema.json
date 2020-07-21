@@ -1,4 +1,7 @@
 {
-  "type": "camera",
-  "label": "Camera"
+  "type": "action",
+  "action": {
+    "type": "camera",
+    "label": "Camera"
+  }
 }

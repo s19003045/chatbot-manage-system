@@ -1,6 +1,9 @@
 {
-  "type": "postback",
-  "label": "Buy",
-  "data": "subject=衣服&data=M12",
-  "text": "Buy"
+  "type": "action",
+  "action": {
+    "type": "postback",
+    "label": "Buy",
+    "data": "subject=衣服&data=M12",
+    "displayText": "Buy"
+  }
 }

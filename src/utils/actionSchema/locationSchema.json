@@ -1,4 +1,7 @@
 {
-  "type": "location",
-  "label": "Location"
+  "type": "action",
+  "action": {
+    "type": "location",
+    "label": "Location"
+  }
 }

@@ -1,5 +1,8 @@
 {
-  "type": "message",
-  "label": "Yes",
-  "text": "Yes"
+  "type": "action",
+  "action": {
+    "type": "message",
+    "label": "Yes",
+    "text": "Yes"
+  }
 }
