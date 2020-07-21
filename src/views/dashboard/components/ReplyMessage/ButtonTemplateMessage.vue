@@ -103,11 +103,31 @@
       <!-- 樣版顯示區 => 暫不做 -->
     </div>
 
+    <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
+    <div class="py-3 px-2 border">
+      <button
+        v-if="!quickReplyDisplay"
+        class="btn btn-primary btn-sm"
+        @click="setUpQuickReply"
+      >建立快速回覆</button>
+      <button
+        v-else
+        class="btn btn-warning btn-sm"
+        @click="clearQuickReply"
+        :disabled="isProcessing"
+      >清空所有快速回覆訊息</button>
+      <!-- 若資料已有 quick reply，則顯示之 -->
+      <!-- 載入 QuickReply component-->
+      <div v-if="quickReplyDisplay" class="py-3 px-2">
+        <QuickReply :quick-reply="messageTemplateItem.quickReply" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+// import components
+import QuickReply from "./core/QuickReply.vue";
 
 // import helpers
 import { Toast, ToastDelete } from "../../../../utils/helpers";
