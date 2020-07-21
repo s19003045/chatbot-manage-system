@@ -30,7 +30,7 @@
 import ActionObject from "./ActionObject.vue";
 
 // import helpers
-// import { Toast, ToastDelete } from "../../../../utils/helpers";
+import { Toast } from "../../../../../utils/helpers";
 import { actionGenerator } from "../../../../../utils/templateGenerator.js";
 
 export default {
@@ -55,6 +55,18 @@ export default {
     addQuickReply() {
       //判斷使用者是否選取 quickReply 類別
       if (this.actionSelect === "") {
+        Toast.fire({
+          icon: "info",
+          text: "尚未選取類別 !"
+        });
+        return;
+      }
+      //判斷是否超過 quick reply 限制(13)
+      if (this.quickReply.items.length === 13) {
+        Toast.fire({
+          icon: "warning",
+          text: "已達快速回覆訊息限制 13 個 !"
+        });
         return;
       }
       //若已選擇

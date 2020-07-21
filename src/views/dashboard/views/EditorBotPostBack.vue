@@ -78,6 +78,7 @@
                         @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
                         :disabled="isProcessing"
                       >刪除</button>
+
                       <ReplyMsgEditor :message-template-item="template" :template-index="index" />
                     </div>
                   </div>
@@ -89,6 +90,10 @@
                       class="btn btn-info btn-sm mb-2"
                       @click="handleClickAddReplyMsgBtn"
                     >新增回應訊息</button>
+                    <!-- 顯示總訊息數 -->
+                    <span
+                      class="ml-3 text-muted"
+                    >訊息數：{{!replyMessage || !replyMessage.messageTemplate ? 0 :replyMessage.messageTemplate.length}} / 5</span>
                     <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
