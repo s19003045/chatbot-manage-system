@@ -60,6 +60,19 @@
               </div>
 
               <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
+              <div v-if="moduleClick.status" class>
+                <div
+                  v-for="(template, index) in replyMessage.messageTemplate"
+                  :key="index"
+                  class="mt-2"
+                >
+                  <button
+                    class="btn btn-danger btn-sm mb-0"
+                    @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
+                    :disabled="isProcessing"
+                  >刪除</button>
+                  <ReplyMsgEditor :message-template-item="template" :template-index="index" />
+                </div>
               </div>
 
               <!-- 新增回應訊息按鈕 -->
@@ -100,6 +113,9 @@ import postBackReplyAPI from "../../../apis/postBackReply.js";
 import { Toast } from "../../../utils/helpers";
 import { msgGenerator } from "../../../utils/templateGenerator.js";
 
+// import seeds for test => deploy 時要刪掉
+import seedsForTest from "../seeds-for-test/EditorBotPostBack";
+
 export default {
   name: "EditorBotPostBack",
   components: {
@@ -110,221 +126,13 @@ export default {
   },
   data() {
     return {
-      //測試用假資料
-      modulePostBacks: [
-        {
-          ChatbotId: "1",
-          module: {
-            name: "點餐機-海陸大餐",
-            uuid: "75a0726b-41d1-41e3-ae6f-f5892a539516",
-            status: "in-use"
-          },
-          postBackEvents: [
-            {
-              name: "點餐機",
-              eventType: "postBack",
-              subject: "點餐機",
-              data: "海陸大餐"
-            }
-          ],
-          replyMessage: {
-            messageTemplate: {
-              type: "template",
-              altText: "this is a buttons template",
-              template: {
-                type: "buttons",
-                actions: [
-                  {
-                    type: "postback",
-                    label: "我要加價換套餐",
-                    displayText: "我要加價換套餐",
-                    data: "subject=海陸大餐&data=我要加價換套餐"
-                  },
-                  {
-                    type: "postback",
-                    label: "我不要加價換套餐",
-                    displayText: "我不要加價換套餐",
-                    data: "subject=海陸大餐&data=我不要加價換套餐"
-                  }
-                ],
-                title: "海陸大餐",
-                text: "是否要加價換套餐?"
-              }
-            },
-            type: "text",
-            name: "海陸大餐",
-            status: "in-use"
-          }
-        },
-        {
-          ChatbotId: "1",
-          module: {
-            name: "點餐機-素食大餐",
-            uuid: "ec36e1e9-fa4a-4017-b3c3-361ffa55e4e9",
-            status: "in-use"
-          },
-          PostBackEvent: {
-            name: "點餐機",
-            eventType: "postBack",
-            subject: "點餐機",
-            data: "素食大餐"
-          },
-          replyMessage: {
-            messageTemplate: {
-              type: "template",
-              altText: "this is a buttons template",
-              template: {
-                type: "buttons",
-                actions: [
-                  {
-                    type: "postback",
-                    label: "我要加價換套餐",
-                    displayText: "我要加價換套餐",
-                    data: "subject=素食大餐&data=我要加價換套餐"
-                  },
-                  {
-                    type: "postback",
-                    label: "我不要加價換套餐",
-                    displayText: "我不要加價換套餐",
-                    data: "subject=素食大餐&data=我不要加價換套餐"
-                  }
-                ],
-                title: "素食大餐",
-                text: "是否要加價換套餐?"
-              }
-            },
-            type: "text",
-            name: "素食大餐",
-            status: "in-use"
-          }
-        }
-      ],
-      //測試用假資料
-      replyMessage: {
-        messageTemplate: [
-          {
-            type: "text",
-            text: "hello world",
-            quickReply: {
-              items: [
-                {
-                  type: "action",
-                  action: {
-                    type: "message",
-                    text: "好棒",
-                    label: "好棒"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "postback",
-                    label: "Buy",
-                    data: "subject=衣服&data=M12",
-                    displayText: "Buy"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "location",
-                    label: "Location"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "camera",
-                    label: "Camera"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "cameraRoll",
-                    label: "Camera roll"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "datetimepicker",
-                    label: "Select date",
-                    data: "storeId=12345",
-                    mode: "datetime",
-                    initial: "2017-12-25t00:00",
-                    max: "2018-01-24t23:59",
-                    min: "2017-12-25t00:00"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            type: "text",
-            text: "good job",
-            quickReply: {
-              items: [
-                {
-                  type: "action",
-                  action: {
-                    type: "message",
-                    text: "好棒",
-                    label: "好棒"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "postback",
-                    label: "Buy",
-                    data: "subject=衣服&data=M12",
-                    displayText: "Buy"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "location",
-                    label: "Location"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "camera",
-                    label: "Camera"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "cameraRoll",
-                    label: "Camera roll"
-                  }
-                },
-                {
-                  type: "action",
-                  action: {
-                    type: "datetimepicker",
-                    label: "Select date",
-                    data: "storeId=12345",
-                    mode: "datetime",
-                    initial: "2017-12-25t00:00",
-                    max: "2018-01-24t23:59",
-                    min: "2017-12-25t00:00"
-                  }
-                }
-              ]
-            }
-          }
-        ],
-        type: "text",
-        name: "產前檢查",
-        uuid: "fab40e7a-76ba-4e04-9369-675b4327e875",
-        status: "in-use"
-      },
-      postBackEvents: [],
+      //載入測試用資料
+      modulePostBacks: seedsForTest.modulePostBacks,
+      //載入測試用資料
+      replyMessage: seedsForTest.replyMessage,
+      //載入測試用資料
+      postBackEvents: seedsForTest.postBackEvents,
+
       modulePostBack: {},
       isProcessing: false,
       revealModuleName: false,
@@ -354,7 +162,7 @@ export default {
       );
 
       if (statusText === "OK") {
-        this.modulePostBacks = data.data.modulePostBacks;
+        this.modulePostBacks = [...data.data.modulePostBacks];
 
         // 整理 replyMessage.messageTemplate 成 array 格式
         this.modulePostBacks.forEach(d => {
