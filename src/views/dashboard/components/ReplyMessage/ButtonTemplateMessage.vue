@@ -123,9 +123,13 @@ export default {
     }
   },
   components: {
+    QuickReply
   },
   data() {
     return {
+      quickReplySchema: {
+        items: []
+      },
 
       // 是否使用圖片
       withImage: "false",
@@ -165,6 +169,37 @@ export default {
   computed: {},
 
   methods: {
+    //建立快速回覆
+    setUpQuickReply() {
+      //複製 schema
+      this.messageTemplateItem.quickReply = {
+        ...this.quickReplySchema
+      };
+      //顯示 quickReply 編輯 區
+      this.quickReplyDisplay = true;
+    },
+    //清空快速回覆
+    clearQuickReply() {
+      this.isProcessing = true;
+      //跳出警示訊息，詢問是否清空
+      ToastDelete.fire().then(result => {
+        if (!result.value) {
+          this.isProcessing = false;
+          return;
+        }
+        //確定要刪除
+        if (result.value) {
+          //清空使用者建立的 quickReply
+          this.messageTemplateItem.quickReply = undefined;
+          //隱藏 quickReply 編輯區
+          this.quickReplyDisplay = false;
+          //提示刪除成功
+          Toast.fire("Deleted!", "Quick reply has been deleted.", "success");
+
+          this.isProcessing = false;
+        }
+      });
+    }
   }
 };
 </script>
