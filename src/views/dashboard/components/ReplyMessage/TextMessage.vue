@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <!-- 是否建立 quick reply -->
+    <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
     <div class="py-3 px-2 border">
       <button
         v-if="!quickReplyDisplay"
@@ -36,6 +36,7 @@
         @click="clearQuickReply"
         :disabled="isProcessing"
       >清空快速回覆</button>
+      <!-- 若資料已有 quick reply，則顯示之 -->
       <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
         <QuickReply :quick-reply="messageTemplateItem.quickReply" />
@@ -66,10 +67,6 @@ export default {
   },
   data() {
     return {
-      // textSchema: {
-      //   type: "text",
-      //   text: ""
-      // },
       quickReplySchema: {
         items: []
       },
@@ -80,63 +77,23 @@ export default {
       isEditing: false,
       //是否正在處理中
       isProcessing: false,
-      //使用者編輯的內容
-      // context: [],
-      //使用者編輯的 quickReply 於儲存時，再存進 context[context.length - 1]
-      // quickReply: {},
       //建立快速回覆(預設 false)
       quickReplyDisplay: false
-      //使用者選取的動作
-      // actionSelect: "",
-      //整合 context及 quickReply
-      // contextMix: []
     };
   },
   created() {
-    // this.context.push({ ...this.textSchema });
-    // //當點擊 模組列表區 之模組時，將各 type 回應訊息資料傳遞至合適的編輯區
-    // //若 replyMessage 為空時
-    // if (this.replyMessage === null || this.replyMessage === undefined) {
-    //   return;
-    // }
-    // //若 replyMessage 為 array
-    // if (Array.isArray(this.replyMessage.messageTemplate)) {
-    //   this.context = [...this.replyMessage.messageTemplate];
-    // } else {
-    //   //若 replyMessage 不為 array
-    //   this.context = [{ ...this.replyMessage.messageTemplate }];
-    // }
+    //若載入的 messageTemplateItem.quickReply 不為空，則顯 quickReply
+    if (!this.messageTemplateItem.quickReply) {
+      this.quickReplyDisplay = false;
+    } else {
+      this.quickReplyDisplay = true;
+    }
   },
 
-  beforeUpdate() {
-    // this.contextMix = [...this.context];
-  },
-  computed: {
-    // textCount() {
-    //   //若 quickReply 為空，總長度為 context.length
-    //   if (
-    //     Object.keys(this.quickReply).length === 0 &&
-    //     this.quickReply.constructor === Object
-    //   ) {
-    //     return this.context.length;
-    //   } else {
-    //     //若 quickReply 不為空，總長度為 context.length
-    //     return this.context.length + 1;
-    //   }
-    // }
-  },
+  beforeUpdate() {},
+  computed: {},
 
   methods: {
-    //新增一個文字訊息
-    // addText() {
-    //   //文字訊息一次最多五筆
-    //   if (this.textCount === 5) {
-    //     return;
-    //   }
-
-    //   this.context.push({ ...this.textSchema });
-    // },
-
     //建立快速回覆
     setUpQuickReply() {
       //複製 schema
