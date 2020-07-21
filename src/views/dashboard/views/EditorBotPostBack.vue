@@ -24,13 +24,17 @@
         <div class="col col-lg-10">
           <div class="row">
             <!-- 模組名稱編輯區 -->
-            <ModuleEditor :module-post-back="modulePostBack" :module-click="  moduleClick" />
+            <ModuleEditor
+              v-if="moduleClick.status"
+              :module-post-back="modulePostBack"
+              :module-click="moduleClick"
+            />
           </div>
           <!-- Event 編輯區 & 回應訊息編輯區 -->
           <div class="row">
             <!-- Event 編輯區 -->
             <div class="col col-12 col-lg-6">
-              <EventEditor :post-back-events="postBackEvents" :module-click="  moduleClick" />
+              <EventEditor :post-back-events="postBackEvents" :module-click="moduleClick" />
             </div>
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col col-12 col-lg-6">
@@ -256,8 +260,17 @@ export default {
 
         // 整理 replyMessage.messageTemplate 成 array 格式
         this.modulePostBacks.forEach(d => {
-          //  若 messageTemplate 未定義
-          if (!d.ReplyMessage.messageTemplate) {
+          //  若 messageTemplate 未定義或 為 {}
+          if (!d.ReplyMessage) {
+            d.ReplyMessage = {
+              type: "",
+              name: "",
+              messageTemplate: []
+            };
+          } else if (
+            !d.ReplyMessage.messageTemplate ||
+            Object.keys(d.ReplyMessage.messageTemplate).length === 0
+          ) {
             d.ReplyMessage.messageTemplate = [];
           } else if (
             !Array.isArray(d.ReplyMessage.messageTemplate) &&
