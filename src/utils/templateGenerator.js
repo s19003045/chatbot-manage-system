@@ -65,19 +65,19 @@ module.exports = {
       default:
         switch (config.type) {
           case 'postback':
-            return postbackSchema
+            return postbackSchema.action
           case 'message':
-            return messageSchema
+            return messageSchema.action
           case 'uri':
-            return uriSchema
+            return uriSchema.action
           case 'camera':
-            return cameraSchema
+            return cameraSchema.action
           case 'cameraRoll':
-            return cameraRollSchema
+            return cameraRollSchema.action
           case 'location':
-            return locationSchema
+            return locationSchema.action
           case 'datetimepicker':
-            return datetimePickerSchema
+            return datetimePickerSchema.action
           default:
             throw new Error("We don't have such type!!")
         }
