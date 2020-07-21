@@ -12,39 +12,21 @@
     </select>
     <button class="btn btn-primary btn-sm m-2" @click="addQuickReply">新增快速回覆</button>
 
-    <!-- 顯示 quick reply -->
+    <!-- 顯示 quick reply 並依 quick reply type 顯示-->
     <div v-for="(item,index) in quickReply.items" :key="index" class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">標籤</span>
-      </div>
-      <input
-        v-model="item.label"
-        type="text"
-        class="form-control"
-        placeholder="Username"
-        aria-label="Username"
-        aria-describedby="basic-addon1"
-      />
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">文字</span>
-      </div>
-      <input
-        v-model="item.text"
-        type="text"
-        class="form-control"
-        placeholder="Username"
-        aria-label="Username"
-        aria-describedby="basic-addon1"
-      />
+      <ActionObject :action-object="item" />
     </div>
     <!-- ↑ ↑ 顯示 quick reply ↑ ↑-->
   </div>
 </template>
 
 <script>
+// import components
+import ActionObject from "./ActionObject.vue";
+
 // import helpers
 // import { Toast, ToastDelete } from "../../../../utils/helpers";
-import { actionGenerator } from "../../../../utils/templateGenerator.js";
+import { actionGenerator } from "../../../../../utils/templateGenerator.js";
 
 export default {
   name: "QuickReply",
@@ -52,6 +34,9 @@ export default {
     quickReply: {
       type: Object
     }
+  },
+  components: {
+    ActionObject
   },
   data() {
     return {

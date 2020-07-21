@@ -47,7 +47,7 @@
 
 <script>
 // import components
-import QuickReply from "../ReplyMessage/QuickReply.vue";
+import QuickReply from "./core/QuickReply.vue";
 
 // import helpers
 import { Toast, ToastDelete } from "../../../../utils/helpers";
