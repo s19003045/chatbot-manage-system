@@ -38,61 +38,77 @@
             </div>
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col col-12 col-lg-6">
-              <!-- 編輯回應訊息名稱 -->
-              <div class="mb-4">
-                <h5
-                  class="mb-2 py-2 px-3 bg-secondary text-light border border-secondary rounded"
-                  ref="editor"
-                >
-                  <small for="reply-message-name">回應訊息名稱：</small>
-
-                  <input
-                    type="text"
-                    class="my-2"
-                    id="reply-message-name"
-                    v-model="replyMessage.name"
-                  />
+              <div class="mb-5 py-1 px-1 border border-secondary rounded">
+                <h5 class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded">
+                  <small>回應訊息編輯</small>
                 </h5>
-                <!-- 顯示總訊息數 -->
-                <span
-                  class="text-muted"
-                >訊息數：{{!replyMessage || !replyMessage.messageTemplate ? 0 :replyMessage.messageTemplate.length}} / 5</span>
-              </div>
+                <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
+                <div v-if="moduleClick.status" class>
+                  <!-- 編輯回應訊息名稱 -->
+                  <div class="mb-4">
+                    <h5
+                      class="mb-2 py-2 px-3 bg-light border border-secondary rounded"
+                      ref="editor"
+                    >
+                      <small for="reply-message-name">回應訊息名稱：</small>
 
-              <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
-              <div v-if="moduleClick.status" class>
-                <div
-                  v-for="(template, index) in replyMessage.messageTemplate"
-                  :key="index"
-                  class="mt-2"
-                >
-                  <button
-                    class="btn btn-danger btn-sm mb-0"
-                    @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
-                    :disabled="isProcessing"
-                  >刪除</button>
-                  <ReplyMsgEditor :message-template-item="template" :template-index="index" />
-                </div>
-              </div>
-
-              <!-- 新增回應訊息按鈕 -->
-              <!-- 下面為回應訊息類別選擇區 -->
-              <div class="mb-5 mt-4">
-                <button class="btn btn-info btn-sm mb-2" @click="handleClickAddReplyMsgBtn">新增回應訊息</button>
-                <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
+                      <input
+                        type="text"
+                        class="form-control my-2"
+                        id="reply-message-name"
+                        v-model="replyMessage.name"
+                        :disabled="!moduleClick.status"
+                      />
+                    </h5>
+                    <!-- 顯示總訊息數 -->
+                    <span
+                      class="text-muted"
+                    >訊息數：{{!replyMessage || !replyMessage.messageTemplate ? 0 :replyMessage.messageTemplate.length}} / 5</span>
                   </div>
-                  <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
-                    <option value="text" selected>文字訊息</option>
-                    <option value="confirmTemplate">確認範本訊息</option>
-                    <option value="buttonsTemplate">按鍵範本訊息</option>
-                    <option value="carouselTemplate" selected>輪播範本訊息</option>
-                  </select>
+
+                  <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
+                  <div class>
+                    <div
+                      v-for="(template, index) in replyMessage.messageTemplate"
+                      :key="index"
+                      class="mt-2"
+                    >
+                      <button
+                        class="btn btn-danger btn-sm mb-0"
+                        @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
+                        :disabled="isProcessing"
+                      >刪除</button>
+                      <ReplyMsgEditor :message-template-item="template" :template-index="index" />
+                    </div>
+                  </div>
+
+                  <!-- 新增回應訊息按鈕 -->
+                  <!-- 下面為回應訊息類別選擇區 -->
+                  <div class="mb-5 mt-4">
+                    <button
+                      class="btn btn-info btn-sm mb-2"
+                      @click="handleClickAddReplyMsgBtn"
+                    >新增回應訊息</button>
+                    <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
+                      </div>
+                      <select
+                        class="custom-select"
+                        id="messageTypeSelect"
+                        v-model="componentSelect"
+                      >
+                        <option value="text" selected>文字訊息</option>
+                        <option value="confirmTemplate">確認範本訊息</option>
+                        <option value="buttonsTemplate">按鍵範本訊息</option>
+                        <option value="carouselTemplate" selected>輪播範本訊息</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
+                <!-- ↑ ↑ 回應訊息編輯區 ↑ ↑ -->
               </div>
-              <!-- ↑ ↑ 回應訊息編輯區 ↑ ↑ -->
             </div>
           </div>
         </div>
@@ -114,7 +130,7 @@ import { Toast } from "../../../utils/helpers";
 import { msgGenerator } from "../../../utils/templateGenerator.js";
 
 // import seeds for test => deploy 時要刪掉
-import seedsForTest from "../seeds-for-test/EditorBotPostBack";
+// import seedsForTest from "../seeds-for-test/EditorBotPostBack";
 
 export default {
   name: "EditorBotPostBack",
@@ -127,11 +143,11 @@ export default {
   data() {
     return {
       //載入測試用資料
-      modulePostBacks: seedsForTest.modulePostBacks,
+      modulePostBacks: [],
       //載入測試用資料
-      replyMessage: seedsForTest.replyMessage,
+      replyMessage: {},
       //載入測試用資料
-      postBackEvents: seedsForTest.postBackEvents,
+      postBackEvents: [],
 
       modulePostBack: {},
       isProcessing: false,
