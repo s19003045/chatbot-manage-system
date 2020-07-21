@@ -72,7 +72,7 @@ export default {
       //若已選擇
       //使用者選定的 action schema
       const actionSchemaSelect = actionGenerator({
-        category: "action",
+        category: "quickReply",
         type: this.actionSelect
       });
 

@@ -131,6 +131,7 @@ import QuickReply from "./core/QuickReply.vue";
 
 // import helpers
 import { Toast, ToastDelete } from "../../../../utils/helpers";
+import { msgGenerator } from "../../../../utils/templateGenerator.js";
 
 export default {
   name: "ButtonTemplateMessage",
@@ -147,10 +148,6 @@ export default {
   },
   data() {
     return {
-      quickReplySchema: {
-        items: []
-      },
-
       // 是否使用圖片
       withImage: "false",
       // 限制
@@ -161,8 +158,6 @@ export default {
         actionsLength: 4 //actions 最大數量
       },
 
-      //每筆訊息長度限制
-      textMaxLength: 5000,
       //是否正在編輯中
       isEditing: false,
       //是否正在處理中
@@ -193,7 +188,7 @@ export default {
     setUpQuickReply() {
       //複製 schema
       this.messageTemplateItem.quickReply = {
-        ...this.quickReplySchema
+        ...msgGenerator({ type: "quickReply" })
       };
       //顯示 quickReply 編輯 區
       this.quickReplyDisplay = true;
