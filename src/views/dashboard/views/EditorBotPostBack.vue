@@ -108,7 +108,7 @@ import ReplyMsgEditor from "../components/EditorBotPostBack/ReplyMsgEditor.vue";
 // import helpers
 import postBackReplyAPI from "../../../apis/postBackReply.js";
 import { Toast } from "../../../utils/helpers";
-import templateGenerator from "../../../utils/templateGenerator";
+import { msgGenerator } from "../../../utils/templateGenerator.js";
 
 export default {
   name: "EditorBotPostBack",
@@ -391,7 +391,7 @@ export default {
         } else {
           // 若 length < 5，則replyMessage.messageTemplate.push(合適的樣版)
           //帶入參數產生新樣版
-          const messageTemplateCreate = templateGenerator({
+          const messageTemplateCreate = msgGenerator({
             type: this.componentSelect
           });
           //將新樣版整合至  messageTemplate
