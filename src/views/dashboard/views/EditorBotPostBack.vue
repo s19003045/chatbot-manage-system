@@ -209,16 +209,124 @@ export default {
           }
         }
       ],
-      //假資料
+      //測試用假資料
       replyMessage: {
         messageTemplate: [
           {
             type: "text",
-            text: "hello world"
+            text: "hello world",
+            quickReply: {
+              items: [
+                {
+                  type: "action",
+                  action: {
+                    type: "message",
+                    text: "好棒",
+                    label: "好棒"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "postback",
+                    label: "Buy",
+                    data: "subject=衣服&data=M12",
+                    displayText: "Buy"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "location",
+                    label: "Location"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "camera",
+                    label: "Camera"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "cameraRoll",
+                    label: "Camera roll"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "datetimepicker",
+                    label: "Select date",
+                    data: "storeId=12345",
+                    mode: "datetime",
+                    initial: "2017-12-25t00:00",
+                    max: "2018-01-24t23:59",
+                    min: "2017-12-25t00:00"
+                  }
+                }
+              ]
+            }
           },
           {
             type: "text",
-            text: "good job"
+            text: "good job",
+            quickReply: {
+              items: [
+                {
+                  type: "action",
+                  action: {
+                    type: "message",
+                    text: "好棒",
+                    label: "好棒"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "postback",
+                    label: "Buy",
+                    data: "subject=衣服&data=M12",
+                    displayText: "Buy"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "location",
+                    label: "Location"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "camera",
+                    label: "Camera"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "cameraRoll",
+                    label: "Camera roll"
+                  }
+                },
+                {
+                  type: "action",
+                  action: {
+                    type: "datetimepicker",
+                    label: "Select date",
+                    data: "storeId=12345",
+                    mode: "datetime",
+                    initial: "2017-12-25t00:00",
+                    max: "2018-01-24t23:59",
+                    min: "2017-12-25t00:00"
+                  }
+                }
+              ]
+            }
           }
         ],
         type: "text",
