@@ -35,7 +35,7 @@
         class="btn btn-warning btn-sm"
         @click="clearQuickReply"
         :disabled="isProcessing"
-      >清空快速回覆</button>
+      >清空所有快速回覆訊息</button>
       <!-- 若資料已有 quick reply，則顯示之 -->
       <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
