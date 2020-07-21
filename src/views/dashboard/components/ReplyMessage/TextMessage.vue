@@ -1,6 +1,6 @@
 <template>
-  <div class="col border mt-1 mb-3">
-    <h6 class="my-4">文字訊息編輯區</h6>
+  <div class="col border mt-1 mb-3 py-2">
+    <h6 class="my-3">文字訊息編輯區</h6>
 
     <div class="py-3 px-2 mb-2 border">
       <!-- 顯示文字內容 -->
