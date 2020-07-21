@@ -54,22 +54,12 @@
                   />
                 </h5>
                 <!-- 顯示總訊息數 -->
-                <span class="text-muted">訊息數：{{replyMessage.messageTemplate.length}} / 5</span>
+                <span
+                  class="text-muted"
+                >訊息數：{{!replyMessage || !replyMessage.messageTemplate ? 0 :replyMessage.messageTemplate.length}} / 5</span>
               </div>
 
               <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
-
-              <div
-                v-for="(template, index) in replyMessage.messageTemplate"
-                :key="index"
-                class="mt-2"
-              >
-                <button
-                  class="btn btn-danger btn-sm mb-0"
-                  @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
-                  :disabled="isProcessing"
-                >刪除</button>
-                <ReplyMsgEditor :message-template-item="template" :template-index="index" />
               </div>
 
               <!-- 新增回應訊息按鈕 -->
