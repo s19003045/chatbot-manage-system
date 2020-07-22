@@ -150,10 +150,10 @@
         :action-object="messageTemplateItem.template.defaultAction"
       />
       <!-- actions =>待編輯 -->
+      <!-- 載入的 action 與 quick reply 的 action 不同 -->
 
       <!-- 樣版顯示區 => 暫不做 -->
     </div>
-    <!-- 載入的 action 與 quick reply 的 action 不同 -->
 
     <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
     <div class="py-3 px-2 border">
@@ -171,7 +171,7 @@
       <!-- 若資料已有 quick reply，則顯示之 -->
       <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
-        <!-- <QuickReply :quick-reply="messageTemplateItem.quickReply" /> -->
+        <QuickReply :quick-reply="messageTemplateItem.quickReply" />
       </div>
     </div>
   </div>
@@ -179,7 +179,7 @@
 
 <script>
 // import components
-// import QuickReply from "./core/QuickReply.vue";
+import QuickReply from "./core/QuickReply.vue";
 import ActionObject from "./core/ActionObject.vue";
 
 // import helpers
@@ -200,7 +200,7 @@ export default {
     }
   },
   components: {
-    // QuickReply,
+    QuickReply,
     ActionObject
   },
   data() {
@@ -260,7 +260,10 @@ export default {
     setUpQuickReply() {
       //複製 schema
       this.messageTemplateItem.quickReply = {
-        ...msgGenerator({ type: "quickReply" })
+        ...msgGenerator({
+          category: "quickReply",
+          type: "quickReply"
+        })
       };
       //顯示 quickReply 編輯 區
       this.quickReplyDisplay = true;
