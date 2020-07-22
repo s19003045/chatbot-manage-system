@@ -149,12 +149,52 @@
         v-if="defaultActionDisplay"
         :action-object="messageTemplateItem.template.defaultAction"
       />
-      <!-- actions =>待編輯 -->
-      <!-- 載入的 action 與 quick reply 的 action 不同 -->
 
-      <!-- 樣版顯示區 => 暫不做 -->
+      <!-- 按鍵編輯區 -->
+      <!-- 顯示已建立的按鍵數/4 -->
+      <h6 class="mt-5">按鍵編輯區</h6>
+      <small
+        class="my-3"
+      >按鍵數： {{messageTemplateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
+      <div v-for="(item, index) in messageTemplateItem.template.actions" :key="index" class="py-2">
+        <ActionObject :action-object="item" />
+        <button
+          class="btn btn-warning btn-sm my-2"
+          @click.stop.prevent="handleTemplateDeleteBtnClick(index)"
+        >刪除按鍵</button>
+      </div>
+      <!-- 新增 button & 顯示按鍵數/4 -->
+      <!-- templateBtnSelect -->
+      <div v-if="messageTemplateItem.template.actions.length < 4" class>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <label for="templateBtnType" class="input-group-text">選擇按鍵類型</label>
+          </div>
+          <select
+            name="templateBtnType"
+            id="templateBtnType"
+            class="custom-select"
+            v-model="templateBtnSelect"
+          >
+            <option value="message">訊息動作</option>
+            <option value="postback">回傳動作</option>
+            <option value="uri">連結網址</option>
+            <option value="datetimepicker">日期時間選擇器動作</option>
+            <option value="camera">拍照</option>
+            <option value="cameraRoll">上傳照片動作</option>
+            <option value="location" selected>Location 動作</option>
+          </select>
+        </div>
+        <button
+          class="btn btn-warning btn-sm my-3"
+          @click.stop.prevent="handleTemplateAddBtnAddClick"
+        >新增按鍵</button>
+      </div>
+      <small
+        class="mx-1 my-3"
+      >按鍵數：{{messageTemplateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
     </div>
-
+    <!-- 樣版顯示區 => 暫不做 -->
     <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
     <div class="py-3 px-2 border">
       <button
@@ -214,12 +254,16 @@ export default {
       defaultActionTypeSelect: "",
       // 是否顯示 defaultAction
       defaultActionDisplay: false,
+      // 使用者選擇的範本按鍵類型
+      templateBtnSelect: "",
+
       // 限制
       limit: {
         titleTextLength: 40, //title 限制
         textLengthWithoutImage: 160, //沒有圖片時
         textLengthWithImage: 60, //有圖片時
-        actionsLength: 4 //actions 最大數量
+        actionsLength: 4, //actions 最大數量
+        templateBtnLimit: 4 //範本按鍵數限制
       },
 
       //是否正在編輯中
@@ -308,6 +352,28 @@ export default {
       this.messageTemplateItem.template.defaultAction = {};
       // 顯示 defaultAction
       this.defaultActionDisplay = false;
+    },
+    // 新增按鍵
+    handleTemplateAddBtnAddClick() {
+      // 判斷按鍵數量是否超過
+      if (this.messageTemplateItem.template.actions.length === 4) {
+        Toast.fire({
+          icon: "warning",
+          text: "已達範本按鍵數限制囉!"
+        });
+      } else {
+        this.messageTemplateItem.template.actions.push({
+          ...actionGenerator({
+            category: "",
+            type: this.templateBtnSelect
+          })
+        });
+      }
+    },
+    // 刪除按鍵
+    handleTemplateDeleteBtnClick(index) {
+      // 刪除該按鍵
+      this.messageTemplateItem.template.actions.splice(index, 1);
     }
   }
 };
