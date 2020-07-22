@@ -1,32 +1,38 @@
 <template>
-  <div class="mb-5 py-1 px-1 border border-secondary rounded">
-    <table class="table table-hover">
-      <thead class="thead-dark">
+  <div class="mb-5 py-1 px-1 border border-secondary">
+    <h5 class="mb-3 py-2 px-3 bg-secondary text-light border border-secondary rounded">
+      <small>模組列表</small>
+    </h5>
+    <div class="custom-scrollbar-css my-3">
+      <table class="table table-hover rounded">
+        <!-- <thead class="thead-dark">
         <tr>
           <th scope="col">模組列表</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(modulePostBack,index) in modulePostBacks" v-bind:key="modulePostBack.id">
-          <td
-            :data-module-post-back-uuid="modulePostBack.uuid"
-            @click.stop.prevent="handleClickModule(index)"
-            :class="{'module-select-color':moduleClick.index === index}"
-          >
-            <div
-              class="mb-2"
-            >{{modulePostBack.name === null || modulePostBack.name === "" || modulePostBack.name === undefined ? "尚未命名" : modulePostBack.name}}</div>
-            <button
-              class="btn btn-danger btn-sm"
-              @click.stop.prevent="handleDeleteBtnClick(index,modulePostBack.uuid)"
-              :disabled="isProcessing"
-            >刪除</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        </thead>-->
+        <tbody>
+          <tr v-for="(modulePostBack,index) in modulePostBacks" v-bind:key="modulePostBack.id">
+            <td
+              :data-module-post-back-uuid="modulePostBack.uuid"
+              @click.stop.prevent="handleClickModule(index)"
+              :class="{'module-select-color':moduleClick.index === index}"
+            >
+              <div
+                class="mb-2"
+              >{{modulePostBack.name === null || modulePostBack.name === "" || modulePostBack.name === undefined ? "尚未命名" : modulePostBack.name}}</div>
+              <button
+                class="btn btn-danger btn-sm"
+                @click.stop.prevent="handleDeleteBtnClick(index,modulePostBack.uuid)"
+                :disabled="isProcessing"
+              >刪除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <button
-      class="btn btn-primary mb-3 ml-2 btn-sm"
+      class="btn btn-primary my-3 ml-2 btn-sm"
       @click.stop.prevent="handleAddBtnClick"
       :disabled="isProcessing"
     >新增模組</button>
@@ -162,5 +168,28 @@ export default {
 <style  scoped>
 .module-select-color {
   background-color: #d1dae3;
+}
+
+/* Custom Scrollbar using CSS */
+.custom-scrollbar-css {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+/* scrollbar width */
+.custom-scrollbar-css::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* scrollbar track */
+.custom-scrollbar-css::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* scrollbar handle */
+.custom-scrollbar-css::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: #00d2ff;
+  background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
 }
 </style>
