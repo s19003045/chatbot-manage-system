@@ -28,6 +28,38 @@
       />
     </div>
 
+    <!-- uri -->
+    <div v-if="actionObject.type === 'uri'" class>
+      <small class="d-block mb-1">類別: {{actionObject.type}}</small>
+      <!-- 第一列 -->
+      <div class="input-group input-group-sm my-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>標籤</span>
+        </div>
+        <input
+          v-model="actionObject.label"
+          type="text"
+          class="form-control"
+          placeholder="label"
+          aria-label="labe"
+          aria-describedby
+        />
+      </div>
+      <!-- 第二列 -->
+      <div class="input-group input-group-sm my-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>連結網址</span>
+        </div>
+        <input
+          v-model="actionObject.uri"
+          type="text"
+          class="form-control"
+          placeholder="text"
+          aria-label="text"
+          aria-describedby
+        />
+      </div>
+    </div>
 
     <!-- postback -->
     <div v-if="actionObject.type === 'postback'" class>
