@@ -2,7 +2,7 @@
   <div class>
     <!-- 顯示 quick reply 並依 quick reply type 顯示-->
     <div v-for="(item,index) in quickReply.items" :key="index" class="input-group mb-3">
-      <ActionObject :action-object="item" />
+      <ActionObject :action-object="item.action" />
     </div>
     <!-- ↑ ↑ 顯示 quick reply ↑ ↑-->
     <!-- 選擇 quick reply 的類別，quick reply 最多 13 個 -->

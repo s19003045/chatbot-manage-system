@@ -1,13 +1,14 @@
 <template>
   <div class="my-1">
     <!-- message -->
-    <small class="d-block mb-1">類別: {{actionObject.action.type}}</small>
-    <div v-if="actionObject.action.type === 'message'" class="input-group input-group-sm">
+
+    <div v-if="actionObject.type === 'message'" class="input-group input-group-sm">
+      <small class="d-block mb-1">類別: {{actionObject.type}}</small>
       <div class="input-group-prepend">
         <span class="input-group-text" id>標籤</span>
       </div>
       <input
-        v-model="actionObject.action.label"
+        v-model="actionObject.label"
         type="text"
         class="form-control"
         placeholder="label"
@@ -18,7 +19,7 @@
         <span class="input-group-text" id>文字</span>
       </div>
       <input
-        v-model="actionObject.action.text"
+        v-model="actionObject.text"
         type="text"
         class="form-control"
         placeholder="text"
@@ -27,14 +28,15 @@
       />
     </div>
 
+
     <!-- postback -->
-    <div v-if="actionObject.action.type === 'postback'" class>
+    <div v-if="actionObject.type === 'postback'" class>
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text" id>標籤</span>
         </div>
         <input
-          v-model="actionObject.action.label"
+          v-model="actionObject.label"
           type="text"
           class="form-control"
           placeholder="label"
@@ -45,7 +47,7 @@
           <span class="input-group-text" id>displayText</span>
         </div>
         <input
-          v-model="actionObject.action.displayText"
+          v-model="actionObject.displayText"
           type="text"
           class="form-control"
           placeholder="displayText"
@@ -58,7 +60,7 @@
           <span class="input-group-text" id>data</span>
         </div>
         <input
-          v-model="actionObject.action.data"
+          v-model="actionObject.data"
           type="text"
           class="form-control"
           placeholder="data"
@@ -69,12 +71,12 @@
     </div>
 
     <!-- camera -->
-    <div v-if="actionObject.action.type === 'camera'" class="input-group input-group-sm">
+    <div v-if="actionObject.type === 'camera'" class="input-group input-group-sm">
       <div class="input-group-prepend">
         <span class="input-group-text" id>標籤</span>
       </div>
       <input
-        v-model="actionObject.action.label"
+        v-model="actionObject.label"
         type="text"
         class="form-control"
         placeholder="label"
@@ -84,12 +86,12 @@
     </div>
 
     <!-- cameraRoll -->
-    <div v-if="actionObject.action.type === 'cameraRoll'" class="input-group input-group-sm">
+    <div v-if="actionObject.type === 'cameraRoll'" class="input-group input-group-sm">
       <div class="input-group-prepend">
         <span class="input-group-text" id>標籤</span>
       </div>
       <input
-        v-model="actionObject.action.label"
+        v-model="actionObject.label"
         type="text"
         class="form-control"
         placeholder="label"
@@ -99,12 +101,12 @@
     </div>
 
     <!-- location -->
-    <div v-if="actionObject.action.type === 'location'" class="input-group input-group-sm">
+    <div v-if="actionObject.type === 'location'" class="input-group input-group-sm">
       <div class="input-group-prepend">
         <span class="input-group-text" id>標籤</span>
       </div>
       <input
-        v-model="actionObject.action.label"
+        v-model="actionObject.label"
         type="text"
         class="form-control"
         placeholder="label"
@@ -114,14 +116,14 @@
     </div>
 
     <!-- datetimepicker -->
-    <div v-if="actionObject.action.type === 'datetimepicker'" class>
+    <div v-if="actionObject.type === 'datetimepicker'" class>
       <!-- 第一列 -->
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text" id>標籤</span>
         </div>
         <input
-          v-model="actionObject.action.label"
+          v-model="actionObject.label"
           type="text"
           class="form-control"
           placeholder="label"
@@ -132,7 +134,7 @@
           <span class="input-group-text" id>data</span>
         </div>
         <input
-          v-model="actionObject.action.data"
+          v-model="actionObject.data"
           type="text"
           class="form-control"
           placeholder="data"
@@ -146,16 +148,16 @@
           <label class="input-group-text" for="datetimepickerMode">Mode</label>
         </div>
         <select class="custom-select" id="datetimepickerMode" v-model="datetimepickerModeSelect">
-          <option :selected="actionObject.action.mode === ''">Choose...</option>
-          <option value="date" :selected="actionObject.action.mode === 'date'">date</option>
-          <option value="time" :selected="actionObject.action.mode === 'time'">time</option>
-          <option value="datetime" :selected="actionObject.action.mode === 'datetime'">datetime</option>
+          <option :selected="actionObject.mode === ''">Choose...</option>
+          <option value="date" :selected="actionObject.mode === 'date'">date</option>
+          <option value="time" :selected="actionObject.mode === 'time'">time</option>
+          <option value="datetime" :selected="actionObject.mode === 'datetime'">datetime</option>
         </select>
         <div class="input-group-prepend">
           <span class="input-group-text" id>initial</span>
         </div>
         <input
-          v-model="actionObject.action.initial"
+          v-model="actionObject.initial"
           type="text"
           class="form-control"
           placeholder="initial"
@@ -169,7 +171,7 @@
           <span class="input-group-text" id>max</span>
         </div>
         <input
-          v-model="actionObject.action.max"
+          v-model="actionObject.max"
           type="text"
           class="form-control"
           placeholder="max"
@@ -180,7 +182,7 @@
           <span class="input-group-text" id>min</span>
         </div>
         <input
-          v-model="actionObject.action.min"
+          v-model="actionObject.min"
           type="text"
           class="form-control"
           placeholder="min"
