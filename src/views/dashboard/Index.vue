@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard container pt-4">
+  <div class="dashboard container pt-1">
     <Nav-tab />
     <router-view />
   </div>

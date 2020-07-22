@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-4">
+  <div class="mb-1 ml-3">
     <div class="form-group">
       <label for="modulePostBackName" class="h5">模組名稱</label>
       <input

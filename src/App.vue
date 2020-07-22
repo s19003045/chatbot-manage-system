@@ -1,7 +1,7 @@
 <template>
   <div id="manage-system">
     <Navbar />
-    <main role="main" class="mt-5 bg-white">
+    <main role="main" class="mt-5">
       <router-view />
     </main>
   </div>
@@ -19,3 +19,6 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+</style>

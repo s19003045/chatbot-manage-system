@@ -1,8 +1,8 @@
 <template>
-  <div class="my-2">
-    <div class="container">
+  <div class="mb-2">
+    <div class="container py-3">
       <!-- 儲存模組區 -->
-      <div class="row">
+      <div class="row py-1">
         <div class="col d-flex justify-content-end">
           <button
             class="btn btn-info rounded"
@@ -11,7 +11,7 @@
           >儲存所有模組</button>
         </div>
       </div>
-      <div class="row my-4">
+      <div class="row py-1">
         <!-- 模組列表 -->
         <div class="col col-lg-2">
           <ModuleList
@@ -39,11 +39,11 @@
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col col-12 col-lg-6">
               <div class="mb-5 py-1 px-1 border border-secondary rounded">
-                <h5 class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded">
-                  <small>回應訊息編輯</small>
-                </h5>
+                <h5
+                  class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
+                >回應訊息編輯</h5>
                 <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
-                <div v-if="moduleClick.status" class>
+                <div v-if="moduleClick.status" class="custom-scrollbar-css">
                   <!-- 編輯回應訊息名稱 -->
                   <div class="mb-4">
                     <h5
@@ -78,7 +78,7 @@
                       class="mt-2"
                     >
                       <button
-                        class="btn btn-danger btn-sm mb-0"
+                        class="btn btn-outline-danger mb-0 ml-3"
                         @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
                         :disabled="isProcessing"
                       >刪除</button>
@@ -89,34 +89,30 @@
 
                   <!-- 新增回應訊息按鈕 -->
                   <!-- 下面為回應訊息類別選擇區 -->
-                  <div class="mb-5 mt-4">
-                    <button
-                      class="btn btn-info btn-sm mb-2"
-                      @click="handleClickAddReplyMsgBtn"
-                    >新增回應訊息</button>
-                    <!-- 顯示總訊息數 -->
-                    <span
-                      class="text-muted"
-                    >訊息數：{{replyMessage && replyMessage.messageTemplate ? replyMessage.messageTemplate.length :0 }} / 5</span>
-                    <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
-                      </div>
-                      <select
-                        class="custom-select"
-                        id="messageTypeSelect"
-                        v-model="componentSelect"
-                      >
-                        <option value="text" selected>文字訊息</option>
-                        <option value="confirmTemplate">確認範本訊息</option>
-                        <option value="buttonsTemplate">按鍵範本訊息</option>
-                        <option value="carouselTemplate" selected>輪播範本訊息</option>
-                      </select>
+                </div>
+                <!-- ↑ ↑ 回應訊息編輯區 (scroll bar 邊界)↑ ↑ -->
+                <div class="mb-5 mt-4">
+                  <button
+                    class="btn btn-info btn-sm mb-2 mr-3"
+                    @click="handleClickAddReplyMsgBtn"
+                  >新增回應訊息</button>
+                  <!-- 顯示總訊息數 -->
+                  <span
+                    class="text-muted"
+                  >訊息數：{{replyMessage && replyMessage.messageTemplate ? replyMessage.messageTemplate.length :0 }} / 5</span>
+                  <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
                     </div>
+                    <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
+                      <option value="text" selected>文字訊息</option>
+                      <option value="confirmTemplate">確認範本訊息</option>
+                      <option value="buttonsTemplate">按鍵範本訊息</option>
+                      <option value="carouselTemplate" selected>輪播範本訊息</option>
+                    </select>
                   </div>
                 </div>
-                <!-- ↑ ↑ 回應訊息編輯區 ↑ ↑ -->
               </div>
             </div>
           </div>
@@ -352,3 +348,33 @@ export default {
   }
 };
 </script>
+
+
+<style  scoped>
+.module-select-color {
+  background-color: #cfcfcf;
+}
+
+/* Custom Scrollbar using CSS */
+.custom-scrollbar-css {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+/* scrollbar width */
+.custom-scrollbar-css::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* scrollbar track */
+.custom-scrollbar-css::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* scrollbar handle */
+.custom-scrollbar-css::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: #8a8a8a;
+  /* background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%); */
+}
+</style>

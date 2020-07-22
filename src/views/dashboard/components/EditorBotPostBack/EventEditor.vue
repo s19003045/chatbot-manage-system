@@ -1,9 +1,9 @@
 <template>
   <div class="mb-5 py-1 px-1 border border-secondary rounded">
-    <h5 class="mb-4 py-2 px-3 bg-secondary text-light border border-secondary rounded">
-      <small>觸發事件(Postback 事件)編輯</small>
-    </h5>
-    <div v-if="moduleClick.status" class>
+    <h5
+      class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
+    >觸發事件(Postback 事件)編輯</h5>
+    <div v-if="moduleClick.status" class="custom-scrollbar-css my-3">
       <div
         v-for="(postBackEvent, index) in postBackEvents"
         v-bind:key="index"
@@ -46,19 +46,18 @@
         </div>
         <!-- 刪除該筆資料 -->
         <button
-          class="btn btn-warning btn-sm mx-2 my-1"
+          class="btn btn-outline-danger btn-sm mx-2 my-1"
           :data-post-back-event-uuid="postBackEvent.uuid"
           @click="handleClickDeleteBtn(index)"
           :disabled="isProcessing"
         >刪除</button>
       </div>
-
-      <button
-        class="btn btn-primary btn-sm"
-        @click="handleClickAddBtn"
-        :disabled="isProcessing"
-      >新增觸發事件</button>
     </div>
+    <button
+      class="btn btn-primary my-3 ml-2 btn-sm"
+      @click="handleClickAddBtn"
+      :disabled="isProcessing"
+    >新增觸發事件</button>
   </div>
 </template>
 
@@ -111,3 +110,28 @@ export default {
   }
 };
 </script>
+
+<style  scoped>
+/* Custom Scrollbar using CSS */
+.custom-scrollbar-css {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+/* scrollbar width */
+.custom-scrollbar-css::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* scrollbar track */
+.custom-scrollbar-css::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* scrollbar handle */
+.custom-scrollbar-css::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: #8a8a8a;
+  /* background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%); */
+}
+</style>
