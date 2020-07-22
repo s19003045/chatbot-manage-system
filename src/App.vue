@@ -9,7 +9,7 @@
 
 <script>
 import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/Yeti/bootstrap.min.css";
 import Navbar from "./views/components/Navbar";
 
 export default {
