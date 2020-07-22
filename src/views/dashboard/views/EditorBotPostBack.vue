@@ -47,6 +47,7 @@
                   <!-- 編輯回應訊息名稱 -->
                   <div class="mb-4">
                     <h5
+                      v-if="replyMessage"
                       class="mb-2 py-2 px-3 bg-light border border-secondary rounded"
                       ref="editor"
                     >
@@ -63,11 +64,11 @@
                     <!-- 顯示總訊息數 -->
                     <span
                       class="text-muted"
-                    >訊息數：{{!replyMessage || !replyMessage.messageTemplate ? 0 :replyMessage.messageTemplate.length}} / 5</span>
+                    >訊息數：{{replyMessage && replyMessage.messageTemplate ? replyMessage.messageTemplate.length :0 }} / 5</span>
                   </div>
 
                   <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
-                  <div class>
+                  <div v-if="replyMessage && replyMessage.messageTemplate" class>
                     <div
                       v-for="(template, index) in replyMessage.messageTemplate"
                       :key="index"
@@ -92,8 +93,8 @@
                     >新增回應訊息</button>
                     <!-- 顯示總訊息數 -->
                     <span
-                      class="ml-3 text-muted"
-                    >訊息數：{{!replyMessage || !replyMessage.messageTemplate ? 0 :replyMessage.messageTemplate.length}} / 5</span>
+                      class="text-muted"
+                    >訊息數：{{replyMessage && replyMessage.messageTemplate ? replyMessage.messageTemplate.length :0 }} / 5</span>
                     <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
