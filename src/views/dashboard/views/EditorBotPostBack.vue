@@ -61,6 +61,9 @@
                         :disabled="!moduleClick.status"
                       />
                     </h5>
+                    <!-- 預覽回應訊息 => 待編輯-->
+                    <Review />
+
                     <!-- 顯示總訊息數 -->
                     <span
                       class="text-muted"
@@ -129,6 +132,7 @@ import ModuleList from "../components/EditorBotPostBack/ModuleList.vue";
 import ModuleEditor from "../components/EditorBotPostBack/ModuleEditor.vue";
 import EventEditor from "../components/EditorBotPostBack/EventEditor.vue";
 import ReplyMsgEditor from "../components/EditorBotPostBack/ReplyMsgEditor.vue";
+import Review from "../components/ReplyMessage/core/Review.vue";
 
 // import helpers
 import postBackReplyAPI from "../../../apis/postBackReply.js";
@@ -144,7 +148,8 @@ export default {
     ModuleList,
     ModuleEditor,
     EventEditor,
-    ReplyMsgEditor
+    ReplyMsgEditor,
+    Review //預覽
   },
   data() {
     return {
