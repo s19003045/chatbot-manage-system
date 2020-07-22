@@ -2,6 +2,7 @@
   <div class="col border mt-1 mb-3 py-2">
     <h6 class="my-3">按鍵範本訊息編輯區</h6>
 
+    <!-- 編輯區 -->
     <div class="py-3 px-2 mb-2 border">
       <!-- 顯示文字內容 -->
       <div class="input-group mb-2">
@@ -13,16 +14,6 @@
           <option value="true">使用圖片</option>
           <option value="false">不使用圖片</option>
         </select>
-
-        <!-- <textarea
-          v-model="messageTemplateItem.text"
-        
-          class="form-control"
-          :maxlength="textMaxLength"
-          placeholder="Username"
-          aria-label="Username"
-          aria-describedby="basic-addon1"
-        />-->
       </div>
       <!-- 若 thumbnailImageUrl 不為空則顯示 input 欄位 -->
       <div v-if="withImage === 'true'" class="input-group mb-2">
@@ -100,8 +91,69 @@
           class="text-muted text-left mx-5"
         >字數統計： {{messageTemplateItem.template.text.length}} / {{limit.textLengthWithoutImage}}</small>
       </div>
+      <!-- defaultAction 設定 -->
+      <div class="input-group mb-2">
+        <!-- 是否需要圖片 -->
+        <div class="input-group-prepend">
+          <label for="withDefaultAction" class="input-group-text">是否需要預設動作</label>
+        </div>
+        <select
+          name="defaultActionDisplay"
+          id="withDefaultAction"
+          class="custom-select"
+          v-model="withDefaultAction"
+        >
+          <option value="true">使用</option>
+          <option value="false">不使用</option>
+        </select>
+      </div>
+      <small class="d-block mb-2">說明：當點擊圖片、標題、文字時，會觸發預設動作</small>
+
+      <!-- 選擇預設動作類別 -->
+      <div v-if="withDefaultAction === 'true'" class="mb-2">
+        <small>選擇預設動作類別</small>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <label for="default-action-select" class="input-group-text">動作類別</label>
+          </div>
+          <select
+            name="default-action"
+            id="default-action-select"
+            class="custom-select"
+            v-model="defaultActionTypeSelect"
+          >
+            <option value="message">訊息動作</option>
+            <option value="postback">回傳動作</option>
+            <option value="uri">連結網址</option>
+            <option value="datetimepicker">日期時間選擇器動作</option>
+            <option value="camera">拍照</option>
+            <option value="cameraRoll">上傳照片動作</option>
+            <option value="location" selected>Location 動作</option>
+          </select>
+        </div>
+        <div class="my-2">
+          <button
+            v-if="!defaultActionDisplay"
+            class="btn btn-primary btn-sm my-2 mr-5"
+            @click="addDefaultAction"
+          >建立預設動作</button>
+          <button
+            v-else
+            class="btn btn-warning btn-sm my-2 mr-5"
+            @click="deleteDefaultAction"
+          >刪除預設動作</button>
+        </div>
+      </div>
+      <!-- defaultAction 編輯區，載入 component -->
+      <ActionObject
+        v-if="defaultActionDisplay"
+        :action-object="messageTemplateItem.template.defaultAction"
+      />
+      <!-- actions =>待編輯 -->
+
       <!-- 樣版顯示區 => 暫不做 -->
     </div>
+    <!-- 載入的 action 與 quick reply 的 action 不同 -->
 
     <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
     <div class="py-3 px-2 border">
@@ -144,12 +196,20 @@ export default {
     }
   },
   components: {
-    QuickReply
+    // QuickReply,
+    ActionObject
   },
   data() {
     return {
       // 是否使用圖片
-      withImage: "false",
+      withImage: "false", //儲存模組前必須依此值來決定 imageURL 是否要送出
+      // 是否使用預設動作
+      withDefaultAction: "false", //儲存前必須依此值來決定 imageURL 是否要送出
+
+      // 使用者選擇的 defaultActionType
+      defaultActionTypeSelect: "",
+      // 是否顯示 defaultAction
+      defaultActionDisplay: false,
       // 限制
       limit: {
         titleTextLength: 40, //title 限制
@@ -170,6 +230,14 @@ export default {
     // 判斷載入的資料是否使用圖片
     if (!this.messageTemplateItem.template.thumbnailImageUrl) {
       this.withImage = "true";
+    }
+
+    // 若載入的資料有 defaultAction 屬性，則withDefaultAction = true，並對 defaultAction 賦值
+    if (this.messageTemplateItem.template.defaultAction) {
+      this.withDefaultAction = "true";
+      if (this.messageTemplateItem.template.defaultAction.type) {
+        this.defaultActionTypeSelect = this.messageTemplateItem.template.defaultAction.type;
+      }
     }
 
     //若載入的 messageTemplateItem.quickReply 不為空，則顯示 quickReply
@@ -214,6 +282,25 @@ export default {
           this.isProcessing = false;
         }
       });
+    },
+    // 建立預設動作
+    addDefaultAction() {
+      // 載入合適的 actionSchema
+      this.messageTemplateItem.template.defaultAction = {
+        ...actionGenerator({
+          category: "",
+          type: this.defaultActionTypeSelect
+        })
+      };
+      // 顯示 defaultAction
+      this.defaultActionDisplay = true;
+    },
+    // 取消預設動作
+    deleteDefaultAction() {
+      // 載入合適的 actionSchema
+      this.messageTemplateItem.template.defaultAction = {};
+      // 顯示 defaultAction
+      this.defaultActionDisplay = false;
     }
   }
 };
