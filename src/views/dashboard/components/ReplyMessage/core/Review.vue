@@ -68,9 +68,13 @@
           </div>
           <!-- 使用者輸入框 -->
           <div class="modal-footer py-0 px-2">
-            <div class="input-group ml-5">
-              <div class="form-control">1234567</div>
-            </div>
+            <font-awesome-icon class="px-1" :icon="['fas', 'list-ul']" pull="left" size="lg" />
+            <font-awesome-icon class="px-1" :icon="['fas', 'plus']" pull="left" size="lg" />
+            <font-awesome-icon class="px-1" :icon="['fas', 'camera']" pull="left" size="lg" />
+            <font-awesome-icon class="px-1" :icon="['fas', 'image']" pull="left" size="lg" />
+            <!-- 使用者文字輸入框 -->
+            <input class="form-control rounded-pill w-50 mx-auto" value="Aa" />
+            <font-awesome-icon class="px-1" :icon="['fas', 'microphone']" pull="right" size="lg" />
           </div>
         </div>
       </div>
