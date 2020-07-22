@@ -171,7 +171,7 @@
       <!-- 若資料已有 quick reply，則顯示之 -->
       <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
-        <QuickReply :quick-reply="messageTemplateItem.quickReply" />
+        <!-- <QuickReply :quick-reply="messageTemplateItem.quickReply" /> -->
       </div>
     </div>
   </div>
@@ -179,11 +179,15 @@
 
 <script>
 // import components
-import QuickReply from "./core/QuickReply.vue";
+// import QuickReply from "./core/QuickReply.vue";
+import ActionObject from "./core/ActionObject.vue";
 
 // import helpers
 import { Toast, ToastDelete } from "../../../../utils/helpers";
-import { msgGenerator } from "../../../../utils/templateGenerator.js";
+import {
+  msgGenerator,
+  actionGenerator
+} from "../../../../utils/templateGenerator.js";
 
 export default {
   name: "ButtonTemplateMessage",
