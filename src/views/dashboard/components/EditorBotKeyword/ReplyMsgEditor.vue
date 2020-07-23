@@ -3,7 +3,7 @@
     <h5 class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded">回應訊息編輯</h5>
 
     <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
-    <div v-if="moduleClick.status" class="custom-scrollbar-css">
+    <div v-if="moduleClick.status" class="custom-scrollbar-css border border-secondary">
       <h5
         class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
         ref="editor"

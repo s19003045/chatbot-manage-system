@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5 py-1 px-1 border border-secondary">
     <h5 class="mb-3 py-2 px-3 bg-secondary text-dark border border-secondary rounded">模組列表</h5>
-    <div class="custom-scrollbar-css my-3">
+    <div class="custom-scrollbar-css my-3 border border-secondary">
       <table class="table table-hover rounded">
         <tbody>
           <tr v-for="(modulePostBack,index) in modulePostBacks" v-bind:key="modulePostBack.id">

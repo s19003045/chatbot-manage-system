@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard container pt-1">
+  <div class="dashboard container pt-1 mx-auto">
     <Nav-tab />
     <router-view />
   </div>
@@ -11,8 +11,8 @@ import NavTab from "./components/core/NavTab";
 export default {
   name: "App",
   components: {
-    NavTab
-  }
+    NavTab,
+  },
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5 py-1 px-1 border border-secondary rounded">
     <h5 class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded">關鍵字編輯</h5>
-    <div v-if="moduleClick.status" class="custom-scrollbar-css my-3">
+    <div v-if="moduleClick.status" class="custom-scrollbar-css my-3 border border-secondary">
       <div v-for="(textEvent, index) in textEvents" v-bind:key="index" class="mb-3">
         <div class="input-group" :data-text-event-uuid="textEvent.uuid">
           <span class="input-group-text" id="basic-addon1">{{index+1}}</span>

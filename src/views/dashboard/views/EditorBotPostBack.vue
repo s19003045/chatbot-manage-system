@@ -1,6 +1,6 @@
 <template>
   <div class="mb-2">
-    <div class="container py-3">
+    <div class="container py-3 px-0">
       <!-- 儲存模組區 -->
       <div class="row py-1">
         <div class="col d-flex justify-content-end">
@@ -13,7 +13,7 @@
       </div>
       <div class="row py-1">
         <!-- 模組列表 -->
-        <div class="col col-lg-2">
+        <div class="col col-4 col-lg-2">
           <ModuleList
             :module-post-backs="modulePostBacks"
             :module-click="moduleClick"
@@ -43,7 +43,7 @@
                   class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
                 >回應訊息編輯</h5>
                 <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
-                <div v-if="moduleClick.status" class="custom-scrollbar-css">
+                <div v-if="moduleClick.status" class="custom-scrollbar-css border border-secondary">
                   <!-- 編輯回應訊息名稱 -->
                   <div class="mb-4">
                     <h5
@@ -91,7 +91,7 @@
                   <!-- 下面為回應訊息類別選擇區 -->
                 </div>
                 <!-- ↑ ↑ 回應訊息編輯區 (scroll bar 邊界)↑ ↑ -->
-                <div class="mb-5 mt-4">
+                <div v-if="moduleClick.status" class="mb-5 mt-4">
                   <button
                     class="btn btn-info btn-sm mb-2 mr-3"
                     @click="handleClickAddReplyMsgBtn"
@@ -359,6 +359,7 @@ export default {
 .custom-scrollbar-css {
   max-height: 500px;
   overflow-y: scroll;
+  overflow-x: scroll;
 }
 
 /* scrollbar width */

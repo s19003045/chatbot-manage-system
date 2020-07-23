@@ -3,7 +3,7 @@
     <h5
       class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
     >觸發事件(Postback 事件)編輯</h5>
-    <div v-if="moduleClick.status" class="custom-scrollbar-css my-3">
+    <div v-if="moduleClick.status" class="custom-scrollbar-css my-3 border border-secondary">
       <div
         v-for="(postBackEvent, index) in postBackEvents"
         v-bind:key="index"

@@ -1,7 +1,8 @@
 <template>
-  <div class="my-2">
-    <div class="container">
-      <div class="row">
+  <div class="mb-2">
+    <div class="container py-3 px-0">
+      <!-- 儲存模組區 -->
+      <div class="row py-1">
         <div class="col d-flex justify-content-end">
           <button
             class="btn btn-info rounded"
@@ -10,8 +11,9 @@
           >儲存所有模組</button>
         </div>
       </div>
-      <div class="row my-4">
-        <div class="col col-2">
+      <div class="row py-1">
+        <!-- 模組列表 -->
+        <div class="col col-4 col-lg-2">
           <ModuleList
             :module-keywords="moduleKeywords"
             :module-click="moduleClick"
@@ -19,8 +21,9 @@
             @after-click-module="afterClickModule"
           />
         </div>
-        <div class="col col-10">
+        <div class="col col-lgl-10">
           <div class="row">
+            <!-- 模組名稱編輯區 -->
             <div v-if="revealModuleName" class>
               <div class="col">
                 <ModuleEditor :module-keyword="moduleKeyword" />
@@ -28,7 +31,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col col-6">
+            <div class="col col-12 col-lg-6">
               <EventEditor
                 :text-events="textEvents"
                 :module-index="moduleIndex"
@@ -37,7 +40,7 @@
                 :module-click="moduleClick"
               />
             </div>
-            <div class="col col-6">
+            <div class="col col-12 col-lg-6">
               <ReplyMsgEditor
                 :reply-message="replyMessage"
                 :module-click="moduleClick"
@@ -70,7 +73,7 @@ export default {
     ModuleList,
     EventEditor,
     ReplyMsgEditor,
-    ModuleEditor
+    ModuleEditor,
   },
   data() {
     return {
@@ -81,7 +84,7 @@ export default {
       moduleIndex: -1,
       isProcessing: false,
       revealModuleName: false,
-      moduleClick: { status: false }
+      moduleClick: { status: false },
     };
   },
   props: {},
@@ -90,11 +93,11 @@ export default {
       //faked data
       let apiData = {
         params: {
-          botId: "bot-abakdss"
+          botId: "bot-abakdss",
         },
         query: {
-          ChatbotId: 1
-        }
+          ChatbotId: 1,
+        },
       };
       const { statusText, data } = await keywordReplyAPI.getKeywordReply(
         apiData
@@ -106,20 +109,20 @@ export default {
         return Toast.fire({
           icon: "success",
           title: "成功取得資料",
-          text: ""
+          text: "",
         });
       } else {
         return Toast.fire({
           icon: "error",
           title: "取得資料失敗，請稍後再試",
-          text: ""
+          text: "",
         });
       }
     } catch (err) {
       return Toast.fire({
         icon: "error",
         title: "取得資料失敗，請稍後再試",
-        text: `${err.message}`
+        text: `${err.message}`,
       });
     }
   },
@@ -134,15 +137,15 @@ export default {
         for (let i = 0; i < this.moduleKeywords.length; i++) {
           apiData.push({
             params: {
-              botId: 1 //之後會從 this.$store 或從 this.$route 取得
+              botId: 1, //之後會從 this.$store 或從 this.$route 取得
             },
             query: {},
             data: {
               ChatbotId: 1, //之後會從 this.$store 取得
               module: this.moduleKeywords[i],
               textEvents: this.moduleKeywords[i].TextEvents,
-              replyMessage: this.moduleKeywords[i].ReplyMessage
-            }
+              replyMessage: this.moduleKeywords[i].ReplyMessage,
+            },
           });
         }
 
@@ -153,16 +156,16 @@ export default {
         }
 
         Promise.all(requests)
-          .then(res => {
+          .then((res) => {
             this.isProcessing = false;
             console.log(res);
             return Toast.fire({
               icon: "success",
               title: "成功新增",
-              text: ""
+              text: "",
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       } catch (err) {
@@ -171,7 +174,7 @@ export default {
         return Toast.fire({
           icon: "error",
           title: "系統異常，請稍後再試",
-          text: `${err.message}`
+          text: `${err.message}`,
         });
       }
     },
@@ -193,7 +196,7 @@ export default {
 
       //該模組的資料放至 moduleEditor component
       this.moduleKeyword = Array.isArray(this.moduleKeywords) && [
-        this.moduleKeywords[index]
+        this.moduleKeywords[index],
       ]
         ? this.moduleKeywords[index]
         : {};
@@ -244,7 +247,7 @@ export default {
     afterDeleteTextEvent([moduleIndex, textEventCreated]) {
       console.log(moduleIndex);
       console.log(textEventCreated);
-    }
-  }
+    },
+  },
 };
 </script>
