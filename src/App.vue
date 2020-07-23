@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import "bootstrap";
 import "bootswatch/dist/yeti/bootstrap.min.css";
 import Navbar from "./views/components/Navbar";
 
