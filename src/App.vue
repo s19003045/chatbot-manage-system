@@ -8,15 +8,14 @@
 </template>
 
 <script>
-import "bootstrap";
-import "bootstrap/dist/css/Yeti/bootstrap.min.css";
+import "bootswatch/dist/yeti/bootstrap.min.css";
 import Navbar from "./views/components/Navbar";
 
 export default {
   name: "App",
   components: {
-    Navbar
-  }
+    Navbar,
+  },
 };
 </script>
 
