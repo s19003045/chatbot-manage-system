@@ -145,7 +145,7 @@ export default {
     ModuleEditor,
     EventEditor,
     ReplyMsgEditor,
-    Review //預覽
+    Review, //預覽
   },
   data() {
     return {
@@ -161,11 +161,11 @@ export default {
       revealModuleName: false,
       moduleClick: {
         status: false,
-        index: -1
+        index: -1,
       },
 
       //使用者選擇的回應訊息樣版
-      componentSelect: ""
+      componentSelect: "",
     };
   },
   props: {},
@@ -174,11 +174,11 @@ export default {
       //faked data
       let apiData = {
         params: {
-          botId: "bot-abakdss"
+          botId: "bot-abakdss",
         },
         query: {
-          ChatbotId: 1
-        }
+          ChatbotId: 1,
+        },
       };
       const { statusText, data } = await postBackReplyAPI.getPostBackReply(
         apiData
@@ -188,13 +188,13 @@ export default {
         this.modulePostBacks = [...data.data.modulePostBacks];
 
         // 整理 replyMessage.messageTemplate 成 array 格式
-        this.modulePostBacks.forEach(d => {
+        this.modulePostBacks.forEach((d) => {
           //  若 messageTemplate 未定義或 為 {}
           if (!d.ReplyMessage) {
             d.ReplyMessage = {
               type: "",
               name: "",
-              messageTemplate: []
+              messageTemplate: [],
             };
           } else if (
             !d.ReplyMessage.messageTemplate ||
@@ -207,7 +207,7 @@ export default {
           ) {
             // 當 messageTemplate 為 {} 格式時，轉成 array，方便傳遞至 component
             d.ReplyMessage.messageTemplate = [
-              { ...d.ReplyMessage.messageTemplate }
+              { ...d.ReplyMessage.messageTemplate },
             ];
           }
         });
@@ -215,20 +215,20 @@ export default {
         return Toast.fire({
           icon: "success",
           title: "成功取得資料",
-          text: ""
+          text: "",
         });
       } else {
         return Toast.fire({
           icon: "error",
           title: "取得資料失敗，請稍後再試",
-          text: ""
+          text: "",
         });
       }
     } catch (err) {
       return Toast.fire({
         icon: "error",
         title: "取得資料失敗，請稍後再試",
-        text: `${err.message}`
+        text: `${err.message}`,
       });
     }
   },
@@ -246,15 +246,15 @@ export default {
         for (let i = 0; i < this.modulePostBacks.length; i++) {
           apiData.push({
             params: {
-              botId: 1 //之後會從 this.$store 或從 this.$route 取得
+              botId: 1, //之後會從 this.$store 或從 this.$route 取得
             },
             query: {},
             data: {
               ChatbotId: 1, //之後會從 this.$store 取得
               module: this.modulePostBacks[i],
               postBackEvents: this.modulePostBacks[i].postBackEvents,
-              replyMessage: this.modulePostBacks[i].replyMessage
-            }
+              replyMessage: this.modulePostBacks[i].replyMessage,
+            },
           });
         }
 
@@ -265,16 +265,16 @@ export default {
         }
 
         Promise.all(requests)
-          .then(res => {
+          .then((res) => {
             this.isProcessing = false;
             console.log(res);
             return Toast.fire({
               icon: "success",
               title: "成功新增",
-              text: ""
+              text: "",
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       } catch (err) {
@@ -283,7 +283,7 @@ export default {
         return Toast.fire({
           icon: "error",
           title: "系統異常，請稍後再試",
-          text: `${err.message}`
+          text: `${err.message}`,
         });
       }
     },
@@ -309,32 +309,32 @@ export default {
         if (this.replyMessage.messageTemplate.length === 5) {
           Toast.fire({
             icon: "warning",
-            text: "已超出訊息限制 5 則!"
+            text: "已超出訊息限制 5 則!",
           });
           return;
         } else if (this.componentSelect === "") {
           Toast.fire({
             icon: "warning",
-            text: "請選擇訊息類別!"
+            text: "請選擇訊息類別!",
           });
         } else {
           // 若 length < 5，則replyMessage.messageTemplate.push(合適的樣版)
           //帶入參數產生新樣版
           const messageTemplateCreate = msgGenerator({
-            type: this.componentSelect
+            type: this.componentSelect,
           });
           //將新樣版整合至  messageTemplate
           this.replyMessage.messageTemplate.push(messageTemplateCreate);
           // 成功新增訊息
           Toast.fire({
             icon: "success",
-            text: "訊息已新增"
+            text: "訊息已新增",
           });
         }
       } catch (err) {
         Toast.fire({
           icon: "warning",
-          text: "系統異常!"
+          text: "系統異常!",
         });
       }
     },
@@ -344,8 +344,8 @@ export default {
       this.replyMessage.messageTemplate.splice(index, 1);
       //提示刪除成功
       Toast.fire("Deleted!", "Text has been deleted.", "success");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -357,7 +357,7 @@ export default {
 
 /* Custom Scrollbar using CSS */
 .custom-scrollbar-css {
-  height: 500px;
+  max-height: 500px;
   overflow-y: scroll;
 }
 

@@ -28,33 +28,17 @@
           <!-- chatbot 回應訊息顯示區 -->
           <div class="modal-body custom-scrollbar-css py-0">
             <div class="container-fluid px-0 py-0">
+              <!-- 單一 template 訊息顯示區 -->
               <div class="row px-4 pt-3 pb-4">
-                <div class="col col-lg-8 py-0 px-0 mr-auto border-0 rounded rounded-lg bg-light">
+                <div
+                  class="buttons-template col col-lg-8 py-0 px-0 mr-auto border-0 rounded rounded-lg bg-light"
+                >
                   <div class="button-template-image rounded-top rounded-lg">
-                    <img
+                    <!-- <img
                       src="https://picsum.photos/id/1005/300/200"
                       class="img-fluid mx-auto d-block rounded-top"
                       alt="image display"
-                    />
-                  </div>
-
-                  <h5 class="px-3 pt-3">服務選單-產前檢查</h5>
-                  <hr />
-                  <p class="text-primary text-center">查詢健保給付項目</p>
-                  <p class="text-primary text-center">查詢自費項目</p>
-                  <p class="text-primary text-center">依週期數查詢產檢項目</p>
-                </div>
-              </div>
-            </div>
-            <div class="container-fluid px-0 py-0">
-              <div class="row px-4 pt-3 pb-4">
-                <div class="col col-lg-8 py-0 px-0 mr-auto border-0 rounded rounded-lg bg-light">
-                  <div class="button-template-image rounded-top rounded-lg">
-                    <img
-                      src="https://picsum.photos/id/1005/300/200"
-                      class="img-fluid mx-auto d-block rounded-top"
-                      alt="image display"
-                    />
+                    />-->
                   </div>
 
                   <h5 class="px-3 pt-3">服務選單-產前檢查</h5>
@@ -96,7 +80,7 @@ export default {};
 }
 
 .custom-scrollbar-css {
-  height: 500px;
+  max-height: 500px;
   overflow-y: scroll;
 }
 
@@ -118,11 +102,20 @@ export default {};
 /* scrollbar handle */
 .custom-scrollbar-css::-webkit-scrollbar-thumb {
   border-radius: 1rem;
-  background-color: #00d2ff;
-  background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+  background-color: #8a8a8a;
+  /* background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%); */
 }
 
 .modal-body .container-fluid .row {
   background-color: #7ca2de;
+}
+
+/* buttons template */
+.buttons-template {
+  border-radius: 20px !important;
+}
+.buttons-template-image {
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
 }
 </style>

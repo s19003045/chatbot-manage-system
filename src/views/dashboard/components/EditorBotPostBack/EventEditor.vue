@@ -54,6 +54,7 @@
       </div>
     </div>
     <button
+      v-if="moduleClick.status"
       class="btn btn-primary my-3 ml-2 btn-sm"
       @click="handleClickAddBtn"
       :disabled="isProcessing"
@@ -70,15 +71,15 @@ export default {
   name: "EventEditor",
   props: {
     postBackEvents: {
-      type: Array
+      type: Array,
     },
     moduleClick: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      isProcessing: false
+      isProcessing: false,
     };
   },
   created() {},
@@ -88,7 +89,7 @@ export default {
   methods: {
     // 使用者點擊〈刪除按鈕〉
     handleClickDeleteBtn(index) {
-      ToastDelete.fire().then(result => {
+      ToastDelete.fire().then((result) => {
         if (result.value) {
           //提示刪除成功
           Toast.fire("Deleted!", "Your file has been deleted.", "success");
@@ -104,17 +105,17 @@ export default {
         eventType: "postBack",
         uuid: "",
         subject: "",
-        data: ""
+        data: "",
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style  scoped>
 /* Custom Scrollbar using CSS */
 .custom-scrollbar-css {
-  height: 500px;
+  max-height: 500px;
   overflow-y: scroll;
 }
 

@@ -41,15 +41,15 @@ export default {
   name: "ModuleList",
   props: {
     modulePostBacks: {
-      type: Array
+      type: Array,
     },
     moduleClick: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      isProcessing: false
+      isProcessing: false,
     };
   },
   created() {},
@@ -61,8 +61,8 @@ export default {
       const apiData = {
         params: 1,
         data: {
-          ChatbotId: 1
-        }
+          ChatbotId: 1,
+        },
       };
       const { statusText, data } = await postBackReplyAPI.createModulePostBack(
         apiData
@@ -80,14 +80,14 @@ export default {
         return Toast.fire({
           icon: "success",
           title: "成功建立",
-          text: ""
+          text: "",
         });
       } else {
         this.isProcessing = false;
         return Toast.fire({
           icon: "error",
           title: "建立失敗，請稍後再試",
-          text: ""
+          text: "",
         });
       }
     },
@@ -96,7 +96,7 @@ export default {
       try {
         this.isProcessing = true;
         //先詢問使用者是否確定要刪除
-        ToastDelete.fire().then(async result => {
+        ToastDelete.fire().then(async (result) => {
           //不要刪除
           if (!result.value) {
             this.isProcessing = false;
@@ -109,8 +109,8 @@ export default {
               data: {},
               query: {
                 ChatbotId: 1,
-                modulePostBackUuid: modulePostBackUuid
-              }
+                modulePostBackUuid: modulePostBackUuid,
+              },
             };
             const { statusText } = await postBackReplyAPI.deleteModulePostBack(
               apiData
@@ -125,14 +125,14 @@ export default {
               return Toast.fire({
                 icon: "success",
                 title: "成功刪除",
-                text: ""
+                text: "",
               });
             } else {
               this.isProcessing = false;
               return Toast.fire({
                 icon: "error",
                 title: "刪除失敗，請稍後再試",
-                text: ""
+                text: "",
               });
             }
           }
@@ -142,7 +142,7 @@ export default {
         return Toast.fire({
           icon: "error",
           title: "刪除失敗，請稍後再試",
-          text: err.message
+          text: err.message,
         });
       }
     },
@@ -153,8 +153,8 @@ export default {
       this.moduleClick.status = true;
       // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
       this.$emit("after-click-module", [index]);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -165,7 +165,7 @@ export default {
 
 /* Custom Scrollbar using CSS */
 .custom-scrollbar-css {
-  height: 500px;
+  max-height: 500px;
   overflow-y: scroll;
 }
 
