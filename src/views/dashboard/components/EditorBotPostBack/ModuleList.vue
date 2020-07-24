@@ -2,26 +2,26 @@
   <div class="mb-5 py-1 px-1 border border-secondary">
     <h5 class="mb-3 py-2 px-3 bg-secondary text-dark border border-secondary rounded">模組列表</h5>
     <div class="custom-scrollbar-css my-3 border border-secondary">
-      <table class="table table-hover rounded">
-        <tbody>
-          <tr v-for="(modulePostBack,index) in modulePostBacks" v-bind:key="modulePostBack.id">
-            <td
-              :data-module-post-back-uuid="modulePostBack.uuid"
-              @click.stop.prevent="handleClickModule(index)"
-              :class="{'module-select-color':moduleClick.index === index}"
-            >
-              <div
-                class="mb-2"
-              >{{modulePostBack.name === null || modulePostBack.name === "" || modulePostBack.name === undefined ? "尚未命名" : modulePostBack.name}}</div>
-              <button
-                class="btn btn-outline-danger btn-sm"
-                @click.stop.prevent="handleDeleteBtnClick(index,modulePostBack.uuid)"
-                :disabled="isProcessing"
-              >刪除</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <ul class="list-group">
+        <li
+          v-for="(modulePostBack,index) in modulePostBacks"
+          v-bind:key="modulePostBack.id"
+          class="list-group-item list-group-item-action"
+          :class="{'module-select-color': moduleClick.index === index}"
+          :data-module-post-back-uuid="modulePostBack.uuid"
+          @click.stop.prevent="handleClickModule(index)"
+        >
+          <div
+            class="mb-2"
+          >{{modulePostBack.name === null || modulePostBack.name === "" || modulePostBack.name === undefined ? "尚未命名" : modulePostBack.name}}</div>
+
+          <button
+            class="btn btn-outline-danger btn-sm"
+            @click.stop.prevent="handleDeleteBtnClick(index,modulePostBack.uuid)"
+            :disabled="isProcessing"
+          >刪除</button>
+        </li>
+      </ul>
     </div>
 
     <button
