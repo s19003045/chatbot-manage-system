@@ -1,8 +1,8 @@
 <template>
   <div class="mb-2">
-    <div class="container py-3 px-0">
+    <div class="container-fluid py-3 px-0">
       <!-- 儲存模組區 -->
-      <div class="row py-1">
+      <!-- <div class="row py-1">
         <div class="col d-flex justify-content-end">
           <button
             class="btn btn-info rounded"
@@ -10,7 +10,7 @@
             :disabled="isProcessing"
           >儲存所有模組</button>
         </div>
-      </div>
+      </div>-->
       <div class="row py-1">
         <!-- 模組列表 -->
         <div class="col col-4 col-lg-2">
@@ -21,23 +21,32 @@
             @after-click-module="afterClickModule"
           />
         </div>
-        <div class="col col-lg-10">
-          <div class="row">
+        <div class="col-12 col-lg-10">
+          <div class="row justify-content-between">
+            <div v-if="moduleClick.status" class="col-12 col-md-3 order-md-last mb-3">
+              <button
+                class="btn btn-info rounded"
+                @click.stop.prevent="handleClickSaveBtn"
+                :disabled="isProcessing"
+              >儲存所有模組</button>
+            </div>
             <!-- 模組名稱編輯區 -->
-            <ModuleEditor
-              v-if="moduleClick.status"
-              :module-post-back="modulePostBack"
-              :module-click="moduleClick"
-            />
+            <div class="col-12 col-md-6 order-md-first">
+              <ModuleEditor
+                v-if="moduleClick.status"
+                :module-post-back="modulePostBack"
+                :module-click="moduleClick"
+              />
+            </div>
           </div>
           <!-- Event 編輯區 & 回應訊息編輯區 -->
           <div class="row">
             <!-- Event 編輯區 -->
-            <div class="col col-12 col-lg-6">
+            <div class="col-12 col-md-6">
               <EventEditor :post-back-events="postBackEvents" :module-click="moduleClick" />
             </div>
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
-            <div class="col col-12 col-lg-6">
+            <div class="col-12 col-md-6">
               <div class="mb-5 py-1 px-1 border border-secondary rounded">
                 <h5
                   class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"

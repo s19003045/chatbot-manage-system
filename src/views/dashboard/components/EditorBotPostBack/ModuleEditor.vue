@@ -20,8 +20,8 @@ export default {
   name: "ModuleEditor",
   props: {
     modulePostBack: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {};
@@ -36,7 +36,7 @@ export default {
   methods: {
     focusInput() {
       this.$refs.moduleName.focus();
-    }
-  }
+    },
+  },
 };
 </script>
