@@ -1,12 +1,14 @@
 <template>
   <div class="mb-5 py-1 px-1 border border-secondary">
     <h5 class="mb-3 py-2 px-3 bg-secondary text-dark border border-secondary rounded">模組列表</h5>
-    <div class="custom-scrollbar-css my-3 border border-secondary">
-      <ul class="list-group">
+
+    <div class="w-100"></div>
+    <div class="custom-scrollbar-css my-3 border border-secondary" id="moduleListContent">
+      <ul class="nav flex-column">
         <li
           v-for="(modulePostBack,index) in modulePostBacks"
           v-bind:key="modulePostBack.id"
-          class="list-group-item list-group-item-action"
+          class="nav-item border border-secondary px-2 py-2"
           :class="{'module-select-color': moduleClick.index === index}"
           :data-module-post-back-uuid="modulePostBack.uuid"
           @click.stop.prevent="handleClickModule(index)"

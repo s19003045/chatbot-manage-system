@@ -1,19 +1,9 @@
 <template>
   <div class="mb-2">
     <div class="container-fluid py-3 px-0">
-      <!-- 儲存模組區 -->
-      <!-- <div class="row py-1">
-        <div class="col d-flex justify-content-end">
-          <button
-            class="btn btn-info rounded"
-            @click.stop.prevent="handleClickSaveBtn"
-            :disabled="isProcessing"
-          >儲存所有模組</button>
-        </div>
-      </div>-->
       <div class="row py-1">
         <!-- 模組列表 -->
-        <div class="col col-4 col-lg-2">
+        <div class="col-12 col-lg-2">
           <ModuleList
             :module-post-backs="modulePostBacks"
             :module-click="moduleClick"
