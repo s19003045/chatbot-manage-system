@@ -1,6 +1,6 @@
 <template>
   <ul class="nav nav-pills justify-content-center mt-3" id="consoleFunction" role="tablist">
-    <li class="nav-item" role="presentation">
+    <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
         id="overview-tab"
@@ -10,8 +10,8 @@
         aria-controls="overview"
         aria-selected="true"
       >總覽</router-link>
-    </li>
-    <li class="nav-item" role="presentation">
+    </li>-->
+    <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
         id="message-center-tab"
@@ -21,7 +21,7 @@
         aria-controls="message-center"
         aria-selected="false"
       >客服中心</router-link>
-    </li>
+    </li>-->
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
@@ -66,7 +66,7 @@
         aria-selected="false"
       >自動回覆</router-link>
     </li>
-    <li class="nav-item" role="presentation">
+    <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
         id="broadcast-overview-tab"
@@ -76,7 +76,7 @@
         aria-controls="broadcast-overview"
         aria-selected="false"
       >群發訊息</router-link>
-    </li>
+    </li>-->
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
@@ -88,7 +88,7 @@
         aria-selected="false"
       >訊息樣版分析</router-link>
     </li>
-    <li class="nav-item" role="presentation">
+    <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
         id="analytics-customer-tab"
@@ -98,8 +98,8 @@
         aria-controls="analytics-customer"
         aria-selected="false"
       >使用者分析</router-link>
-    </li>
-    <li class="nav-item" role="presentation">
+    </li>-->
+    <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
         id="analytics-message-tab"
@@ -109,7 +109,7 @@
         aria-controls="analytics-message"
         aria-selected="false"
       >訊息分析</router-link>
-    </li>
+    </li>-->
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
