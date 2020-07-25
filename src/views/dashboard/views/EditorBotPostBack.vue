@@ -148,13 +148,9 @@ export default {
   },
   data() {
     return {
-      //載入測試用資料
       modulePostBacks: [],
-      //載入測試用資料
       replyMessage: {},
-      //載入測試用資料
       postBackEvents: [],
-
       modulePostBack: {},
       isProcessing: false,
       revealModuleName: false,

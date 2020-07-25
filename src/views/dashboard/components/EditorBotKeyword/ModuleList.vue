@@ -1,27 +1,29 @@
 <template>
   <div class="mb-5 py-1 px-1 border border-secondary rounded">
     <h5 class="mb-3 py-2 px-3 bg-secondary text-dark border border-secondary rounded">模組列表</h5>
-    <div class="custom-scrollbar-css my-3 border border-secondary">
-      <table class="table table-hover rounded">
-        <tbody>
-          <tr v-for="(moduleKeyword,index) in moduleKeywords" v-bind:key="moduleKeyword.id">
-            <td
-              :data-module-keyword-uuid="moduleKeyword.uuid"
-              @click.stop.prevent="handleClickModule(index)"
-              :class="{'module-select-color':moduleClickIndex===index}"
-            >
-              <div
-                class="mb-2"
-              >{{moduleKeyword.name === null || moduleKeyword.name === "" || moduleKeyword.name === undefined ? "尚未命名" : moduleKeyword.name}}</div>
-              <button
-                class="btn btn-outline-danger btn-sm"
-                @click.stop.prevent="handleDeleteBtnClick(index,moduleKeyword.uuid)"
-                :disabled="isProcessing"
-              >刪除</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+    <div class="w-100"></div>
+    <div class="custom-scrollbar-css my-3 border border-secondary" id="moduleListContent">
+      <ul class="nav flex-column">
+        <li
+          v-for="(moduleKeyword,index) in moduleKeywords"
+          v-bind:key="moduleKeyword.id"
+          class="nav-item border border-secondary px-2 py-2"
+          :class="{'module-select-color': moduleClick.index === index}"
+          :data-module-keyword-uuid="moduleKeyword.uuid"
+          @click.stop.prevent="handleClickModule(index)"
+        >
+          <div
+            class="mb-2"
+          >{{moduleKeyword.name === null || moduleKeyword.name === "" || moduleKeyword.name === undefined ? "尚未命名" : moduleKeyword.name}}</div>
+
+          <button
+            class="btn btn-outline-danger btn-sm"
+            @click.stop.prevent="handleDeleteBtnClick(index,moduleKeyword.uuid)"
+            :disabled="isProcessing"
+          >刪除</button>
+        </li>
+      </ul>
     </div>
 
     <button
@@ -71,7 +73,6 @@ export default {
 
       if (statusText === "OK") {
         this.isProcessing = false;
-        console.log("data:", data);
 
         //將新增的資料存進 moduleKeywords
         this.moduleKeywords.push(data.data.moduleKeyword);
@@ -151,7 +152,7 @@ export default {
 
     // 點擊〈模組區塊〉
     async handleClickModule(index) {
-      this.moduleClickIndex = index;
+      this.moduleClick.index = index;
       this.moduleClick.status = true;
       // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
       this.$emit("after-click-module", [index]);
