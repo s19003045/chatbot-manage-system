@@ -1,19 +1,9 @@
 <template>
   <div class="mb-2">
-    <div class="container py-3 px-0">
-      <!-- 儲存模組區 -->
-      <div class="row py-1">
-        <div class="col d-flex justify-content-end">
-          <button
-            class="btn btn-info rounded"
-            @click.stop.prevent="handleClickSaveBtn"
-            :disabled="isProcessing"
-          >儲存所有模組</button>
-        </div>
-      </div>
+    <div class="container-fluid py-3 px-0">
       <div class="row py-1">
         <!-- 模組列表 -->
-        <div class="col col-4 col-lg-2">
+        <div class="col-12 col-lg-2">
           <ModuleList
             :module-keywords="moduleKeywords"
             :module-click="moduleClick"
@@ -21,17 +11,40 @@
             @after-click-module="afterClickModule"
           />
         </div>
-        <div class="col col-lgl-10">
-          <div class="row">
-            <!-- 模組名稱編輯區 -->
-            <div v-if="revealModuleName" class>
-              <div class="col">
-                <ModuleEditor :module-keyword="moduleKeyword" />
+        <div class="col-12 col-lg-10">
+          <div class="row justify-content-between">
+            <!-- 儲存模組區 -->
+            <div v-if="moduleClick.status" class="col-12 col-md-3 order-md-last mb-3">
+              <button
+                class="btn btn-info rounded"
+                @click.stop.prevent="handleClickSaveBtn"
+                :disabled="isProcessing"
+              >儲存所有模組</button>
+            </div>
+            <!-- <div class="row py-1">
+              <div class="col d-flex justify-content-end">
+                <button
+                  class="btn btn-info rounded"
+                  @click.stop.prevent="handleClickSaveBtn"
+                  :disabled="isProcessing"
+                >儲存所有模組</button>
               </div>
+            </div>-->
+
+            <!-- 模組名稱編輯區 -->
+            <div class="col-12 col-md-6 order-md-first"></div>
+
+            <div class="col">
+              <ModuleEditor
+                v-if="moduleClick.status"
+                :module-keyword="moduleKeyword"
+                :module-click="moduleClick"
+              />
             </div>
           </div>
+          <!-- Event 編輯區 & 回應訊息編輯區 -->
           <div class="row">
-            <div class="col col-12 col-lg-6">
+            <div class="col-12 col-lg-6">
               <EventEditor
                 :text-events="textEvents"
                 :module-index="moduleIndex"
@@ -40,7 +53,7 @@
                 :module-click="moduleClick"
               />
             </div>
-            <div class="col col-12 col-lg-6">
+            <div class="col-12 col-lg-6">
               <ReplyMsgEditor
                 :reply-message="replyMessage"
                 :module-click="moduleClick"
