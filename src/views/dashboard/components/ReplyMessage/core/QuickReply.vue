@@ -77,7 +77,9 @@ export default {
       });
 
       //在 this.quickReply.items 加入合適的 action schema
-      this.quickReply.items.push(actionSchemaSelect);
+      this.quickReply.items.push({
+        ...actionSchemaSelect,
+      });
       //清空 this.actionSelect
       this.actionSelect = "";
     },
