@@ -73,11 +73,15 @@ export default {
       if (statusText === "OK") {
         this.isProcessing = false;
 
-        //將新增的資料存進 modulePostBacks
-        this.modulePostBacks.push(data.data.modulePostBack);
+        // 重新組裝
+        const modulePostBackCreate = {
+          ...data.data.modulePostBack,
+          ReplyMessage: {},
+          PostBackEvents: [],
+        };
 
-        // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
-        this.$emit("after-create-module-keyword", data.data.modulePostBack);
+        //將新增的資料存進 modulePostBacks
+        this.modulePostBacks.push(modulePostBackCreate);
 
         return Toast.fire({
           icon: "success",

@@ -3,7 +3,7 @@
     <router-link
       class="navbar-brand text-lead"
       :to="{name:'overview',params:{botId:'bot-abcde'}}"
-    >MaraBot</router-link>
+    >WoaBot</router-link>
   </nav>
 </template>
 
