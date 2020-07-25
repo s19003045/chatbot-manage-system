@@ -251,8 +251,8 @@ export default {
             data: {
               ChatbotId: 1, //之後會從 this.$store 取得
               module: this.modulePostBacks[i],
-              postBackEvents: this.modulePostBacks[i].postBackEvents,
-              replyMessage: this.modulePostBacks[i].replyMessage,
+              postBackEvents: this.modulePostBacks[i].PostBackEvents,
+              replyMessage: this.modulePostBacks[i].ReplyMessage,
             },
           });
         }
