@@ -33,7 +33,11 @@
           <div class="row">
             <!-- Event 編輯區 -->
             <div class="col-12 col-md-6">
-              <EventEditor :post-back-events="postBackEvents" :module-click="moduleClick" />
+              <EventEditor
+                :post-back-events="postBackEvents"
+                :module-click="moduleClick"
+                @create-post-back-event="createPostBackEvent"
+              />
             </div>
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col-12 col-md-6">
@@ -339,6 +343,14 @@ export default {
       this.replyMessage.messageTemplate.splice(index, 1);
       //提示刪除成功
       Toast.fire("Deleted!", "Text has been deleted.", "success");
+    },
+
+    // 新增 postback event
+    createPostBackEvent([postBackEventSchema]) {
+      if (!this.postBackEvents) {
+        this.postBackEvents = [];
+      }
+      this.postBackEvents.push(postBackEventSchema);
     },
   },
 };

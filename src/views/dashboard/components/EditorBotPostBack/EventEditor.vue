@@ -100,13 +100,15 @@ export default {
     },
     // 使用者點擊〈新增按鈕〉
     handleClickAddBtn() {
-      this.postBackEvents.push({
+      const postBackEventSchema = {
         name: "",
         eventType: "postBack",
         uuid: "",
         subject: "",
         data: "",
-      });
+      };
+      // 觸發父層事件
+      this.$emit("create-post-back-event", [{ ...postBackEventSchema }]);
     },
   },
 };
