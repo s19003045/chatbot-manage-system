@@ -2,35 +2,41 @@
   <div class="my-1">
     <!-- message -->
 
-    <div v-if="actionObject.type === 'message'" class="input-group input-group-sm">
+    <div v-if="actionObject.type === 'message'" class>
       <small class="d-block mb-1">類別: {{actionObject.type}}</small>
-      <div class="input-group-prepend">
-        <span class="input-group-text" id>標籤</span>
+      <div class="w-100"></div>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>標籤</span>
+        </div>
+        <input
+          v-model="actionObject.label"
+          type="text"
+          class="form-control"
+          placeholder="label"
+          aria-label="labe"
+          aria-describedby
+        />
       </div>
-      <input
-        v-model="actionObject.label"
-        type="text"
-        class="form-control"
-        placeholder="label"
-        aria-label="labe"
-        aria-describedby
-      />
-      <div class="input-group-prepend">
-        <span class="input-group-text" id>文字</span>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>文字</span>
+        </div>
+        <input
+          v-model="actionObject.text"
+          type="text"
+          class="form-control"
+          placeholder="text"
+          aria-label="text"
+          aria-describedby
+        />
       </div>
-      <input
-        v-model="actionObject.text"
-        type="text"
-        class="form-control"
-        placeholder="text"
-        aria-label="text"
-        aria-describedby
-      />
     </div>
 
     <!-- uri -->
     <div v-if="actionObject.type === 'uri'" class>
       <small class="d-block mb-1">類別: {{actionObject.type}}</small>
+      <div class="w-100"></div>
       <!-- 第一列 -->
       <div class="input-group input-group-sm my-2">
         <div class="input-group-prepend">
@@ -45,6 +51,7 @@
           aria-describedby
         />
       </div>
+
       <!-- 第二列 -->
       <div class="input-group input-group-sm my-2">
         <div class="input-group-prepend">
@@ -63,6 +70,8 @@
 
     <!-- postback -->
     <div v-if="actionObject.type === 'postback'" class>
+      <small class="d-block mb-1">類別: {{actionObject.type}}</small>
+      <div class="w-100"></div>
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text" id>標籤</span>
@@ -75,6 +84,8 @@
           aria-label="labe"
           aria-describedby
         />
+      </div>
+      <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text" id>displayText</span>
         </div>
@@ -103,52 +114,66 @@
     </div>
 
     <!-- camera -->
-    <div v-if="actionObject.type === 'camera'" class="input-group input-group-sm">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id>標籤</span>
+    <div v-if="actionObject.type === 'camera'">
+      <small class="d-block mb-1">類別: {{actionObject.type}}</small>
+      <div class="w-100"></div>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>標籤</span>
+        </div>
+        <input
+          v-model="actionObject.label"
+          type="text"
+          class="form-control"
+          placeholder="label"
+          aria-label="labe"
+          aria-describedby
+        />
       </div>
-      <input
-        v-model="actionObject.label"
-        type="text"
-        class="form-control"
-        placeholder="label"
-        aria-label="labe"
-        aria-describedby
-      />
     </div>
 
     <!-- cameraRoll -->
-    <div v-if="actionObject.type === 'cameraRoll'" class="input-group input-group-sm">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id>標籤</span>
+    <div v-if="actionObject.type === 'cameraRoll'">
+      <small class="d-block mb-1">類別: {{actionObject.type}}</small>
+      <div class="w-100"></div>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>標籤</span>
+        </div>
+        <input
+          v-model="actionObject.label"
+          type="text"
+          class="form-control"
+          placeholder="label"
+          aria-label="labe"
+          aria-describedby
+        />
       </div>
-      <input
-        v-model="actionObject.label"
-        type="text"
-        class="form-control"
-        placeholder="label"
-        aria-label="labe"
-        aria-describedby
-      />
     </div>
 
     <!-- location -->
-    <div v-if="actionObject.type === 'location'" class="input-group input-group-sm">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id>標籤</span>
+    <div v-if="actionObject.type === 'location'">
+      <small class="d-block mb-1">類別: {{actionObject.type}}</small>
+      <div class="w-100"></div>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>標籤</span>
+        </div>
+        <input
+          v-model="actionObject.label"
+          type="text"
+          class="form-control"
+          placeholder="label"
+          aria-label="labe"
+          aria-describedby
+        />
       </div>
-      <input
-        v-model="actionObject.label"
-        type="text"
-        class="form-control"
-        placeholder="label"
-        aria-label="labe"
-        aria-describedby
-      />
     </div>
 
     <!-- datetimepicker -->
     <div v-if="actionObject.type === 'datetimepicker'" class>
+      <small class="d-block mb-1">類別: {{actionObject.type}}</small>
+      <div class="w-100"></div>
       <!-- 第一列 -->
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
@@ -162,6 +187,8 @@
           aria-label="labe"
           aria-describedby
         />
+      </div>
+      <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text" id>data</span>
         </div>
@@ -185,6 +212,8 @@
           <option value="time" :selected="actionObject.mode === 'time'">time</option>
           <option value="datetime" :selected="actionObject.mode === 'datetime'">datetime</option>
         </select>
+      </div>
+      <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text" id>initial</span>
         </div>
@@ -200,17 +229,6 @@
       <!-- 第三列 -->
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
-          <span class="input-group-text" id>max</span>
-        </div>
-        <input
-          v-model="actionObject.max"
-          type="text"
-          class="form-control"
-          placeholder="max"
-          aria-label="max"
-          aria-describedby
-        />
-        <div class="input-group-prepend">
           <span class="input-group-text" id>min</span>
         </div>
         <input
@@ -222,6 +240,19 @@
           aria-describedby
         />
       </div>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>max</span>
+        </div>
+        <input
+          v-model="actionObject.max"
+          type="text"
+          class="form-control"
+          placeholder="max"
+          aria-label="max"
+          aria-describedby
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -230,15 +261,15 @@
 export default {
   props: {
     actionObject: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      datetimepickerModeSelect: ""
+      datetimepickerModeSelect: "",
     };
   },
   create() {},
-  methods: {}
+  methods: {},
 };
 </script>

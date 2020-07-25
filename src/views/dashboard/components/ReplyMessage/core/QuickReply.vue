@@ -1,7 +1,7 @@
 <template>
   <div class>
     <!-- 顯示 quick reply 並依 quick reply type 顯示-->
-    <div v-for="(item,index) in quickReply.items" :key="index" class="input-group mb-3">
+    <div v-for="(item,index) in quickReply.items" :key="index" class="mb-3">
       <ActionObject :action-object="item.action" />
     </div>
     <!-- ↑ ↑ 顯示 quick reply ↑ ↑-->
@@ -37,16 +37,16 @@ export default {
   name: "QuickReply",
   props: {
     quickReply: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   components: {
-    ActionObject
+    ActionObject,
   },
   data() {
     return {
       //使用者選取的動作
-      actionSelect: ""
+      actionSelect: "",
     };
   },
   created() {},
@@ -57,7 +57,7 @@ export default {
       if (this.actionSelect === "") {
         Toast.fire({
           icon: "info",
-          text: "尚未選取類別 !"
+          text: "尚未選取類別 !",
         });
         return;
       }
@@ -65,7 +65,7 @@ export default {
       if (this.quickReply.items.length === 13) {
         Toast.fire({
           icon: "warning",
-          text: "已達快速回覆訊息限制 13 個 !"
+          text: "已達快速回覆訊息限制 13 個 !",
         });
         return;
       }
@@ -73,14 +73,14 @@ export default {
       //使用者選定的 action schema
       const actionSchemaSelect = actionGenerator({
         category: "quickReply",
-        type: this.actionSelect
+        type: this.actionSelect,
       });
 
       //在 this.quickReply.items 加入合適的 action schema
       this.quickReply.items.push(actionSchemaSelect);
       //清空 this.actionSelect
       this.actionSelect = "";
-    }
-  }
+    },
+  },
 };
 </script>
