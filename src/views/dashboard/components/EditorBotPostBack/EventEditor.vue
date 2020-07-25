@@ -9,8 +9,8 @@
         v-bind:key="index"
         class="border px-1 py-3 mb-4"
       >
-        <!-- 觸發事件名稱 -->
-        <div class="input-group mb-2" :data-post-back-event-uuid="postBackEvent.uuid">
+        <!-- 觸發事件名稱 => 暫用不到-->
+        <!-- <div class="input-group mb-2" :data-post-back-event-uuid="postBackEvent.uuid">
           <span class="input-group-text" id="basic-addon1">name</span>
           <input
             type="text"
@@ -20,7 +20,7 @@
             aria-describedby="basic-addon1"
             v-model="postBackEvent.name"
           />
-        </div>
+        </div>-->
         <!-- 觸發事件 subject -->
         <div class="input-group mb-2" :data-post-back-event-uuid="postBackEvent.uuid">
           <span class="input-group-text" id="basic-addon1">subject</span>

@@ -85,10 +85,17 @@
           aria-describedby
         />
       </div>
+      <!-- displayText 應與 label 相同，所以這邊與 label 同步 -->
       <div class="input-group input-group-sm">
-        <div class="input-group-prepend">
+        <div
+          class="input-group-prepend"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="使用者點選後顯示於談話框的文字"
+        >
           <span class="input-group-text" id>displayText</span>
         </div>
+        <!-- ↓ ↓ 置換成 label 的值 ↓ ↓  -->
         <input
           v-model="actionObject.displayText"
           type="text"
@@ -96,6 +103,7 @@
           placeholder="displayText"
           aria-label="displayText"
           aria-describedby
+          disabled
         />
       </div>
       <div class="input-group input-group-sm">
@@ -270,6 +278,10 @@ export default {
     };
   },
   create() {},
+  beforeUpdate() {
+    // 將 label 的值賦值給 displayText
+    this.actionObject.displayText = this.actionObject.label;
+  },
   methods: {},
 };
 </script>
