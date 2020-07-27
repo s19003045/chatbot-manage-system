@@ -94,7 +94,18 @@ export default {
       const { statusText, data } = await keywordAPI.getKeywords(apiData);
 
       if (statusText === "OK") {
-        this.keywords = data.data.keywords;
+        this.keywords = [...data.data.keywords];
+        //重新組裝資料
+        this.keywords.forEach((d) => {
+          if (
+            !d.triggerModuleId &&
+            d.ReplyModule &&
+            !Array.isArray(d.ReplyModule.replyMessage)
+          ) {
+            //組成 array type
+            d.ReplyModule.replyMessage = [{ ...d.ReplyModule.replyMessage }];
+          }
+        });
 
         return Toast.fire({
           icon: "success",
