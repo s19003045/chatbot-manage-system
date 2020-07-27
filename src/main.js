@@ -25,6 +25,9 @@ library.add(
 // 註冊後可全域使用 <font-awesome-icon />
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+//import Konva for canvas
+import VueKonva from 'vue-konva'
+Vue.use(VueKonva)
 
 Vue.config.productionTip = false
 

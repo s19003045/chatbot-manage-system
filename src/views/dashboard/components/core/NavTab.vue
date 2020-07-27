@@ -132,6 +132,17 @@
         aria-selected="false"
       >機器人設定</router-link>
     </li>
+    <li class="nav-item" role="presentation">
+      <router-link
+        class="nav-link"
+        id="konva-tab"
+        data-toggle="pill"
+        :to="{name:'konva'}"
+        role="tab"
+        aria-controls="konva"
+        aria-selected="false"
+      >Konva</router-link>
+    </li>
   </ul>
 </template>
 

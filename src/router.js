@@ -107,6 +107,13 @@ const router = new Router({
           name: 'analytics-message',
           component: () => import('./views/dashboard/views/AnalyticsMessage.vue')
         },
+
+        //測試 konva
+        {
+          path: 'konva',
+          name: 'konva',
+          component: () => import('./views/dashboard/views/Konva.vue')
+        },
       ]
     },
 
