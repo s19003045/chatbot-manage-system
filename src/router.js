@@ -47,7 +47,12 @@ const router = new Router({
           name: 'editor-bot-post-back',
           component: () => import('./views/dashboard/views/EditorBotPostBack.vue')
         },
-
+        // 客戶可以編輯 機器人腳本
+        {
+          path: 'editor-bot/script',
+          name: 'editor-bot-script',
+          component: () => import('./views/dashboard/views/EditorBotScript.vue')
+        },
         // 客戶可以設定自動回覆訊息(當使用者輸入的訊息，無適當回應方式時)
         {
           path: 'editor-bot/auto-reply',

@@ -58,6 +58,17 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        id="editor-bot-script-tab"
+        data-toggle="pill"
+        :to="{name:'editor-bot-script'}"
+        role="tab"
+        aria-controls="editor-bot-script"
+        aria-selected="false"
+      >機器人腳本</router-link>
+    </li>
+    <li class="nav-item" role="presentation">
+      <router-link
+        class="nav-link"
         id="editor-bot-auto-reply-tab"
         data-toggle="pill"
         :to="{name:'editor-bot-auto-reply'}"
