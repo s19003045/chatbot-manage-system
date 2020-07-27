@@ -5,9 +5,9 @@
       <input
         type="email"
         class="form-control"
-        id="moduleKeywordName"
+        id="keywordName"
         aria-describedby
-        v-model="moduleKeyword.name"
+        v-model="keyword.name"
         ref="moduleName"
       />
       <small id class="form-text text-muted"></small>
@@ -19,9 +19,9 @@
 export default {
   name: "ModuleEditor",
   props: {
-    moduleKeyword: {
-      type: Object
-    }
+    keyword: {
+      type: Object,
+    },
   },
   data() {
     return {};
@@ -36,7 +36,7 @@ export default {
   methods: {
     focusInput() {
       this.$refs.moduleName.focus();
-    }
-  }
+    },
+  },
 };
 </script>

@@ -34,7 +34,7 @@
           <!-- 回應訊息編輯區 & 預覽區 -->
           <div class="row">
             <div class="col-12 col-lg-6">
-              <ReplyMsgEditor :reply-message="replyMessage" :module-click="moduleClick" />
+              <ReplyMsgEditor :reply-module="replyModule" :module-click="moduleClick" />
             </div>
             <!-- 預覽區 -->
             <div class="col-12 col-md-6">
@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       keywords: [],
-      replyMessage: {},
+      replyModule: {},
       keyword: {},
       isProcessing: false,
       moduleClick: {
@@ -194,14 +194,14 @@ export default {
           : {};
 
       //該模組的 replyMessage 放至 ReplyMsgEditor component
-      const replyMsgToComponent =
+      const replyModuleToComponent =
         Array.isArray(this.keywords) &&
         this.keywords[index] &&
         this.keywords[index].ReplyModule
           ? this.keywords[index].ReplyModule
           : {};
 
-      this.replyMessage = replyMsgToComponent;
+      this.replyModule = replyModuleToComponent;
     },
   },
 };

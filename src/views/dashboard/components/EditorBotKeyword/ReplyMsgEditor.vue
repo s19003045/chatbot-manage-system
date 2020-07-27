@@ -15,7 +15,7 @@
           class="my-2"
           id="reply-message-name"
           v-if="moduleClick.status"
-          v-model="replyMessage.name"
+          v-model="replyModule.name"
         />
       </h5>
 
@@ -23,7 +23,7 @@
       <h6>JSON 編輯區</h6>
       <div class v-if="isEditing">
         <v-jsoneditor
-          v-model="replyMessage.messageTemplate"
+          v-model="replyModule.replyMessage"
           :options="options"
           :plus="false"
           @error="onError"
@@ -33,20 +33,20 @@
         <button
           v-if="!isEditing"
           class="btn btn-info btn-sm mx-2 my-2"
-          :data-reply-message-uuid="replyMessage.uuid"
+          :data-reply-module-uuid="replyModule.uuid"
           @click="handleClickEditBtn()"
           :disabled="isEditing"
         >編輯回應訊息</button>
         <button
           v-else
           class="btn btn-info btn-sm mx-2 my-2"
-          :data-reply-message-uuid="replyMessage.uuid"
+          :data-reply-module-uuid="replyModule.uuid"
           @click="handleClicksSaveBtn()"
           :disabled="!isEditing"
         >完成JSON編輯</button>
         <button
           class="btn btn-warning btn-sm mx-2 my-2"
-          :data-reply-message-uuid="replyMessage.uuid"
+          :data-reply-module-uuid="replyModule.uuid"
           @click="handleClickClearBtn()"
         >清空回應訊息</button>
       </div>
@@ -69,11 +69,8 @@ export default {
     VJsoneditor,
   },
   props: {
-    replyMessage: {
+    replyModule: {
       type: Object,
-    },
-    moduleIndex: {
-      type: Number,
     },
     moduleClick: {
       type: Object,
@@ -108,7 +105,7 @@ export default {
           //提示刪除成功
           Toast.fire("Deleted!", "Your file has been deleted.", "success");
           //刪除父層的該筆資料
-          this.replyMessage.messageTemplate = {};
+          this.replyModule.replyMessage = [];
           this.isEditing = false;
         }
       });
