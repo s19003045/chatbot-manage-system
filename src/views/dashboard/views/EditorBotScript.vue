@@ -123,26 +123,22 @@
 
 <script>
 //import components
-import ModuleList from "../components/EditorBotPostBack/ModuleList.vue";
-import ModuleEditor from "../components/EditorBotPostBack/ModuleEditor.vue";
-// import EventEditor from "../components/EditorBotPostBack/EventEditor.vue";
-import ReplyMsgEditor from "../components/EditorBotPostBack/ReplyMsgEditor.vue";
+import ModuleList from "../components/EditorBotScript/ModuleList.vue";
+import ModuleEditor from "../components/EditorBotScript/ModuleEditor.vue";
+// import EventEditor from "../components/EditorBotScript/EventEditor.vue";
+import ReplyMsgEditor from "../components/EditorBotScript/ReplyMsgEditor.vue";
 import Review from "../components/ReplyMessage/core/Review.vue";
 
 // import helpers
 import botScriptAPI from "../../../apis/botScript.js";
 import { Toast } from "../../../utils/helpers";
-// import { msgGenerator } from "../../../utils/templateGenerator.js";
-
-// import seeds for test => deploy 時要刪掉
-// import seedsForTest from "../seeds-for-test/EditorBotPostBack";
+import { msgGenerator } from "../../../utils/templateGenerator.js";
 
 export default {
   name: "EditorBotPostBack",
   components: {
     ModuleList,
     ModuleEditor,
-    // EventEditor,
     ReplyMsgEditor,
     Review, //預覽
   },
@@ -150,7 +146,6 @@ export default {
     return {
       replyModules: [],
       replyMessage: {},
-      // postBackEvents: [],
       replyModule: {},
       isProcessing: false,
       moduleClick: {
@@ -179,31 +174,6 @@ export default {
       if (statusText === "OK") {
         this.replyModules = [...data.data.replyModules];
 
-        // // 整理 replyMessage.messageTemplate 成 array 格式
-        // this.replyModules.forEach((d) => {
-        //   //  若 messageTemplate 未定義或 為 {}
-        //   if (!d.ReplyMessage) {
-        //     d.ReplyMessage = {
-        //       type: "",
-        //       name: "",
-        //       messageTemplate: [],
-        //     };
-        //   } else if (
-        //     !d.ReplyMessage.messageTemplate ||
-        //     Object.keys(d.ReplyMessage.messageTemplate).length === 0
-        //   ) {
-        //     d.ReplyMessage.messageTemplate = [];
-        //   } else if (
-        //     !Array.isArray(d.ReplyMessage.messageTemplate) &&
-        //     typeof d.ReplyMessage.messageTemplate === "object"
-        //   ) {
-        //     // 當 messageTemplate 為 {} 格式時，轉成 array，方便傳遞至 component
-        //     d.ReplyMessage.messageTemplate = [
-        //       { ...d.ReplyMessage.messageTemplate },
-        //     ];
-        //   }
-        // });
-
         return Toast.fire({
           icon: "success",
           title: "成功取得資料",
@@ -227,125 +197,125 @@ export default {
   beforeUpdate() {},
   mounted() {},
   computed: {},
-  // methods: {
-  //   //儲存所有模組
-  //   async handleClickSaveBtn() {
-  //     try {
-  //       this.isProcessing = true;
+  methods: {
+    //儲存所有模組
+    async handleClickSaveBtn() {
+      try {
+        this.isProcessing = true;
 
-  //       //製做 apiData (array)
-  //       const apiData = [];
-  //       for (let i = 0; i < this.replyModules.length; i++) {
-  //         apiData.push({
-  //           params: {
-  //             botId: 1, //之後會從 this.$store 或從 this.$route 取得
-  //           },
-  //           query: {},
-  //           data: {
-  //             ChatbotId: 1, //之後會從 this.$store 取得
-  //             module: this.replyModules[i],
-  //             postBackEvents: this.replyModules[i].PostBackEvents,
-  //             replyMessage: this.replyModules[i].ReplyMessage,
-  //           },
-  //         });
-  //       }
+        //製做 apiData (array)
+        const apiData = [];
+        for (let i = 0; i < this.replyModules.length; i++) {
+          apiData.push({
+            params: {
+              botId: 1, //之後會從 this.$store 或從 this.$route 取得
+            },
+            query: {},
+            data: {
+              ChatbotId: 1, //之後會從 this.$store 取得
+              module: this.replyModules[i],
+              postBackEvents: this.replyModules[i].PostBackEvents,
+              replyMessage: this.replyModules[i].ReplyMessage,
+            },
+          });
+        }
 
-  //       //製做 requests
-  //       const requests = [];
-  //       for (let i = 0; i < apiData.length; i++) {
-  //         requests.push(await postBackReplyAPI.postPostBackReply(apiData[i]));
-  //       }
+        //製做 requests
+        const requests = [];
+        for (let i = 0; i < apiData.length; i++) {
+          requests.push(await botScriptAPI.postPostBackReply(apiData[i]));
+        }
 
-  //       Promise.all(requests)
-  //         .then((res) => {
-  //           this.isProcessing = false;
-  //           console.log(res);
-  //           return Toast.fire({
-  //             icon: "success",
-  //             title: "成功新增",
-  //             text: "",
-  //           });
-  //         })
-  //         .catch((err) => {
-  //           console.log(err);
-  //         });
-  //     } catch (err) {
-  //       this.isProcessing = false;
+        Promise.all(requests)
+          .then((res) => {
+            this.isProcessing = false;
+            console.log(res);
+            return Toast.fire({
+              icon: "success",
+              title: "成功新增",
+              text: "",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (err) {
+        this.isProcessing = false;
 
-  //       return Toast.fire({
-  //         icon: "error",
-  //         title: "系統異常，請稍後再試",
-  //         text: `${err.message}`,
-  //       });
-  //     }
-  //   },
+        return Toast.fire({
+          icon: "error",
+          title: "系統異常，請稍後再試",
+          text: `${err.message}`,
+        });
+      }
+    },
 
-  //   //子層點擊刪除模組按鈕事件觸發父層
-  //   afterDeleteReplyModule([index]) {
-  //     this.replyModules.splice(index, 1);
-  //   },
-  //   //子層點擊模組事件觸發父層
-  //   afterClickModule([index]) {
-  //     //傳遞資料至 ModuleEditor component
-  //     this.modulePostBack = this.replyModules[index];
-  //     //傳遞資料至 replyMsgEditor component
-  //     this.replyMessage = this.replyModules[index].ReplyMessage;
-  //     //傳遞資料至 PostBackEventEditor component
-  //     this.postBackEvents = this.replyModules[index].PostBackEvents;
-  //   },
-  //   //新增回應訊息
-  //   async handleClickAddReplyMsgBtn() {
-  //     try {
-  //       // 先判斷 replyMessage.messageTemplate.length
-  //       // 若 length === 5，則跳出訊息"已超過訊息數限制"
-  //       if (this.replyMessage.messageTemplate.length === 5) {
-  //         Toast.fire({
-  //           icon: "warning",
-  //           text: "已超出訊息限制 5 則!",
-  //         });
-  //         return;
-  //       } else if (this.componentSelect === "") {
-  //         Toast.fire({
-  //           icon: "warning",
-  //           text: "請選擇訊息類別!",
-  //         });
-  //       } else {
-  //         // 若 length < 5，則replyMessage.messageTemplate.push(合適的樣版)
-  //         //帶入參數產生新樣版
-  //         const messageTemplateCreate = msgGenerator({
-  //           type: this.componentSelect,
-  //         });
-  //         //將新樣版整合至  messageTemplate
-  //         this.replyMessage.messageTemplate.push(messageTemplateCreate);
-  //         // 成功新增訊息
-  //         Toast.fire({
-  //           icon: "success",
-  //           text: "訊息已新增",
-  //         });
-  //       }
-  //     } catch (err) {
-  //       Toast.fire({
-  //         icon: "warning",
-  //         text: "系統異常!",
-  //       });
-  //     }
-  //   },
+    //子層點擊刪除模組按鈕事件觸發父層
+    afterDeleteReplyModule([index]) {
+      this.replyModules.splice(index, 1);
+    },
+    //子層點擊模組事件觸發父層
+    afterClickModule([index]) {
+      //傳遞資料至 ModuleEditor component
+      this.modulePostBack = this.replyModules[index];
+      //傳遞資料至 replyMsgEditor component
+      this.replyMessage = this.replyModules[index].ReplyMessage;
+      //傳遞資料至 PostBackEventEditor component
+      this.postBackEvents = this.replyModules[index].PostBackEvents;
+    },
+    //新增回應訊息
+    async handleClickAddReplyMsgBtn() {
+      try {
+        // 先判斷 replyMessage.messageTemplate.length
+        // 若 length === 5，則跳出訊息"已超過訊息數限制"
+        if (this.replyMessage.messageTemplate.length === 5) {
+          Toast.fire({
+            icon: "warning",
+            text: "已超出訊息限制 5 則!",
+          });
+          return;
+        } else if (this.componentSelect === "") {
+          Toast.fire({
+            icon: "warning",
+            text: "請選擇訊息類別!",
+          });
+        } else {
+          // 若 length < 5，則replyMessage.messageTemplate.push(合適的樣版)
+          //帶入參數產生新樣版
+          const messageTemplateCreate = msgGenerator({
+            type: this.componentSelect,
+          });
+          //將新樣版整合至  messageTemplate
+          this.replyMessage.messageTemplate.push(messageTemplateCreate);
+          // 成功新增訊息
+          Toast.fire({
+            icon: "success",
+            text: "訊息已新增",
+          });
+        }
+      } catch (err) {
+        Toast.fire({
+          icon: "warning",
+          text: "系統異常!",
+        });
+      }
+    },
 
-  //   // 刪除 messageTemplateItem
-  //   handleClickDeleteReplyMsgBtn(index) {
-  //     this.replyMessage.messageTemplate.splice(index, 1);
-  //     //提示刪除成功
-  //     Toast.fire("Deleted!", "Text has been deleted.", "success");
-  //   },
+    // 刪除 messageTemplateItem
+    handleClickDeleteReplyMsgBtn(index) {
+      this.replyMessage.messageTemplate.splice(index, 1);
+      //提示刪除成功
+      Toast.fire("Deleted!", "Text has been deleted.", "success");
+    },
 
-  //   // 新增 postback event
-  //   createPostBackEvent([postBackEventSchema]) {
-  //     if (!this.postBackEvents) {
-  //       this.postBackEvents = [];
-  //     }
-  //     this.postBackEvents.push(postBackEventSchema);
-  //   },
-  // },
+    // 新增 postback event
+    createPostBackEvent([postBackEventSchema]) {
+      if (!this.postBackEvents) {
+        this.postBackEvents = [];
+      }
+      this.postBackEvents.push(postBackEventSchema);
+    },
+  },
 };
 </script>
 
