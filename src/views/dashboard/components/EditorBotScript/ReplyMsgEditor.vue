@@ -1,30 +1,29 @@
 <template>
   <!-- 單一回應訊息編輯區 -->
   <div class="col">
-    <!-- 顯示 messageTemplateItem -->
+    <!-- 顯示 templateItem -->
     <div class="row">
       <div class="col">
         <ButtonTemplateMessage
-          v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'buttons'"
-          :message-template-item="messageTemplateItem"
+          v-if="templateItem.type === 'template' && templateItem.template.type === 'buttons'"
+          :template-item="templateItem"
           :template-index="templateIndex"
         />
         <CarouselTemplateMessage
-          v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'carousel'"
-          :message-template-item="messageTemplateItem"
+          v-if="templateItem.type === 'template' && templateItem.template.type === 'carousel'"
+          :template-item="templateItem"
           :template-index="templateIndex"
         />
         <ConfirmTemplateMessage
-          v-if="messageTemplateItem.type === 'template' && messageTemplateItem.template.type === 'confirm'"
-          :message-template-item="messageTemplateItem"
+          v-if="templateItem.type === 'template' && templateItem.template.type === 'confirm'"
+          :template-item="templateItem"
           :template-index="templateIndex"
         />
         <TextMessage
-          v-if="messageTemplateItem.type === 'text'"
-          :message-template-item="messageTemplateItem"
+          v-if="templateItem.type === 'text'"
+          :template-item="templateItem"
           :template-index="templateIndex"
         />
-
         <!-- <ImageMapMessage />
           <ImageMessage />
         <VideoMessage />-->
@@ -48,23 +47,23 @@ import TextMessage from "../ReplyMessage/TextMessage";
 
 export default {
   props: {
-    messageTemplateItem: {
-      type: Object
+    templateItem: {
+      type: Object,
     },
     templateIndex: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   components: {
     ButtonTemplateMessage,
     CarouselTemplateMessage,
     ConfirmTemplateMessage,
-    TextMessage
+    TextMessage,
 
     // ImageMapMessage,
     // ImageMessage,
     // VideoMessage
   },
-  methods: {}
+  methods: {},
 };
 </script>

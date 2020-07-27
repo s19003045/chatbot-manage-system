@@ -7,7 +7,7 @@
         class="form-control"
         id="modulePostBackName"
         aria-describedby
-        v-model="modulePostBack.name"
+        v-model="replyModule.name"
         ref="moduleName"
       />
       <small id class="form-text text-muted"></small>
@@ -19,7 +19,7 @@
 export default {
   name: "ModuleEditor",
   props: {
-    modulePostBack: {
+    replyModule: {
       type: Object,
     },
   },

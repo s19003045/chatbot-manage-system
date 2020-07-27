@@ -29,7 +29,7 @@
               />
             </div>
           </div>
-          <!-- Event 編輯區 & 回應訊息編輯區 -->
+          <!-- 回應訊息編輯區 & 預覽區-->
           <div class="row">
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col-12 col-md-6">
@@ -41,44 +41,20 @@
                 <div v-if="moduleClick.status" class="custom-scrollbar-css border border-secondary">
                   <!-- 編輯回應訊息名稱 -->
                   <div class="mb-4">
-                    <h5
-                      v-if="replyMessage"
-                      class="mb-2 py-2 px-3 bg-light border border-secondary rounded"
-                      ref="editor"
-                    >
-                      <small for="reply-message-name">回應訊息名稱：</small>
-
-                      <input
-                        type="text"
-                        class="form-control my-2"
-                        id="reply-message-name"
-                        v-model="replyMessage.name"
-                        :disabled="!moduleClick.status"
-                      />
-                    </h5>
-                    <!-- 預覽回應訊息 => 待編輯-->
-                    <Review />
-
                     <!-- 顯示總訊息數 -->
-                    <span
-                      class="text-muted"
-                    >訊息數：{{replyMessage && replyMessage.messageTemplate ? replyMessage.messageTemplate.length :0 }} / 5</span>
+                    <span class="text-muted">訊息數：{{replyMessage ? replyMessage.length : 0 }} / 5</span>
                   </div>
 
                   <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
-                  <div v-if="replyMessage && replyMessage.messageTemplate" class>
-                    <div
-                      v-for="(template, index) in replyMessage.messageTemplate"
-                      :key="index"
-                      class="mt-2"
-                    >
+                  <div v-if="replyMessage" class>
+                    <div v-for="(template, index) in replyMessage" :key="index" class="mt-2">
                       <button
                         class="btn btn-outline-danger mb-0 ml-3"
                         @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
                         :disabled="isProcessing"
                       >刪除</button>
 
-                      <ReplyMsgEditor :message-template-item="template" :template-index="index" />
+                      <ReplyMsgEditor :template-item="template" :template-index="index" />
                     </div>
                   </div>
 
@@ -92,9 +68,7 @@
                     @click="handleClickAddReplyMsgBtn"
                   >新增回應訊息</button>
                   <!-- 顯示總訊息數 -->
-                  <span
-                    class="text-muted"
-                  >訊息數：{{replyMessage && replyMessage.messageTemplate ? replyMessage.messageTemplate.length :0 }} / 5</span>
+                  <span class="text-muted">訊息數：{{replyMessage ? replyMessage.length :0 }} / 5</span>
                   <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -112,7 +86,8 @@
             </div>
             <!-- 預覽區 -->
             <div class="col-12 col-md-6">
-              <h3>預覽區</h3>
+              <!-- 預覽回應訊息 => 待編輯-->
+              <Review />
             </div>
           </div>
         </div>
@@ -125,7 +100,6 @@
 //import components
 import ModuleList from "../components/EditorBotScript/ModuleList.vue";
 import ModuleEditor from "../components/EditorBotScript/ModuleEditor.vue";
-// import EventEditor from "../components/EditorBotScript/EventEditor.vue";
 import ReplyMsgEditor from "../components/EditorBotScript/ReplyMsgEditor.vue";
 import Review from "../components/ReplyMessage/core/Review.vue";
 
@@ -173,6 +147,10 @@ export default {
 
       if (statusText === "OK") {
         this.replyModules = [...data.data.replyModules];
+        //replyMessage 轉成 array
+        this.replyModules.forEach((d) => {
+          d.replyMessage = [{ ...d.replyMessage }];
+        });
 
         return Toast.fire({
           icon: "success",
@@ -257,18 +235,16 @@ export default {
     //子層點擊模組事件觸發父層
     afterClickModule([index]) {
       //傳遞資料至 ModuleEditor component
-      this.modulePostBack = this.replyModules[index];
+      this.replyModule = this.replyModules[index];
       //傳遞資料至 replyMsgEditor component
-      this.replyMessage = this.replyModules[index].ReplyMessage;
-      //傳遞資料至 PostBackEventEditor component
-      this.postBackEvents = this.replyModules[index].PostBackEvents;
+      this.replyMessage = this.replyModules[index].replyMessage;
     },
     //新增回應訊息
     async handleClickAddReplyMsgBtn() {
       try {
         // 先判斷 replyMessage.messageTemplate.length
         // 若 length === 5，則跳出訊息"已超過訊息數限制"
-        if (this.replyMessage.messageTemplate.length === 5) {
+        if (this.replyMessage.length === 5) {
           Toast.fire({
             icon: "warning",
             text: "已超出訊息限制 5 則!",
@@ -286,7 +262,7 @@ export default {
             type: this.componentSelect,
           });
           //將新樣版整合至  messageTemplate
-          this.replyMessage.messageTemplate.push(messageTemplateCreate);
+          this.replyMessage.push(messageTemplateCreate);
           // 成功新增訊息
           Toast.fire({
             icon: "success",
@@ -303,17 +279,9 @@ export default {
 
     // 刪除 messageTemplateItem
     handleClickDeleteReplyMsgBtn(index) {
-      this.replyMessage.messageTemplate.splice(index, 1);
+      this.replyMessage.splice(index, 1);
       //提示刪除成功
       Toast.fire("Deleted!", "Text has been deleted.", "success");
-    },
-
-    // 新增 postback event
-    createPostBackEvent([postBackEventSchema]) {
-      if (!this.postBackEvents) {
-        this.postBackEvents = [];
-      }
-      this.postBackEvents.push(postBackEventSchema);
     },
   },
 };
