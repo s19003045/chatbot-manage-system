@@ -144,6 +144,7 @@
       <ActionObject
         v-if="defaultActionDisplay"
         :action-object="templateItem.template.defaultAction"
+        :reply-module-list="replyModuleList"
       />
 
       <!-- 按鍵編輯區 -->
@@ -151,7 +152,7 @@
       <h6 class="mt-5">按鍵編輯區</h6>
       <small class="my-3">按鍵數： {{templateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
       <div v-for="(item, index) in templateItem.template.actions" :key="index" class="py-2">
-        <ActionObject :action-object="item" />
+        <ActionObject :action-object="item" :reply-module-list="replyModuleList" />
         <button
           class="btn btn-warning btn-sm my-2"
           @click.stop.prevent="handleTemplateDeleteBtnClick(index)"
@@ -205,7 +206,7 @@
       <!-- 若資料已有 quick reply，則顯示之 -->
       <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
-        <QuickReply :quick-reply="templateItem.quickReply" />
+        <QuickReply :quick-reply="templateItem.quickReply" :reply-module-list="replyModuleList" />
       </div>
     </div>
   </div>
@@ -231,6 +232,9 @@ export default {
     },
     templateIndex: {
       type: Number,
+    },
+    replyModuleList: {
+      type: Array,
     },
   },
   components: {

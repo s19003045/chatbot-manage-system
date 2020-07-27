@@ -2,7 +2,7 @@
   <div class>
     <!-- 顯示 quick reply 並依 quick reply type 顯示-->
     <div v-for="(item,index) in quickReply.items" :key="index" class="mb-3">
-      <ActionObject :action-object="item.action" />
+      <ActionObject :action-object="item.action" :reply-module-list="replyModuleList" />
     </div>
     <!-- ↑ ↑ 顯示 quick reply ↑ ↑-->
     <!-- 選擇 quick reply 的類別，quick reply 最多 13 個 -->
@@ -38,6 +38,9 @@ export default {
   props: {
     quickReply: {
       type: Object,
+    },
+    replyModuleList: {
+      type: Array,
     },
   },
   components: {

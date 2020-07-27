@@ -8,21 +8,25 @@
           v-if="templateItem.type === 'template' && templateItem.template.type === 'buttons'"
           :template-item="templateItem"
           :template-index="templateIndex"
+          :reply-module-list="replyModuleList"
         />
         <CarouselTemplateMessage
           v-if="templateItem.type === 'template' && templateItem.template.type === 'carousel'"
           :template-item="templateItem"
           :template-index="templateIndex"
+          :reply-module-list="replyModuleList"
         />
         <ConfirmTemplateMessage
           v-if="templateItem.type === 'template' && templateItem.template.type === 'confirm'"
           :template-item="templateItem"
           :template-index="templateIndex"
+          :reply-module-list="replyModuleList"
         />
         <TextMessage
           v-if="templateItem.type === 'text'"
           :template-item="templateItem"
           :template-index="templateIndex"
+          :reply-module-list="replyModuleList"
         />
         <!-- <ImageMapMessage />
           <ImageMessage />
@@ -52,6 +56,9 @@ export default {
     },
     templateIndex: {
       type: Number,
+    },
+    replyModuleList: {
+      type: Array,
     },
   },
   components: {

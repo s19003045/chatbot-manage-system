@@ -271,6 +271,9 @@ export default {
     actionObject: {
       type: Object,
     },
+    replyModuleList: {
+      type: Array,
+    },
   },
   data() {
     return {

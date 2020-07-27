@@ -39,7 +39,7 @@
       <!-- 若資料已有 quick reply，則顯示之 -->
       <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
-        <QuickReply :quick-reply="templateItem.quickReply" />
+        <QuickReply :quick-reply="templateItem.quickReply" :reply-module-list="replyModuleList" />
       </div>
     </div>
   </div>
@@ -60,6 +60,9 @@ export default {
     },
     templateIndex: {
       type: Number,
+    },
+    replyModuleList: {
+      type: Array,
     },
   },
   components: {

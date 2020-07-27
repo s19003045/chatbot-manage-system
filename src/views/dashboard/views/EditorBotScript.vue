@@ -54,7 +54,11 @@
                         :disabled="isProcessing"
                       >刪除</button>
 
-                      <ReplyMsgEditor :template-item="template" :template-index="index" />
+                      <ReplyMsgEditor
+                        :template-item="template"
+                        :template-index="index"
+                        :reply-module-list="replyModuleList"
+                      />
                     </div>
                   </div>
 
@@ -126,6 +130,7 @@ export default {
         status: false,
         index: -1,
       },
+      replyModuleList: [],
 
       //使用者選擇的回應訊息樣版
       componentSelect: "",
@@ -150,6 +155,13 @@ export default {
         //replyMessage 轉成 array
         this.replyModules.forEach((d) => {
           d.replyMessage = [{ ...d.replyMessage }];
+
+          this.replyModuleList.push({
+            id: d.id,
+            name: d.name,
+            uuid: d.uuid,
+            status: d.status,
+          });
         });
 
         return Toast.fire({
