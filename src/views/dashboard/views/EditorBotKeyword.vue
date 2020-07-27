@@ -5,9 +5,9 @@
         <!-- 模組列表 -->
         <div class="col-12 col-lg-2">
           <ModuleList
-            :module-keywords="moduleKeywords"
+            :keywords="keywords"
             :module-click="moduleClick"
-            @after-delete-module-keyword="afterDeleteModuleKeyword"
+            @after-delete-keyword="afterDeleteKeyword"
             @after-click-module="afterClickModule"
           />
         </div>
@@ -26,18 +26,20 @@
             <div class="col-12 col-md-6 order-md-first">
               <ModuleEditor
                 v-if="moduleClick.status"
-                :module-keyword="moduleKeyword"
+                :keyword="keyword"
                 :module-click="moduleClick"
               />
             </div>
           </div>
-          <!-- Event 編輯區 & 回應訊息編輯區 -->
+          <!-- 回應訊息編輯區 & 預覽區 -->
           <div class="row">
             <div class="col-12 col-lg-6">
-              <EventEditor :text-events="textEvents" :module-click="moduleClick" />
-            </div>
-            <div class="col-12 col-lg-6">
               <ReplyMsgEditor :reply-message="replyMessage" :module-click="moduleClick" />
+            </div>
+            <!-- 預覽區 -->
+            <div class="col-12 col-md-6">
+              <!-- 預覽回應訊息 => 待編輯-->
+              <Review />
             </div>
           </div>
         </div>
@@ -49,31 +51,28 @@
 <script>
 // import components
 import ModuleList from "../components/EditorBotKeyword/ModuleList.vue";
-import EventEditor from "../components/EditorBotKeyword/EventEditor.vue";
 import ReplyMsgEditor from "../components/EditorBotKeyword/ReplyMsgEditor.vue";
 import ModuleEditor from "../components/EditorBotKeyword/ModuleEditor.vue";
+import Review from "../components/ReplyMessage/core/Review.vue";
 
 // import helpers
-import keywordReplyAPI from "../../../apis/keywordReply.js";
+import keywordAPI from "../../../apis/keyword.js";
 import { Toast } from "../../../utils/helpers";
 
 export default {
   name: "EditorBotKeyword",
   components: {
     ModuleList,
-    EventEditor,
     ReplyMsgEditor,
     ModuleEditor,
+    Review,
   },
   data() {
     return {
-      moduleKeywords: [],
+      keywords: [],
       replyMessage: {},
-      textEvents: [],
-      moduleKeyword: {},
-      // moduleIndex: -1,
+      keyword: {},
       isProcessing: false,
-      revealModuleName: false,
       moduleClick: {
         status: false,
         index: -1,
@@ -86,18 +85,16 @@ export default {
       //faked data
       let apiData = {
         params: {
-          botId: "bot-abakdss",
+          botId: "bot-x11111",
         },
         query: {
           ChatbotId: 1,
         },
       };
-      const { statusText, data } = await keywordReplyAPI.getKeywordReply(
-        apiData
-      );
+      const { statusText, data } = await keywordAPI.getKeywords(apiData);
 
       if (statusText === "OK") {
-        this.moduleKeywords = data.data.moduleKeywords;
+        this.keywords = data.data.keywords;
 
         return Toast.fire({
           icon: "success",
@@ -121,46 +118,41 @@ export default {
   },
   methods: {
     //點擊〈儲存所有模組〉
-    async handleClickSaveBtn() {
+    async handleClickSaveBtn(action) {
       try {
         this.isProcessing = true;
 
-        //製做 apiData (array)
-        const apiData = [];
-        for (let i = 0; i < this.moduleKeywords.length; i++) {
-          apiData.push({
-            params: {
-              botId: 1, //之後會從 this.$store 或從 this.$route 取得
-            },
-            query: {},
-            data: {
-              ChatbotId: 1, //之後會從 this.$store 取得
-              module: this.moduleKeywords[i],
-              textEvents: this.moduleKeywords[i].TextEvents,
-              replyMessage: this.moduleKeywords[i].ReplyMessage,
-            },
+        const apiData = {
+          params: {
+            botId: 1, //之後會從 this.$store 或從 this.$route 取得
+          },
+          query: {},
+          data: {
+            ChatbotId: 1, //之後會從 this.$store 取得
+            action: action,
+            keywords: this.keywords,
+          },
+        };
+
+        const { statusText, data } = await keywordAPI.putKeyword(apiData);
+
+        if (statusText === "OK" && data.status === "success") {
+          this.isProcessing = false;
+
+          return Toast.fire({
+            icon: "success",
+            title: "成功新增",
+            text: "",
+          });
+        } else {
+          this.isProcessing = false;
+
+          return Toast.fire({
+            icon: "error",
+            title: "存取失敗，請稍後再試",
+            text: "",
           });
         }
-
-        //製做 requests
-        const requests = [];
-        for (let i = 0; i < apiData.length; i++) {
-          requests.push(await keywordReplyAPI.postKeywordReply(apiData[i]));
-        }
-
-        Promise.all(requests)
-          .then(() => {
-            this.isProcessing = false;
-
-            return Toast.fire({
-              icon: "success",
-              title: "成功新增",
-              text: "",
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       } catch (err) {
         this.isProcessing = false;
 
@@ -173,39 +165,32 @@ export default {
     },
 
     //子層點擊新增模組按鈕事件觸發父層 => 暫無用途
-    afterCreateModuleKeyword(moduleKeyword) {
-      this.moduleKeywords.push(moduleKeyword);
+    afterCreateKeyword(keyword) {
+      this.keywords.push(keyword);
     },
     //子層點擊刪除模組按鈕事件觸發父層 => 暫無用途
-    afterDeleteModuleKeyword([index]) {
-      this.moduleKeywords.splice(index, 1);
+    afterDeleteKeyword([index]) {
+      this.keywords.splice(index, 1);
     },
 
     //子層點擊〈模組區塊〉事件觸發父層
     afterClickModule([index]) {
       //顯示模組名稱
       //該模組的資料放至 moduleEditor component
-      this.moduleKeyword = Array.isArray(this.moduleKeywords) && [
-        this.moduleKeywords[index],
-      ]
-        ? this.moduleKeywords[index]
-        : {};
+      this.keyword =
+        Array.isArray(this.keywords) && this.keywords[index]
+          ? this.keywords[index]
+          : {};
 
       //該模組的 replyMessage 放至 ReplyMsgEditor component
       const replyMsgToComponent =
-        Array.isArray(this.moduleKeywords) &&
-        this.moduleKeywords[index] &&
-        this.moduleKeywords[index].ReplyMessage
-          ? this.moduleKeywords[index].ReplyMessage
+        Array.isArray(this.keywords) &&
+        this.keywords[index] &&
+        this.keywords[index].ReplyModule
+          ? this.keywords[index].ReplyModule
           : {};
 
       this.replyMessage = replyMsgToComponent;
-
-      //該模組的 textEvents 放至 EventEditor component
-      this.textEvents =
-        this.moduleKeywords[index] && this.moduleKeywords[index].TextEvents
-          ? this.moduleKeywords[index].TextEvents
-          : [];
     },
   },
 };

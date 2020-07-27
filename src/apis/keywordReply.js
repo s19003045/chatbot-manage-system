@@ -98,6 +98,4 @@ export default {
     return apiHelper.post(`/bots/${botId}/keyword-reply`, data)
   },
 
-
-
 }
