@@ -17,7 +17,7 @@
             <div v-if="moduleClick.status" class="col-12 col-md-3 order-md-last mb-3">
               <button
                 class="btn btn-info rounded"
-                @click.stop.prevent="handleClickSaveBtn"
+                @click.stop.prevent="handleClickSaveBtn('edited')"
                 :disabled="isProcessing"
               >儲存所有模組</button>
             </div>
