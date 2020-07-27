@@ -38,4 +38,14 @@ export default {
 
     return apiHelper.delete(`/bots/${botId}/reply-module?${queryString}`)
   },
+  // 儲存 replyModule
+  putReplyModule({
+    params: {
+      botId: botId
+    },
+    data: data
+  }) {
+    return apiHelper.put(`/bots/${botId}/reply-module`, data)
+  },
+
 }

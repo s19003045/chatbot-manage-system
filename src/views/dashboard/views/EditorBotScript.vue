@@ -16,7 +16,7 @@
             <div v-if="moduleClick.status" class="col-12 col-md-3 order-md-last mb-3">
               <button
                 class="btn btn-info rounded"
-                @click.stop.prevent="handleClickSaveBtn"
+                @click.stop.prevent="handleClickSaveBtn('edited')"
                 :disabled="isProcessing"
               >儲存所有模組</button>
             </div>
@@ -189,46 +189,39 @@ export default {
   computed: {},
   methods: {
     //儲存所有模組
-    async handleClickSaveBtn() {
+    async handleClickSaveBtn(action) {
       try {
         this.isProcessing = true;
 
-        //製做 apiData (array)
-        const apiData = [];
-        for (let i = 0; i < this.replyModules.length; i++) {
-          apiData.push({
-            params: {
-              botId: 1, //之後會從 this.$store 或從 this.$route 取得
-            },
-            query: {},
-            data: {
-              ChatbotId: 1, //之後會從 this.$store 取得
-              module: this.replyModules[i],
-              postBackEvents: this.replyModules[i].PostBackEvents,
-              replyMessage: this.replyModules[i].ReplyMessage,
-            },
+        const apiData = {
+          params: {
+            botId: 1, //之後會從 this.$store 或從 this.$route 取得
+          },
+          query: {},
+          data: {
+            ChatbotId: 1, //之後會從 this.$store 取得
+            action: action,
+            replyModules: this.replyModules,
+          },
+        };
+
+        const { statusText, data } = await botScriptAPI.putReplyModule(apiData);
+
+        if (statusText === "OK" && data.status === "success") {
+          this.isProcessing = false;
+          return Toast.fire({
+            icon: "success",
+            title: "存取成功",
+            text: "",
+          });
+        } else {
+          this.isProcessing = false;
+          return Toast.fire({
+            icon: "error",
+            title: "存取失敗，請稍後再試",
+            text: "",
           });
         }
-
-        //製做 requests
-        const requests = [];
-        for (let i = 0; i < apiData.length; i++) {
-          requests.push(await botScriptAPI.postPostBackReply(apiData[i]));
-        }
-
-        Promise.all(requests)
-          .then((res) => {
-            this.isProcessing = false;
-            console.log(res);
-            return Toast.fire({
-              icon: "success",
-              title: "成功新增",
-              text: "",
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       } catch (err) {
         this.isProcessing = false;
 
