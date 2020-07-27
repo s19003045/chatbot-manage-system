@@ -44,7 +44,7 @@
         aria-selected="false"
       >關鍵字設定</router-link>
     </li>
-    <li class="nav-item" role="presentation">
+    <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
         id="editor-bot-post-back-tab"
@@ -54,7 +54,7 @@
         aria-controls="editor-bot-post-back"
         aria-selected="false"
       >回傳動作模組</router-link>
-    </li>
+    </li>-->
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"

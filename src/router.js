@@ -41,12 +41,12 @@ const router = new Router({
           name: 'editor-bot-keyword-reply',
           component: () => import('./views/dashboard/views/EditorBotKeyword.vue')
         },
-        // 客戶可以編輯 postBack event，並設定機器人的回應訊息
-        {
-          path: 'editor-bot/post-back',
-          name: 'editor-bot-post-back',
-          component: () => import('./views/dashboard/views/EditorBotPostBack.vue')
-        },
+        // // 客戶可以編輯 postBack event，並設定機器人的回應訊息 => 棄用
+        // {
+        //   path: 'editor-bot/post-back',
+        //   name: 'editor-bot-post-back',
+        //   component: () => import('./views/dashboard/views/EditorBotPostBack.vue')
+        // },
         // 客戶可以編輯 機器人腳本
         {
           path: 'editor-bot/script',
