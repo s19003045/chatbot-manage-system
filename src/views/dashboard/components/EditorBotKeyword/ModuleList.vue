@@ -6,20 +6,20 @@
     <div class="custom-scrollbar-css my-3 border border-secondary" id="moduleListContent">
       <ul class="nav flex-column">
         <li
-          v-for="(moduleKeyword,index) in moduleKeywords"
-          v-bind:key="moduleKeyword.id"
+          v-for="(keyword,index) in keywords"
+          v-bind:key="keyword.id"
           class="nav-item border border-secondary px-2 py-2"
           :class="{'module-select-color': moduleClick.index === index}"
-          :data-module-keyword-uuid="moduleKeyword.uuid"
+          :data-keyword-uuid="keyword.uuid"
           @click.stop.prevent="handleClickModule(index)"
         >
           <div
             class="mb-2"
-          >{{moduleKeyword.name === null || moduleKeyword.name === "" || moduleKeyword.name === undefined ? "尚未命名" : moduleKeyword.name}}</div>
+          >{{keyword.name === null || keyword.name === "" || keyword.name === undefined ? "尚未命名" : keyword.name}}</div>
 
           <button
             class="btn btn-outline-danger btn-sm"
-            @click.stop.prevent="handleDeleteBtnClick(index,moduleKeyword.uuid)"
+            @click.stop.prevent="handleDeleteBtnClick(index,keyword.uuid)"
             :disabled="isProcessing"
           >刪除</button>
         </li>
@@ -36,13 +36,13 @@
 
 <script>
 // import helpers
-import keywordReplyAPI from "../../../../apis/keywordReply.js";
+import keywordAPI from "../../../../apis/keyword.js";
 import { Toast, ToastDelete } from "../../../../utils/helpers";
 
 export default {
   name: "ModuleList",
   props: {
-    moduleKeywords: {
+    keywords: {
       type: Array,
     },
     moduleClick: {
@@ -52,7 +52,6 @@ export default {
   data() {
     return {
       isProcessing: false,
-      moduleClickIndex: -1,
     };
   },
   created() {},
@@ -62,23 +61,23 @@ export default {
       this.isProcessing = true;
       //faked data
       const apiData = {
-        params: 1,
+        params: {
+          botId: 1, //假資料，之後從 this.$store 或 params 取得
+        },
         data: {
           ChatbotId: 1,
         },
       };
-      const { statusText, data } = await keywordReplyAPI.createModuleKeyword(
-        apiData
-      );
+      const { statusText, data } = await keywordAPI.createKeyword(apiData);
 
-      if (statusText === "OK") {
+      if (statusText === "OK" && data.status === "success") {
         this.isProcessing = false;
 
-        //將新增的資料存進 moduleKeywords
-        this.moduleKeywords.push(data.data.moduleKeyword);
+        //將新增的資料存進 keywords
+        this.keywords.push(data.data.keyword);
 
         // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
-        this.$emit("after-create-module-keyword", data.data.moduleKeyword);
+        this.$emit("after-create-keyword", [data.data.keyword]);
 
         return Toast.fire({
           icon: "success",
@@ -95,7 +94,7 @@ export default {
       }
     },
     // 點擊〈刪除模組按鍵〉
-    async handleDeleteBtnClick(index, moduleKeywordUuid) {
+    async handleDeleteBtnClick(index, keywordUuid) {
       try {
         this.isProcessing = true;
         //先詢問使用者是否確定要刪除
@@ -112,18 +111,16 @@ export default {
               data: {},
               query: {
                 ChatbotId: 1,
-                moduleKeywordUuid: moduleKeywordUuid,
+                keywordUuid: keywordUuid,
               },
             };
-            const { statusText } = await keywordReplyAPI.deleteModuleKeyword(
-              apiData
-            );
+            const { statusText } = await keywordAPI.deleteKeyword(apiData);
 
             if (statusText === "OK") {
               this.isProcessing = false;
 
               // 觸發父層事件 - $emit( '事件名稱' , 傳遞的資料 )
-              this.$emit("after-delete-module-keyword", [index]);
+              this.$emit("after-delete-keyword", [index]);
 
               return Toast.fire({
                 icon: "success",

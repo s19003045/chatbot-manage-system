@@ -164,11 +164,11 @@ export default {
       }
     },
 
-    //子層點擊新增模組按鈕事件觸發父層 => 暫無用途
-    afterCreateKeyword(keyword) {
+    //子層點擊新增模組按鈕事件觸發父層
+    afterCreateKeyword([keyword]) {
       this.keywords.push(keyword);
     },
-    //子層點擊刪除模組按鈕事件觸發父層 => 暫無用途
+    //子層點擊刪除模組按鈕事件觸發父層
     afterDeleteKeyword([index]) {
       this.keywords.splice(index, 1);
     },
