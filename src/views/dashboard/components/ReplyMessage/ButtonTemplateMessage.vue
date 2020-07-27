@@ -20,11 +20,7 @@
         <div class="input-group-prepend">
           <label for class="input-group-text">圖片URL</label>
         </div>
-        <input
-          type="text"
-          class="form-control"
-          v-model="messageTemplateItem.template.thumbnailImageUrl"
-        />
+        <input type="text" class="form-control" v-model="templateItem.template.thumbnailImageUrl" />
       </div>
       <!-- 上傳圖片 => 之後再來規劃 -->
       <!-- 說明文字：點擊 icon 後再跳出來 -->
@@ -49,14 +45,14 @@
         <textarea
           class="form-control"
           :maxlength="limit.titleTextLength"
-          v-model="messageTemplateItem.template.title"
+          v-model="templateItem.template.title"
         />
       </div>
       <!-- 標題顯示字數統計 -->
       <div class="mt-2 mb-3">
         <small
           class="text-muted text-left mx-5"
-        >字數統計： {{messageTemplateItem.template.title.length}} / {{limit.titleTextLength}}</small>
+        >字數統計： {{templateItem.template.title.length}} / {{limit.titleTextLength}}</small>
       </div>
       <!-- 文字 -->
       <div class="input-group">
@@ -68,14 +64,14 @@
           v-if="withImage === 'true'"
           :maxlength="limit.textLengthWithImage"
           class="form-control"
-          v-model="messageTemplateItem.template.text"
+          v-model="templateItem.template.text"
         />
         <!-- 沒有圖片時 -->
         <textarea
           v-if="withImage === 'false'"
           :maxlength="limit.textLengthWithoutImage"
           class="form-control"
-          v-model="messageTemplateItem.template.text"
+          v-model="templateItem.template.text"
         />
       </div>
       <!-- 文字顯示字數統計 -->
@@ -84,12 +80,12 @@
         <small
           v-if="withImage === 'true'"
           class="text-muted text-left mx-5"
-        >字數統計： {{messageTemplateItem.template.text.length}} / {{limit.textLengthWithImage}}</small>
+        >字數統計： {{templateItem.template.text.length}} / {{limit.textLengthWithImage}}</small>
         <!-- 若無圖片 -->
         <small
           v-else
           class="text-muted text-left mx-5"
-        >字數統計： {{messageTemplateItem.template.text.length}} / {{limit.textLengthWithoutImage}}</small>
+        >字數統計： {{templateItem.template.text.length}} / {{limit.textLengthWithoutImage}}</small>
       </div>
       <!-- defaultAction 設定 -->
       <div class="input-group mb-2">
@@ -147,16 +143,14 @@
       <!-- defaultAction 編輯區，載入 component -->
       <ActionObject
         v-if="defaultActionDisplay"
-        :action-object="messageTemplateItem.template.defaultAction"
+        :action-object="templateItem.template.defaultAction"
       />
 
       <!-- 按鍵編輯區 -->
       <!-- 顯示已建立的按鍵數/4 -->
       <h6 class="mt-5">按鍵編輯區</h6>
-      <small
-        class="my-3"
-      >按鍵數： {{messageTemplateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
-      <div v-for="(item, index) in messageTemplateItem.template.actions" :key="index" class="py-2">
+      <small class="my-3">按鍵數： {{templateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
+      <div v-for="(item, index) in templateItem.template.actions" :key="index" class="py-2">
         <ActionObject :action-object="item" />
         <button
           class="btn btn-warning btn-sm my-2"
@@ -165,7 +159,7 @@
       </div>
       <!-- 新增 button & 顯示按鍵數/4 -->
       <!-- templateBtnSelect -->
-      <div v-if="messageTemplateItem.template.actions.length < 4" class>
+      <div v-if="templateItem.template.actions.length < 4" class>
         <div class="input-group mb-2">
           <div class="input-group-prepend">
             <label for="templateBtnType" class="input-group-text">選擇按鍵類型</label>
@@ -192,7 +186,7 @@
       </div>
       <small
         class="mx-1 my-3"
-      >按鍵數：{{messageTemplateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
+      >按鍵數：{{templateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
     </div>
     <!-- 樣版顯示區 => 暫不做 -->
     <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
@@ -211,7 +205,7 @@
       <!-- 若資料已有 quick reply，則顯示之 -->
       <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
-        <QuickReply :quick-reply="messageTemplateItem.quickReply" />
+        <QuickReply :quick-reply="templateItem.quickReply" />
       </div>
     </div>
   </div>
@@ -226,22 +220,22 @@ import ActionObject from "./core/ActionObject.vue";
 import { Toast, ToastDelete } from "../../../../utils/helpers";
 import {
   msgGenerator,
-  actionGenerator
+  actionGenerator,
 } from "../../../../utils/templateGenerator.js";
 
 export default {
   name: "ButtonTemplateMessage",
   props: {
-    messageTemplateItem: {
-      type: Object
+    templateItem: {
+      type: Object,
     },
     templateIndex: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   components: {
     QuickReply,
-    ActionObject
+    ActionObject,
   },
   data() {
     return {
@@ -263,7 +257,7 @@ export default {
         textLengthWithoutImage: 160, //沒有圖片時
         textLengthWithImage: 60, //有圖片時
         actionsLength: 4, //actions 最大數量
-        templateBtnLimit: 4 //範本按鍵數限制
+        templateBtnLimit: 4, //範本按鍵數限制
       },
 
       //是否正在編輯中
@@ -271,25 +265,25 @@ export default {
       //是否正在處理中
       isProcessing: false,
       //建立快速回覆(預設 false)
-      quickReplyDisplay: false
+      quickReplyDisplay: false,
     };
   },
   created() {
     // 判斷載入的資料是否使用圖片
-    if (!this.messageTemplateItem.template.thumbnailImageUrl) {
+    if (!this.templateItem.template.thumbnailImageUrl) {
       this.withImage = "true";
     }
 
     // 若載入的資料有 defaultAction 屬性，則withDefaultAction = true，並對 defaultAction 賦值
-    if (this.messageTemplateItem.template.defaultAction) {
+    if (this.templateItem.template.defaultAction) {
       this.withDefaultAction = "true";
-      if (this.messageTemplateItem.template.defaultAction.type) {
-        this.defaultActionTypeSelect = this.messageTemplateItem.template.defaultAction.type;
+      if (this.templateItem.template.defaultAction.type) {
+        this.defaultActionTypeSelect = this.templateItem.template.defaultAction.type;
       }
     }
 
-    //若載入的 messageTemplateItem.quickReply 不為空，則顯示 quickReply
-    if (!this.messageTemplateItem.quickReply) {
+    //若載入的 templateItem.quickReply 不為空，則顯示 quickReply
+    if (!this.templateItem.quickReply) {
       this.quickReplyDisplay = false;
     } else {
       this.quickReplyDisplay = true;
@@ -303,11 +297,11 @@ export default {
     //建立快速回覆
     setUpQuickReply() {
       //複製 schema
-      this.messageTemplateItem.quickReply = {
+      this.templateItem.quickReply = {
         ...msgGenerator({
           category: "quickReply",
-          type: "quickReply"
-        })
+          type: "quickReply",
+        }),
       };
       //顯示 quickReply 編輯 區
       this.quickReplyDisplay = true;
@@ -316,7 +310,7 @@ export default {
     clearQuickReply() {
       this.isProcessing = true;
       //跳出警示訊息，詢問是否清空
-      ToastDelete.fire().then(result => {
+      ToastDelete.fire().then((result) => {
         if (!result.value) {
           this.isProcessing = false;
           return;
@@ -324,7 +318,7 @@ export default {
         //確定要刪除
         if (result.value) {
           //清空使用者建立的 quickReply
-          this.messageTemplateItem.quickReply = undefined;
+          this.templateItem.quickReply = undefined;
           //隱藏 quickReply 編輯區
           this.quickReplyDisplay = false;
           //提示刪除成功
@@ -337,11 +331,11 @@ export default {
     // 建立預設動作
     addDefaultAction() {
       // 載入合適的 actionSchema
-      this.messageTemplateItem.template.defaultAction = {
+      this.templateItem.template.defaultAction = {
         ...actionGenerator({
           category: "",
-          type: this.defaultActionTypeSelect
-        })
+          type: this.defaultActionTypeSelect,
+        }),
       };
       // 顯示 defaultAction
       this.defaultActionDisplay = true;
@@ -349,32 +343,32 @@ export default {
     // 取消預設動作
     deleteDefaultAction() {
       // 載入合適的 actionSchema
-      this.messageTemplateItem.template.defaultAction = {};
+      this.templateItem.template.defaultAction = {};
       // 顯示 defaultAction
       this.defaultActionDisplay = false;
     },
     // 新增按鍵
     handleTemplateAddBtnAddClick() {
       // 判斷按鍵數量是否超過
-      if (this.messageTemplateItem.template.actions.length === 4) {
+      if (this.templateItem.template.actions.length === 4) {
         Toast.fire({
           icon: "warning",
-          text: "已達範本按鍵數限制囉!"
+          text: "已達範本按鍵數限制囉!",
         });
       } else {
-        this.messageTemplateItem.template.actions.push({
+        this.templateItem.template.actions.push({
           ...actionGenerator({
             category: "",
-            type: this.templateBtnSelect
-          })
+            type: this.templateBtnSelect,
+          }),
         });
       }
     },
     // 刪除按鍵
     handleTemplateDeleteBtnClick(index) {
       // 刪除該按鍵
-      this.messageTemplateItem.template.actions.splice(index, 1);
-    }
-  }
+      this.templateItem.template.actions.splice(index, 1);
+    },
+  },
 };
 </script>

@@ -6,7 +6,7 @@
       <!-- 顯示文字內容 -->
       <div class="input-group mb-2">
         <textarea
-          v-model="messageTemplateItem.text"
+          v-model="templateItem.text"
           type="text"
           class="form-control"
           :maxlength="textMaxLength"
@@ -19,7 +19,7 @@
       <div class="mt-2 mb-3">
         <small
           class="text-muted text-left mx-5"
-        >字數統計： {{textMaxLength - messageTemplateItem.text.length}} / {{textMaxLength}}</small>
+        >字數統計： {{textMaxLength - templateItem.text.length}} / {{textMaxLength}}</small>
       </div>
     </div>
 
@@ -39,7 +39,7 @@
       <!-- 若資料已有 quick reply，則顯示之 -->
       <!-- 載入 QuickReply component-->
       <div v-if="quickReplyDisplay" class="py-3 px-2">
-        <QuickReply :quick-reply="messageTemplateItem.quickReply" />
+        <QuickReply :quick-reply="templateItem.quickReply" />
       </div>
     </div>
   </div>
@@ -55,20 +55,20 @@ import { Toast, ToastDelete } from "../../../../utils/helpers";
 export default {
   name: "TextMessage",
   props: {
-    messageTemplateItem: {
-      type: Object
+    templateItem: {
+      type: Object,
     },
     templateIndex: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   components: {
-    QuickReply
+    QuickReply,
   },
   data() {
     return {
       quickReplySchema: {
-        items: []
+        items: [],
       },
 
       //每筆訊息長度限制
@@ -78,12 +78,12 @@ export default {
       //是否正在處理中
       isProcessing: false,
       //建立快速回覆(預設 false)
-      quickReplyDisplay: false
+      quickReplyDisplay: false,
     };
   },
   created() {
-    //若載入的 messageTemplateItem.quickReply 不為空，則顯 quickReply
-    if (!this.messageTemplateItem.quickReply) {
+    //若載入的 templateItem.quickReply 不為空，則顯 quickReply
+    if (!this.templateItem.quickReply) {
       this.quickReplyDisplay = false;
     } else {
       this.quickReplyDisplay = true;
@@ -97,8 +97,8 @@ export default {
     //建立快速回覆
     setUpQuickReply() {
       //複製 schema
-      this.messageTemplateItem.quickReply = {
-        ...this.quickReplySchema
+      this.templateItem.quickReply = {
+        ...this.quickReplySchema,
       };
       //顯示 quickReply 編輯 區
       this.quickReplyDisplay = true;
@@ -107,7 +107,7 @@ export default {
     clearQuickReply() {
       this.isProcessing = true;
       //跳出警示訊息，詢問是否清空
-      ToastDelete.fire().then(result => {
+      ToastDelete.fire().then((result) => {
         if (!result.value) {
           this.isProcessing = false;
           return;
@@ -115,7 +115,7 @@ export default {
         //確定要刪除
         if (result.value) {
           //清空使用者建立的 quickReply
-          this.messageTemplateItem.quickReply = undefined;
+          this.templateItem.quickReply = undefined;
           //隱藏 quickReply 編輯區
           this.quickReplyDisplay = false;
           //提示刪除成功
@@ -124,7 +124,7 @@ export default {
           this.isProcessing = false;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
