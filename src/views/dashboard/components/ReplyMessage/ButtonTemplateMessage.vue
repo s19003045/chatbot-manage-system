@@ -191,9 +191,10 @@
         class="mx-1 my-3"
       >按鍵數：{{templateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
     </div>
-    <!-- 樣版顯示區 => 暫不做 -->
+    <!-- 取消 button template 的 quick reply 功能 -->
     <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
-    <div class="py-3 px-2 border">
+
+    <!-- <div class="py-3 px-2 border">
       <h5>快速回覆編輯區</h5>
       <h6 class="mb-3 text-muted">
         說明：
@@ -211,18 +212,17 @@
         @click="clearQuickReply"
         :disabled="isProcessing"
       >清空所有快速回覆訊息</button>
-      <!-- 若資料已有 quick reply，則顯示之 -->
-      <!-- 載入 QuickReply component-->
+  
       <div v-if="quickReplyDisplay" class="py-3 px-2">
         <QuickReply :quick-reply="templateItem.quickReply" :reply-module-list="replyModuleList" />
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 // import components
-import QuickReply from "./core/QuickReply.vue";
+// import QuickReply from "./core/QuickReply.vue";
 import ActionObject from "./core/ActionObject.vue";
 
 // import helpers
@@ -246,7 +246,7 @@ export default {
     },
   },
   components: {
-    QuickReply,
+    // QuickReply,
     ActionObject,
   },
   data() {
@@ -320,7 +320,6 @@ export default {
       this.templateItem.quickReply = JSON.parse(
         JSON.stringify(
           msgGenerator({
-            category: "quickReply",
             type: "quickReply",
           })
         )
