@@ -1,6 +1,6 @@
 <template>
   <div class="col border mt-1 mb-3 py-2">
-    <h6 class="my-3">按鍵範本訊息編輯區</h6>
+    <h5 class="my-3">按鍵範本訊息編輯區</h5>
 
     <!-- 編輯區 -->
     <div class="py-3 px-2 mb-2 border">
@@ -87,9 +87,8 @@
           class="text-muted text-left mx-5"
         >字數統計： {{templateItem.template.text.length}} / {{limit.textLengthWithoutImage}}</small>
       </div>
-      <!-- defaultAction 設定 -->
-      <div class="input-group mb-2">
-        <!-- 是否需要圖片 -->
+      <!-- defaultAction 設定 =>暫不做 -->
+      <!-- <div class="input-group mb-2">
         <div class="input-group-prepend">
           <label for="withDefaultAction" class="input-group-text">是否需要預設動作</label>
         </div>
@@ -103,10 +102,10 @@
           <option value="false">不使用</option>
         </select>
       </div>
-      <small class="d-block mb-2">說明：當點擊圖片、標題、文字時，會觸發預設動作</small>
+      <small class="d-block mb-2">說明：當點擊圖片、標題、文字時，會觸發預設動作</small>-->
 
       <!-- 選擇預設動作類別 -->
-      <div v-if="withDefaultAction === 'true'" class="mb-2">
+      <!-- <div v-if="withDefaultAction === 'true'" class="mb-2">
         <small>選擇預設動作類別</small>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -121,6 +120,7 @@
             <option value="message">訊息動作</option>
             <option value="postback">回傳動作</option>
             <option value="uri">連結網址</option>
+
             <option value="datetimepicker">日期時間選擇器動作</option>
             <option value="camera">拍照</option>
             <option value="cameraRoll">上傳照片動作</option>
@@ -139,13 +139,13 @@
             @click="deleteDefaultAction"
           >刪除預設動作</button>
         </div>
-      </div>
+      </div>-->
       <!-- defaultAction 編輯區，載入 component -->
-      <ActionObject
+      <!-- <ActionObject
         v-if="defaultActionDisplay"
         :action-object="templateItem.template.defaultAction"
         :reply-module-list="replyModuleList"
-      />
+      />-->
 
       <!-- 按鍵編輯區 -->
       <!-- 顯示已建立的按鍵數/4 -->
@@ -174,10 +174,11 @@
             <option value="message">訊息動作</option>
             <option value="postback">回傳動作</option>
             <option value="uri">連結網址</option>
-            <option value="datetimepicker">日期時間選擇器動作</option>
+            <!-- 暫時關閉用不到的動作 -->
+            <!-- <option value="datetimepicker">日期時間選擇器動作</option>
             <option value="camera">拍照</option>
             <option value="cameraRoll">上傳照片動作</option>
-            <option value="location" selected>Location 動作</option>
+            <option value="location" selected>Location 動作</option>-->
           </select>
         </div>
         <button
@@ -192,6 +193,12 @@
     <!-- 樣版顯示區 => 暫不做 -->
     <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
     <div class="py-3 px-2 border">
+      <h5>快速回覆編輯區</h5>
+      <h6 class="mb-3 text-muted">
+        說明：
+        <br />1.建議將快速回覆功能放在該模組的最後一個訊息樣版
+        <br />2.快速回覆訊息數最多13個
+      </h6>
       <button
         v-if="!quickReplyDisplay"
         class="btn btn-primary btn-sm"
@@ -199,7 +206,7 @@
       >建立快速回覆</button>
       <button
         v-else
-        class="btn btn-warning btn-sm"
+        class="btn btn-outline-danger btn-sm"
         @click="clearQuickReply"
         :disabled="isProcessing"
       >清空所有快速回覆訊息</button>
@@ -294,7 +301,15 @@ export default {
     }
   },
 
-  beforeUpdate() {},
+  beforeUpdate() {
+    // 若使用圖片而不設定 URL 時，則將 thumbnailImageUrl 賦值 null
+    if (
+      this.withImage === "true" &&
+      this.templateItem.template.thumbnailImageUrl === ""
+    ) {
+      this.templateItem.template.thumbnailImageUrl = null;
+    }
+  },
   computed: {},
 
   methods: {
