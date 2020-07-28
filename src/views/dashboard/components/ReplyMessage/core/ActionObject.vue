@@ -20,7 +20,7 @@
       </div>
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
-          <span class="input-group-text" id>文字</span>
+          <span class="input-group-text" id>點選後顯示的文字</span>
         </div>
         <input
           v-model="actionObject.text"

@@ -11,6 +11,11 @@
 
     <div v-for="(item,index) in quickReply.items" :key="index" class="mb-3">
       <ActionObject :action-object="item.action" :reply-module-list="replyModuleList" />
+      <button
+        type="button"
+        class="btn btn-warning btn-sm"
+        @click.prevent.stop="handleDeleteBtnClick(index)"
+      >刪除</button>
     </div>
     <!-- ↑ ↑ 顯示 quick reply ↑ ↑-->
     <!-- 選擇 quick reply 的類別，quick reply 最多 13 個 -->
@@ -29,7 +34,7 @@
       </select>
     </div>
 
-    <button class="btn btn-primary btn-sm m-2" @click="addQuickReply">新增快速回覆</button>
+    <button class="btn btn-primary btn-sm m-2" @click="handleAddQuickReplyBtnClick">新增快速回覆</button>
     <span class>快速回覆訊息數：{{quickReply.items.length}} / 13</span>
   </div>
 </template>
@@ -64,7 +69,7 @@ export default {
   created() {},
   methods: {
     //新增一個 quick reply
-    addQuickReply() {
+    handleAddQuickReplyBtnClick() {
       //判斷使用者是否選取 quickReply 類別
       if (this.actionSelect === "") {
         Toast.fire({
@@ -94,11 +99,14 @@ export default {
       );
 
       //在 this.quickReply.items 加入合適的 action schema
-      this.quickReply.items.push({
-        ...actionSchemaSelect,
-      });
+      this.quickReply.items.push(actionSchemaSelect);
       //清空 this.actionSelect
       this.actionSelect = "";
+    },
+    //刪除 quick reply
+    handleDeleteBtnClick(index) {
+      console.log("index=>>", index);
+      this.quickReply.items.splice(index, 1);
     },
   },
 };
