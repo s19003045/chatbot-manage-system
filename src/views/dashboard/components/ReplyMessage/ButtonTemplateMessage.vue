@@ -316,12 +316,14 @@ export default {
     //建立快速回覆
     setUpQuickReply() {
       //複製 schema
-      this.templateItem.quickReply = {
-        ...msgGenerator({
-          category: "quickReply",
-          type: "quickReply",
-        }),
-      };
+      this.templateItem.quickReply = JSON.parse(
+        JSON.stringify(
+          msgGenerator({
+            category: "quickReply",
+            type: "quickReply",
+          })
+        )
+      );
       //顯示 quickReply 編輯 區
       this.quickReplyDisplay = true;
     },
@@ -350,12 +352,15 @@ export default {
     // 建立預設動作
     addDefaultAction() {
       // 載入合適的 actionSchema
-      this.templateItem.template.defaultAction = {
-        ...actionGenerator({
-          category: "",
-          type: this.defaultActionTypeSelect,
-        }),
-      };
+      this.templateItem.template.defaultAction = JSON.parse(
+        JSON.stringify(
+          actionGenerator({
+            category: "",
+            type: this.defaultActionTypeSelect,
+          })
+        )
+      );
+
       // 顯示 defaultAction
       this.defaultActionDisplay = true;
     },
@@ -375,12 +380,16 @@ export default {
           text: "已達範本按鍵數限制囉!",
         });
       } else {
-        this.templateItem.template.actions.push({
-          ...actionGenerator({
-            category: "",
-            type: this.templateBtnSelect,
-          }),
-        });
+        this.templateItem.template.actions.push(
+          JSON.parse(
+            JSON.stringify(
+              actionGenerator({
+                category: "",
+                type: this.templateBtnSelect,
+              })
+            )
+          )
+        );
       }
     },
     // 刪除按鍵
