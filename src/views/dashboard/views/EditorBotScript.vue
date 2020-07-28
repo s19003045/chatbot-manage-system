@@ -270,9 +270,13 @@ export default {
         } else {
           // 若 length < 5，則replyMessage.messageTemplate.push(合適的樣版)
           //帶入參數產生新樣版
-          const messageTemplateCreate = msgGenerator({
-            type: this.componentSelect,
-          });
+          const messageTemplateCreate = JSON.parse(
+            JSON.stringify(
+              msgGenerator({
+                type: this.componentSelect,
+              })
+            )
+          );
           //將新樣版整合至  messageTemplate
           this.replyModules[this.moduleClick.index].replyMessage.push(
             messageTemplateCreate
