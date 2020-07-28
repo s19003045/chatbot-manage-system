@@ -48,16 +48,11 @@
                   <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
                   <div v-if="replyMessage" class>
                     <div v-for="(templateItem, index) in replyMessage" :key="index" class="mt-3">
-                      <button
-                        class="btn btn-outline-danger mb-0 ml-3"
-                        @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
-                        :disabled="isProcessing"
-                      >刪除下面訊息</button>
-
                       <ReplyMsgEditor
                         :template-item="templateItem"
                         :template-index="index"
                         :reply-module-list="replyModuleList"
+                        @handle-delete-reply-msg="handleDeleteReplyMsg"
                       />
                     </div>
                   </div>
@@ -295,12 +290,11 @@ export default {
         });
       }
     },
-
-    // 刪除 messageTemplateItem
-    handleClickDeleteReplyMsgBtn(index) {
+    //刪除 replyMsg(子層傳遞上來的事件)
+    handleDeleteReplyMsg([index]) {
       this.replyMessage.splice(index, 1);
-      //提示刪除成功
-      Toast.fire("Deleted!", "Text has been deleted.", "success");
+
+      Toast.fire("Deleted!", "Quick reply has been deleted.", "success");
     },
   },
 };
