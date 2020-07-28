@@ -57,6 +57,7 @@ import QuickReply from "./core/QuickReply.vue";
 
 // import helpers
 import { Toast, ToastDelete } from "../../../../utils/helpers";
+import { msgGenerator } from "../../../../utils/templateGenerator.js";
 
 export default {
   name: "TextMessage",
@@ -76,10 +77,6 @@ export default {
   },
   data() {
     return {
-      quickReplySchema: {
-        items: [],
-      },
-
       //每筆訊息長度限制
       textMaxLength: 5000,
       //是否正在編輯中
@@ -106,9 +103,10 @@ export default {
     //建立快速回覆
     setUpQuickReply() {
       //複製 schema
-      this.templateItem.quickReply = {
-        ...this.quickReplySchema,
-      };
+      this.templateItem.quickReply = JSON.parse(
+        JSON.stringify(msgGenerator({ type: "quickReply" }))
+      );
+
       //顯示 quickReply 編輯 區
       this.quickReplyDisplay = true;
     },
