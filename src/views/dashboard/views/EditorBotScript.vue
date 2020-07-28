@@ -47,12 +47,12 @@
 
                   <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
                   <div v-if="replyMessage" class>
-                    <div v-for="(templateItem, index) in replyMessage" :key="index" class="mt-2">
+                    <div v-for="(templateItem, index) in replyMessage" :key="index" class="mt-3">
                       <button
                         class="btn btn-outline-danger mb-0 ml-3"
                         @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
                         :disabled="isProcessing"
-                      >刪除</button>
+                      >刪除下面訊息</button>
 
                       <ReplyMsgEditor
                         :template-item="templateItem"
@@ -68,7 +68,7 @@
                 <!-- ↑ ↑ 回應訊息編輯區 (scroll bar 邊界)↑ ↑ -->
                 <div v-if="moduleClick.status" class="mb-5 mt-4">
                   <button
-                    class="btn btn-info btn-sm mb-2 mr-3"
+                    class="btn btn-primary mb-2 mr-3"
                     @click="handleClickAddReplyMsgBtn"
                   >新增回應訊息</button>
                   <!-- 顯示總訊息數 -->

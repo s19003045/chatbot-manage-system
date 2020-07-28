@@ -1,6 +1,14 @@
 <template>
   <div class>
     <!-- 顯示 quick reply 並依 quick reply type 顯示-->
+    <div class="mb-3" id="quick-reply-btn-display-container">
+      <button
+        v-for="(item,index) in quickReply.items"
+        :key="index"
+        class="btn btn-secondary border-0 mx-1 mt-2 px-3 quick-reply-btn-display"
+      >{{item.action.label}}</button>
+    </div>
+
     <div v-for="(item,index) in quickReply.items" :key="index" class="mb-3">
       <ActionObject :action-object="item.action" :reply-module-list="replyModuleList" />
     </div>
@@ -95,3 +103,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#quick-reply-btn-display-container .quick-reply-btn-display {
+  font-size: 0.7rem;
+  display: inline-block;
+  background-color: #bfbfbf;
+  border-radius: 20px;
+}
+</style>

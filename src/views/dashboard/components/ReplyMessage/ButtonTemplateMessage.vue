@@ -1,5 +1,5 @@
 <template>
-  <div class="col border mt-1 mb-3 py-2">
+  <div class="col border mt-1 mb-3 py-2 border-primary rounded">
     <h5 class="my-3">按鍵範本訊息編輯區</h5>
 
     <!-- 編輯區 -->
@@ -149,7 +149,8 @@
 
       <!-- 按鍵編輯區 -->
       <!-- 顯示已建立的按鍵數/4 -->
-      <h6 class="mt-5">按鍵編輯區</h6>
+      <hr />
+      <h5 class="mt-2">按鍵編輯區</h5>
       <small class="my-3">按鍵數： {{templateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
       <div v-for="(item, index) in templateItem.template.actions" :key="index" class="py-2">
         <ActionObject :action-object="item" :reply-module-list="replyModuleList" />
@@ -400,3 +401,4 @@ export default {
   },
 };
 </script>
+

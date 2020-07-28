@@ -1,5 +1,5 @@
 <template>
-  <div class="col border mt-1 mb-3 py-2">
+  <div class="col border mt-1 mb-3 py-2 border-primary rounded">
     <h5 class="my-3">文字訊息編輯區</h5>
 
     <div class="py-3 px-2 mb-2 border">
