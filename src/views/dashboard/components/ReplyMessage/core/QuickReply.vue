@@ -75,10 +75,15 @@ export default {
       }
       //若已選擇
       //使用者選定的 action schema
-      const actionSchemaSelect = actionGenerator({
-        category: "quickReply",
-        type: this.actionSelect,
-      });
+      //深拷貝
+      const actionSchemaSelect = JSON.parse(
+        JSON.stringify(
+          actionGenerator({
+            category: "quickReply",
+            type: this.actionSelect,
+          })
+        )
+      );
 
       //在 this.quickReply.items 加入合適的 action schema
       this.quickReply.items.push({
