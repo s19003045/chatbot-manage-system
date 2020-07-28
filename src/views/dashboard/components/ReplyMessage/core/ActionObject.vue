@@ -321,15 +321,17 @@ export default {
   },
   create() {},
   beforeUpdate() {
-    // 將 label 的值賦值給 displayText
-    this.actionObject.displayText = this.actionObject.label;
-
-    // 將 label 的值賦值給 text
-    this.actionObject.text = this.actionObject.label;
+    if (this.actionObject.type === "message") {
+      // 將 label 的值賦值給 text
+      this.actionObject.text = this.actionObject.label;
+    }
 
     // 若為 postback action，則當moduleSelect值有變動時，則修改 actionObject.data =>組合字串action=triggerReply&triggerModuleId=?
     if (this.actionObject.type === "postback") {
       this.actionObject.data = this.postBackActionData;
+
+      // 將 label 的值賦值給 displayText
+      this.actionObject.displayText = this.actionObject.label;
     }
   },
   mounted() {
