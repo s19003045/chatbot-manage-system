@@ -47,7 +47,7 @@
 
                   <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
                   <div v-if="replyMessage" class>
-                    <div v-for="(template, index) in replyMessage" :key="index" class="mt-2">
+                    <div v-for="(templateItem, index) in replyMessage" :key="index" class="mt-2">
                       <button
                         class="btn btn-outline-danger mb-0 ml-3"
                         @click.stop.prevent="handleClickDeleteReplyMsgBtn(index)"
@@ -55,7 +55,7 @@
                       >刪除</button>
 
                       <ReplyMsgEditor
-                        :template-item="template"
+                        :template-item="templateItem"
                         :template-index="index"
                         :reply-module-list="replyModuleList"
                       />
@@ -154,14 +154,9 @@ export default {
         this.replyModules = [...data.data.replyModules];
         //replyMessage 轉成 array
         this.replyModules.forEach((d) => {
-          d.replyMessage = [{ ...d.replyMessage }];
-
-          this.replyModuleList.push({
-            id: d.id,
-            name: d.name,
-            uuid: d.uuid,
-            status: d.status,
-          });
+          if (!Array.isArray(d.replyMessage)) {
+            d.replyMessage = [{ ...d.replyMessage }];
+          }
         });
 
         return Toast.fire({
@@ -184,7 +179,19 @@ export default {
       });
     }
   },
-  beforeUpdate() {},
+  beforeUpdate() {
+    //清空 replyModuleList
+    this.replyModuleList = [];
+    //再把 replyModules 的資料放進去
+    this.replyModules.forEach((d) => {
+      this.replyModuleList.push({
+        id: d.id,
+        name: d.name,
+        uuid: d.uuid,
+        status: d.status,
+      });
+    });
+  },
   mounted() {},
   computed: {},
   methods: {
@@ -267,7 +274,10 @@ export default {
             type: this.componentSelect,
           });
           //將新樣版整合至  messageTemplate
-          this.replyMessage.push(messageTemplateCreate);
+          this.replyModules[this.moduleClick.index].replyMessage.push(
+            messageTemplateCreate
+          );
+
           // 成功新增訊息
           Toast.fire({
             icon: "success",
