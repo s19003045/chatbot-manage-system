@@ -2,10 +2,10 @@
   "type": "action",
   "action": {
     "type": "uri",
-    "label": "View details",
+    "label": "",
     "uri": "http://example.com/page/222",
     "altUri": {
-      "desktop": "http://example.com/pc/page/222"
+      "desktop": ""
     }
   }
 }
