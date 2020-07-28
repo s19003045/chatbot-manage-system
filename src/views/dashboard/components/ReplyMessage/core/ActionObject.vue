@@ -29,6 +29,7 @@
           placeholder="text"
           aria-label="text"
           aria-describedby
+          disabled
         />
       </div>
     </div>
@@ -93,7 +94,7 @@
           data-placement="top"
           title="使用者點選後顯示於談話框的文字"
         >
-          <span class="input-group-text" id>displayText</span>
+          <span class="input-group-text" id>點選後顯示的文字</span>
         </div>
         <!-- ↓ ↓ 置換成 label 的值 ↓ ↓  -->
         <input
@@ -106,7 +107,26 @@
           disabled
         />
       </div>
+      <!-- 讓使用者選取要觸發的模組 -->
       <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id>選擇要觸發的摸組</span>
+        </div>
+        <select
+          name="postback-trigger-module"
+          id="postback-trigger-module"
+          class="custom-select"
+          v-model="moduleSelect"
+        >
+          <option
+            v-for="(module, index) in replyModuleList"
+            :key="index"
+            :value="module.id"
+          >{{module.name}}-{{module.uuid}}</option>
+        </select>
+      </div>
+
+      <!-- <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text" id>data</span>
         </div>
@@ -118,7 +138,7 @@
           aria-label="data"
           aria-describedby
         />
-      </div>
+      </div>-->
     </div>
 
     <!-- camera -->
@@ -178,7 +198,7 @@
       </div>
     </div>
 
-    <!-- datetimepicker -->
+    <!-- datetimepicker => 待處理時間選取的問題-->
     <div v-if="actionObject.type === 'datetimepicker'" class>
       <small class="d-block mb-1">類別: {{actionObject.type}}</small>
       <div class="w-100"></div>
@@ -196,6 +216,8 @@
           aria-describedby
         />
       </div>
+      <!-- 套件 VCalendar -->
+      <vc-date-picker mode="range" :value="null" color="blue" is-inline />
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text" id>data</span>
@@ -266,6 +288,8 @@
 </template>
 
 <script>
+import querystring from "querystring";
+
 export default {
   props: {
     actionObject: {
@@ -278,12 +302,40 @@ export default {
   data() {
     return {
       datetimepickerModeSelect: "",
+      moduleSelect: -1,
     };
+  },
+  computed: {
+    //postback object data 屬性的值
+    postBackActionData() {
+      return `action=triggerReply&triggerModuleId=${this.moduleSelect}`;
+    },
+    //轉換 postback action 的 data 成 moduleSelect 的 值
+    postbackDataObject() {
+      if (this.actionObject.type === "postback") {
+        return querystring.parse(this.actionObject.data);
+      } else {
+        return {};
+      }
+    },
   },
   create() {},
   beforeUpdate() {
     // 將 label 的值賦值給 displayText
     this.actionObject.displayText = this.actionObject.label;
+
+    // 將 label 的值賦值給 text
+    this.actionObject.text = this.actionObject.label;
+
+    // 若為 postback action，則當moduleSelect值有變動時，則修改 actionObject.data =>組合字串action=triggerReply&triggerModuleId=?
+    if (this.actionObject.type === "postback") {
+      this.actionObject.data = this.postBackActionData;
+    }
+  },
+  mounted() {
+    if (this.actionObject.type === "postback") {
+      this.moduleSelect = parseInt(this.postbackDataObject.triggerModuleId);
+    }
   },
   methods: {},
 };
