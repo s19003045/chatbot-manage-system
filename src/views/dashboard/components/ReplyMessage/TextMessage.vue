@@ -1,6 +1,6 @@
 <template>
   <div class="col border mt-1 mb-3 py-2">
-    <h6 class="my-3">文字訊息編輯區</h6>
+    <h5 class="my-3">文字訊息編輯區</h5>
 
     <div class="py-3 px-2 mb-2 border">
       <!-- 顯示文字內容 -->
@@ -25,6 +25,12 @@
 
     <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
     <div class="py-3 px-2 border">
+      <h5>快速回覆編輯區</h5>
+      <h6 class="mb-3 text-muted">
+        說明：
+        <br />1.建議將快速回覆功能放在該模組的最後一個訊息樣版
+        <br />2.快速回覆訊息數最多13個
+      </h6>
       <button
         v-if="!quickReplyDisplay"
         class="btn btn-primary btn-sm"
@@ -32,7 +38,7 @@
       >建立快速回覆</button>
       <button
         v-else
-        class="btn btn-warning btn-sm"
+        class="btn btn-outline-danger btn-sm"
         @click="clearQuickReply"
         :disabled="isProcessing"
       >清空所有快速回覆訊息</button>
