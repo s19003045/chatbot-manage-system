@@ -13,10 +13,11 @@
       <select class="custom-select" id="actionSelect" v-model="actionSelect">
         <option value="message">訊息動作</option>
         <option value="postback">回傳動作</option>
-        <option value="datetimepicker">日期時間選擇器動作</option>
-        <option value="camera">拍照</option>
-        <option value="cameraRoll">上傳照片動作</option>
-        <option value="location" selected>Location 動作</option>
+        <!-- 暫時關閉用不到的功能 -->
+        <!-- <option value="datetimepicker">日期時間選擇器動作</option> -->
+        <!-- <option value="camera">拍照</option> -->
+        <!-- <option value="cameraRoll">上傳照片動作</option> -->
+        <!-- <option value="location" selected>Location 動作</option> -->
       </select>
     </div>
 
