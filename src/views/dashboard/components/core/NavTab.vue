@@ -3,6 +3,7 @@
     <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'overview'}"
         id="overview-tab"
         data-toggle="pill"
         :to="{name:'overview',params:{botId:'bot-abcde'}}"
@@ -14,6 +15,7 @@
     <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'message-center'}"
         id="message-center-tab"
         data-toggle="pill"
         :to="{name:'message-center'}"
@@ -25,6 +27,7 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'editor-bot-welcome'}"
         id="editor-bot-welcome-tab"
         data-toggle="pill"
         :to="{name:'editor-bot-welcome'}"
@@ -36,6 +39,7 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'editor-bot-keyword-reply'}"
         id="editor-bot-keyword-reply-tab"
         data-toggle="pill"
         :to="{name:'editor-bot-keyword-reply'}"
@@ -47,6 +51,7 @@
     <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'ditor-bot-post-back'}"
         id="editor-bot-post-back-tab"
         data-toggle="pill"
         :to="{name:'editor-bot-post-back'}"
@@ -58,6 +63,7 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'editor-bot-script'}"
         id="editor-bot-script-tab"
         data-toggle="pill"
         :to="{name:'editor-bot-script'}"
@@ -69,6 +75,7 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'editor-bot-auto-reply'}"
         id="editor-bot-auto-reply-tab"
         data-toggle="pill"
         :to="{name:'editor-bot-auto-reply'}"
@@ -80,6 +87,7 @@
     <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'broadcast-overview'}"
         id="broadcast-overview-tab"
         data-toggle="pill"
         :to="{name:'broadcast-overview'}"
@@ -91,6 +99,7 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'analytics-template'}"
         id="analytics-template-tab"
         data-toggle="pill"
         :to="{name:'analytics-template'}"
@@ -102,6 +111,7 @@
     <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'analytics-customer'}"
         id="analytics-customer-tab"
         data-toggle="pill"
         :to="{name:'analytics-customer'}"
@@ -113,6 +123,7 @@
     <!-- <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'analytics-message'}"
         id="analytics-message-tab"
         data-toggle="pill"
         :to="{name:'analytics-message'}"
@@ -124,6 +135,7 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'setting'}"
         id="setting-tab"
         data-toggle="pill"
         :to="{name:'setting'}"
@@ -135,6 +147,7 @@
     <li class="nav-item" role="presentation">
       <router-link
         class="nav-link"
+        :class="{active:navTabSelect === 'konva'}"
         id="konva-tab"
         data-toggle="pill"
         :to="{name:'konva'}"
@@ -147,5 +160,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    navTabSelect: {
+      type: String,
+    },
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+  beforeUpdate() {},
+};
 </script>

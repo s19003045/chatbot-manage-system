@@ -24,7 +24,7 @@
           <div class="d-flex justify-content-between">
             <button
               v-if="isEditing"
-              class="btn btn-outline-primary mb-0"
+              class="btn btn-outline-warning mb-0"
               :disabled="isProcessing"
               @click="toggleDisplay"
             >隱藏訊息</button>
@@ -99,6 +99,7 @@ export default {
   data() {
     return {
       isEditing: false,
+      isProcessing: false,
     };
   },
   computed: {

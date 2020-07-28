@@ -34,3 +34,22 @@ export const ToastDelete = Swal.mixin({
   timer: 5000,
   timerProgressBar: true
 })
+
+//刪除提示
+export const ToastLeave = Swal.mixin({
+  title: "要前往下個頁面嗎?",
+  text: "記得儲存編輯結果",
+  toast: false,
+  icon: "info",
+  position: "center",
+  showCancelButton: true,
+  showConfirmButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "前往下個頁面",
+  cancelButtonText: "取消",
+  focusConfirm: false,
+  focusCancel: true,
+  timer: 5000,
+  timerProgressBar: true
+})
