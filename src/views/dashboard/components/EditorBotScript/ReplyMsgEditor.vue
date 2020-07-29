@@ -12,7 +12,6 @@
         <div v-if="!isEditing" class>
           <div class="d-flex justify-content-between">
             <button
-              v-if="!isEditing"
               class="btn btn-outline-primary mb-0"
               :disabled="isProcessing"
               @click="toggleDisplay"
@@ -23,13 +22,11 @@
         <div v-else class>
           <div class="d-flex justify-content-between">
             <button
-              v-if="isEditing"
               class="btn btn-outline-warning mb-0"
               :disabled="isProcessing"
               @click="toggleDisplay"
             >隱藏訊息</button>
             <button
-              v-if="isEditing"
               class="btn btn-outline-danger mb-0"
               @click.stop.prevent="handleClickDeleteReplyMsgBtn"
               :disabled="isProcessing"
