@@ -7,8 +7,8 @@
     "imageAspectRatio": "rectangle",
     "imageSize": "cover",
     "imageBackgroundColor": "#FFFFFF",
-    "title": "Menu",
-    "text": "Please select",
+    "title": "",
+    "text": "",
     "defaultAction": {
       "type": "uri",
       "label": "View detail",

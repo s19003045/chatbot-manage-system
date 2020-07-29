@@ -7,26 +7,8 @@
       {
         "thumbnailImageUrl": "",
         "imageBackgroundColor": "#FFFFFF",
-        "title": "this is menu",
-        "text": "description",
-        "defaultAction": {
-          "type": "uri",
-          "label": "View detail",
-          "uri": ""
-        },
-        "actions": [
-          {
-            "type": "postback",
-            "label": "",
-            "data": "action=triggerReply&triggerModuleId="
-          }
-        ]
-      },
-      {
-        "thumbnailImageUrl": "",
-        "imageBackgroundColor": "#000000",
-        "title": "this is menu",
-        "text": "description",
+        "title": "",
+        "text": "",
         "defaultAction": {
           "type": "uri",
           "label": "View detail",
