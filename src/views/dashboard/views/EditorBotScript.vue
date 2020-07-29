@@ -1,9 +1,9 @@
 <template>
   <div class="mb-2">
-    <div class="container-fluid py-3 px-0">
+    <div class="container-fluid py-4 px-0">
       <div class="row py-1">
         <!-- 模組列表 -->
-        <div class="col-12 col-lg-2">
+        <div class="col-12 col-md-3 col-lg-2">
           <ModuleList
             :reply-modules="replyModules"
             :module-click="moduleClick"
@@ -11,7 +11,7 @@
             @after-click-module="afterClickModule"
           />
         </div>
-        <div class="col-12 col-lg-10">
+        <div class="col-12 col-md-9 col-lg-10">
           <div class="row justify-content-between">
             <div v-if="moduleClick.status" class="col-12 col-md-3 order-md-last mb-3">
               <button
@@ -75,7 +75,8 @@
                     </div>
                     <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
                       <option value="text" selected>文字訊息</option>
-                      <option value="confirmTemplate">確認範本訊息</option>
+                      <!-- 暫停使用確認範本訊息 => 待確認範本訊息功能完整後再啟用 -->
+                      <!-- <option value="confirmTemplate">確認範本訊息</option> -->
                       <option value="buttonsTemplate">按鍵範本訊息</option>
                       <option value="carouselTemplate" selected>輪播範本訊息</option>
                     </select>
@@ -174,6 +175,7 @@ export default {
       });
     }
   },
+
   beforeUpdate() {
     //清空 replyModuleList
     this.replyModuleList = [];

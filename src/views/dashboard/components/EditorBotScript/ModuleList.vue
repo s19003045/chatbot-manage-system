@@ -3,17 +3,31 @@
     <h5 class="mb-3 py-2 px-3 bg-secondary text-dark border border-secondary rounded">模組列表</h5>
 
     <div class="w-100"></div>
-    <div class="custom-scrollbar-css my-3 border border-secondary" id="moduleListContent">
-      <ul class="nav flex-column">
+    <div class="custom-scrollbar-css my-1 border-top border-bottom" id="moduleListContent">
+      <ul class="nav flex-md-column my-0">
         <li
           v-for="(replyModule,index) in replyModules"
           v-bind:key="replyModule.id"
-          class="nav-item border border-secondary px-2 py-2"
-          :class="{'module-select-color': moduleClick.index === index}"
+          class="nav-item px-0 py-0 my-2 my-lg-1 mx-1 mx-lg-2 border-primary"
+          :class="{'module-select-color': moduleClick.index === index, 'shadow':moduleClick.index === index}"
           :data-reply-module-uuid="replyModule.uuid"
           @click.stop.prevent="handleClickModule(index)"
         >
-          <div
+          <div class="card">
+            <div class="card-body pl-3 py-3">
+              <h6
+                class="card-subtitle mb-2 text-muted"
+              >{{replyModule.name === null || replyModule.name === "" || replyModule.name === undefined ? "尚未命名" : replyModule.name}}</h6>
+
+              <button
+                class="btn btn-outline-danger btn-sm"
+                @click.stop.prevent="handleDeleteBtnClick(index,replyModule.uuid)"
+                :disabled="isProcessing"
+              >刪除</button>
+            </div>
+          </div>
+
+          <!-- <div
             class="mb-2"
           >{{replyModule.name === null || replyModule.name === "" || replyModule.name === undefined ? "尚未命名" : replyModule.name}}</div>
 
@@ -21,7 +35,7 @@
             class="btn btn-outline-danger btn-sm"
             @click.stop.prevent="handleDeleteBtnClick(index,replyModule.uuid)"
             :disabled="isProcessing"
-          >刪除</button>
+          >刪除</button>-->
         </li>
       </ul>
     </div>
@@ -164,19 +178,9 @@ export default {
 </script>
 
 <style  scoped>
-.module-select-color {
-  background-color: #cfcfcf;
-}
-
-/* Custom Scrollbar using CSS */
-.custom-scrollbar-css {
-  max-height: 500px;
-  overflow-y: scroll;
-}
-
-/* scrollbar width */
-.custom-scrollbar-css::-webkit-scrollbar {
-  width: 5px;
+#moduleListContent.custom-scrollbar-css ul {
+  overflow-x: hidden;
+  /* scrollbar-width: thin; */
 }
 
 /* scrollbar track */
@@ -189,5 +193,56 @@ export default {
   border-radius: 1rem;
   background-color: #8a8a8a;
   /* background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%); */
+}
+
+/* moduleList */
+#moduleListContent ul {
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+/* moduleList item */
+li.module-select-color {
+  border: solid 2px;
+}
+
+/* moduleList item :hover */
+.custom-scrollbar-css ul li:hover {
+  border: 2px solid #e1f2f8;
+}
+/* moduleList item card */
+.custom-scrollbar-css ul .card {
+  width: 10rem;
+  height: 100%;
+}
+
+@media only screen and (min-width: 576px) {
+  #moduleListContent.custom-scrollbar-css ul {
+    overflow-x: scroll;
+    scrollbar-width: thin;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  /* Custom Scrollbar using CSS */
+  #moduleListContent.custom-scrollbar-css {
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+  }
+
+  /* scrollbar width */
+  .custom-scrollbar-css::-webkit-scrollbar {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+  }
+  #moduleListContent ul {
+    width: 100%;
+  }
+  #moduleListContent .card {
+    width: 100%;
+  }
 }
 </style>
