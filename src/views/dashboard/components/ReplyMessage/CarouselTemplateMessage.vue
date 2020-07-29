@@ -13,10 +13,9 @@
       <div v-if="!isEditing" class>
         <div class="d-flex justify-content-between">
           <button
-            v-if="!isEditing"
             class="btn btn-outline-primary btn-sm mb-0"
             :disabled="isProcessing"
-            @click="toggleDisplay(carouselItemIndex)"
+            @click="toggleDisplay"
           >編輯欄位</button>
         </div>
       </div>
@@ -24,13 +23,11 @@
       <div v-else class>
         <div class="d-flex justify-content-between mb-2">
           <button
-            v-if="isEditing"
             class="btn btn-outline-warning btn-sm mb-0"
             :disabled="isProcessing"
-            @click="toggleDisplay"
+            @click="toggleDisplay "
           >隱藏欄位</button>
           <button
-            v-if="isEditing"
             class="btn btn-outline-danger btn-sm mb-0"
             @click.stop.prevent="handleClickDeleteColumnBtn(carouselItemIndex)"
             :disabled="isProcessing"
@@ -230,7 +227,7 @@
 import ActionObject from "./core/ActionObject.vue";
 
 // import helpers
-import { Toast } from "../../../../utils/helpers";
+import { Toast, ToastDelete } from "../../../../utils/helpers";
 import {
   actionGenerator,
   msgGenerator,
@@ -302,8 +299,7 @@ export default {
         templateBtnLimit: 3, //範本按鍵數限制
         columnsLimit: 10,
       },
-
-      //是否正在編輯中
+      //該欄位是否正在編輯中(Boolean)
       isEditing: false,
       //是否正在處理中
       isProcessing: false,
@@ -311,6 +307,7 @@ export default {
       quickReplyDisplay: false,
     };
   },
+  computed: {},
   created() {
     // 判斷載入的資料是否使用圖片
     if (!this.templateItem.template.columns[0].thumbnailImageUrl) {
@@ -342,8 +339,7 @@ export default {
       this.templateItem.template.columns[0].thumbnailImageUrl = null;
     }
   },
-  computed: {},
-
+  mounted() {},
   methods: {
     // 建立預設動作
     addDefaultAction(carouselItemIndex) {
@@ -393,13 +389,17 @@ export default {
         );
       }
     },
-    // 刪除按鍵
+    // 刪除訊息按鍵
     handleTemplateDeleteBtnClick(carouselItemIndex, btnIndex) {
       // 刪除該按鍵
       this.templateItem.template.columns[carouselItemIndex].actions.splice(
         btnIndex,
         1
       );
+    },
+    // 點擊編輯按鈕
+    toggleDisplay() {
+      this.isEditing = this.isEditing === true ? false : true;
     },
     // 新增欄位
     handleAddColumnBtnClick() {
@@ -418,10 +418,21 @@ export default {
         this.templateItem.template.columns.push(columnSchema);
       }
     },
-    // 點擊編輯按鈕
-    toggleDisplay(carouselItemIndex) {
-      console.log(carouselItemIndex);
-      this.isEditing = this.isEditing === true ? false : true;
+    // 點擊刪除欄位按鍵
+    handleClickDeleteColumnBtn(carouselItemIndex) {
+      this.isProcessing = true;
+      //跳出警示訊息，詢問是否清空
+      ToastDelete.fire().then((result) => {
+        if (!result.value) {
+          this.isProcessing = false;
+          return;
+        }
+        //確定要刪除
+        if (result.value) {
+          // 刪除該欄位
+          this.templateItem.template.columns.splice(carouselItemIndex, 1);
+        }
+      });
     },
   },
 };
