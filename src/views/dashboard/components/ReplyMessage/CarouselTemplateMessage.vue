@@ -8,95 +8,120 @@
       :key="carouselItemIndex"
       class="py-3 px-2 mb-3 border border-info"
     >
-      <h5>
-        欄位 {{['一','二','三','四','五','六','七','八','九','十','十一','十二','十三'
-        ][carouselItemIndex] }}
-      </h5>
-      <!-- 顯示文字內容 -->
-      <div class="input-group mb-2">
-        <!-- 是否需要圖片 -->
-        <div class="input-group-prepend">
-          <label for="withImage" class="input-group-text">是否需要圖片</label>
+      <!-- 欄位編輯區 -->
+      <h5>欄位 {{['一','二','三','四','五','六','七','八','九','十'][carouselItemIndex] }}</h5>
+      <div v-if="!isEditing" class>
+        <div class="d-flex justify-content-between">
+          <button
+            v-if="!isEditing"
+            class="btn btn-outline-primary btn-sm mb-0"
+            :disabled="isProcessing"
+            @click="toggleDisplay(carouselItemIndex)"
+          >編輯欄位</button>
         </div>
-        <select name="withImage" id="withImage" class="custom-select" v-model="withImage">
-          <option value="true">使用圖片</option>
-          <option value="false">不使用圖片</option>
-        </select>
       </div>
-      <!-- 若 thumbnailImageUrl 不為空則顯示 input 欄位 -->
-      <div v-if="withImage === 'true'" class="input-group mb-2">
-        <div class="input-group-prepend">
-          <label for class="input-group-text">圖片URL</label>
+      <!-- 顯示編輯內容 -->
+      <div v-else class>
+        <div class="d-flex justify-content-between mb-2">
+          <button
+            v-if="isEditing"
+            class="btn btn-outline-warning btn-sm mb-0"
+            :disabled="isProcessing"
+            @click="toggleDisplay"
+          >隱藏欄位</button>
+          <button
+            v-if="isEditing"
+            class="btn btn-outline-danger btn-sm mb-0"
+            @click.stop.prevent="handleClickDeleteColumnBtn(carouselItemIndex)"
+            :disabled="isProcessing"
+          >刪除欄位</button>
         </div>
-        <input type="text" class="form-control" v-model="carouselItem.thumbnailImageUrl" />
-      </div>
-      <!-- 上傳圖片 => 之後再來規劃 -->
-      <!-- 說明文字：點擊 icon 後再跳出來 -->
-      <!-- <small class="text-muted">
+
+        <!-- 顯示文字內容 -->
+        <div class="input-group mb-2">
+          <!-- 是否需要圖片 -->
+          <div class="input-group-prepend">
+            <label for="withImage" class="input-group-text">是否需要圖片</label>
+          </div>
+          <select name="withImage" id="withImage" class="custom-select" v-model="withImage">
+            <option value="true">使用圖片</option>
+            <option value="false">不使用圖片</option>
+          </select>
+        </div>
+        <!-- 若 thumbnailImageUrl 不為空則顯示 input 欄位 -->
+        <div v-if="withImage === 'true'" class="input-group mb-2">
+          <div class="input-group-prepend">
+            <label for class="input-group-text">圖片URL</label>
+          </div>
+          <input type="text" class="form-control" v-model="carouselItem.thumbnailImageUrl" />
+        </div>
+        <!-- 上傳圖片 => 之後再來規劃 -->
+        <!-- 說明文字：點擊 icon 後再跳出來 -->
+        <!-- <small class="text-muted">
         Image URL (Max character limit: 1,000)
         <br />HTTPS over TLS 1.2 or later
         <br />JPEG or PNG
         <br />Max width: 1024px
         <br />Max file size: 1 MB
-      </small>-->
-      <!-- imageAspectRatio =>暫不做-->
+        </small>-->
+        <!-- imageAspectRatio =>暫不做-->
 
-      <!-- imageSize =>暫不做 -->
+        <!-- imageSize =>暫不做 -->
 
-      <!-- imageBackgroundColor =>暫不做 -->
+        <!-- imageBackgroundColor =>暫不做 -->
 
-      <!-- 標題 -->
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <label for class="input-group-text">標題</label>
+        <!-- 標題 -->
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <label for class="input-group-text">標題</label>
+          </div>
+          <textarea
+            class="form-control"
+            :maxlength="limit.titleTextLength"
+            v-model="carouselItem.title"
+          />
         </div>
-        <textarea
-          class="form-control"
-          :maxlength="limit.titleTextLength"
-          v-model="carouselItem.title"
-        />
-      </div>
-      <!-- 標題顯示字數統計 -->
-      <div class="mt-2 mb-3">
-        <small
-          class="text-muted text-left mx-5"
-        >字數統計： {{carouselItem.title.length}} / {{limit.titleTextLength}}</small>
-      </div>
-      <!-- 文字 -->
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <label for class="input-group-text">文字</label>
+        <!-- 標題顯示字數統計 -->
+        <div class="mt-2 mb-3">
+          <small
+            class="text-muted text-left mx-5"
+          >字數統計： {{carouselItem.title.length}} / {{limit.titleTextLength}}</small>
         </div>
-        <!-- 有圖片時 -->
-        <textarea
-          v-if="withImage === 'true'"
-          :maxlength="limit.textLengthWithImage"
-          class="form-control"
-          v-model="carouselItem.text"
-        />
-        <!-- 沒有圖片時 -->
-        <textarea
-          v-if="withImage === 'false'"
-          :maxlength="limit.textLengthWithoutImage"
-          class="form-control"
-          v-model="carouselItem.text"
-        />
-      </div>
-      <!-- 文字顯示字數統計 -->
-      <div class="mt-2 mb-3">
-        <!-- 若有圖片 -->
-        <small
-          v-if="withImage === 'true'"
-          class="text-muted text-left mx-5"
-        >字數統計： {{carouselItem.text.length}} / {{limit.textLengthWithImage}}</small>
-        <!-- 若無圖片 -->
-        <small
-          v-else
-          class="text-muted text-left mx-5"
-        >字數統計： {{carouselItem.text.length}} / {{limit.textLengthWithoutImage}}</small>
-      </div>
-      <!-- defaultAction 設定 =>暫不做 -->
-      <!-- <div class="input-group mb-2">
+        <!-- 文字 -->
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <label for class="input-group-text">文字</label>
+          </div>
+          <!-- 有圖片時 -->
+          <textarea
+            v-if="withImage === 'true'"
+            :maxlength="limit.textLengthWithImage"
+            class="form-control"
+            v-model="carouselItem.text"
+          />
+          <!-- 沒有圖片時 -->
+          <textarea
+            v-if="withImage === 'false'"
+            :maxlength="limit.textLengthWithoutImage"
+            class="form-control"
+            v-model="carouselItem.text"
+          />
+        </div>
+        <!-- 文字顯示字數統計 -->
+        <div class="mt-2 mb-3">
+          <!-- 若有圖片 -->
+          <small
+            v-if="withImage === 'true'"
+            class="text-muted text-left mx-5"
+          >字數統計： {{carouselItem.text.length}} / {{limit.textLengthWithImage}}</small>
+          <!-- 若無圖片 -->
+          <small
+            v-else
+            class="text-muted text-left mx-5"
+          >字數統計： {{carouselItem.text.length}} / {{limit.textLengthWithoutImage}}</small>
+        </div>
+        <!-- defaultAction 設定 =>暫不做 -->
+        <!-- <div class="input-group mb-2">
         <div class="input-group-prepend">
           <label for="withDefaultAction" class="input-group-text">是否需要預設動作</label>
         </div>
@@ -110,10 +135,10 @@
           <option value="false">不使用</option>
         </select>
       </div>
-      <small class="d-block mb-2">說明：當點擊圖片、標題、文字時，會觸發預設動作</small>-->
+        <small class="d-block mb-2">說明：當點擊圖片、標題、文字時，會觸發預設動作</small>-->
 
-      <!-- 選擇預設動作類別 -->
-      <!-- <div v-if="withDefaultAction === 'true'" class="mb-2">
+        <!-- 選擇預設動作類別 -->
+        <!-- <div v-if="withDefaultAction === 'true'" class="mb-2">
         <small>選擇預設動作類別</small>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -144,56 +169,56 @@
             @click="deleteDefaultAction(carouselItemIndex)"
           >刪除預設動作</button>
         </div>
-      </div>-->
-      <!-- defaultAction 編輯區，載入 component -->
-      <!-- <ActionObject
+        </div>-->
+        <!-- defaultAction 編輯區，載入 component -->
+        <!-- <ActionObject
         v-if="defaultActionDisplay"
         :action-object="carouselItem.defaultAction"
         :reply-module-list="replyModuleList"
-      />-->
+        />-->
 
-      <!-- 按鍵編輯區 -->
-      <!-- 顯示已建立的按鍵數/4 -->
-      <hr />
-      <h5 class="mt-2">按鍵編輯區</h5>
-      <small class="my-3">按鍵數： {{carouselItem.actions.length}} / {{limit.templateBtnLimit}}</small>
-      <div v-for="(item, btnIndex) in carouselItem.actions" :key="btnIndex" class="py-2">
-        <ActionObject :action-object="item" :reply-module-list="replyModuleList" />
-        <button
-          class="btn btn-warning btn-sm my-2"
-          @click.stop.prevent="handleTemplateDeleteBtnClick(carouselItemIndex,btnIndex)"
-        >刪除按鍵</button>
-      </div>
-      <!-- 新增 button & 顯示按鍵數/4 -->
-      <!-- templateBtnSelect -->
-      <div v-if="carouselItem.actions.length < 4" class>
-        <div class="input-group mb-2">
-          <div class="input-group-prepend">
-            <label for="templateBtnType" class="input-group-text">選擇按鍵類型</label>
-          </div>
-          <select
-            name="templateBtnType"
-            id="templateBtnType"
-            class="custom-select"
-            v-model="templateBtnSelect"
-          >
-            <option
-              v-for="(item, index) in templateBtnSelection"
-              :value="item.value"
-              :key="index"
-            >{{item.display}}</option>
-          </select>
+        <!-- 按鍵編輯區 -->
+        <!-- 顯示已建立的按鍵數/4 -->
+        <hr />
+        <h5 class="mt-2">按鍵編輯區</h5>
+        <small class="my-3">按鍵數： {{carouselItem.actions.length}} / {{limit.templateBtnLimit}}</small>
+        <div v-for="(item, btnIndex) in carouselItem.actions" :key="btnIndex" class="py-2">
+          <ActionObject :action-object="item" :reply-module-list="replyModuleList" />
+          <button
+            class="btn btn-warning btn-sm my-2"
+            @click.stop.prevent="handleTemplateDeleteBtnClick(carouselItemIndex,btnIndex)"
+          >刪除按鍵</button>
         </div>
-        <button
-          class="btn btn-primary btn-sm my-3"
-          @click.stop.prevent="handleTemplateAddBtnAddClick(carouselItemIndex)"
-        >新增按鍵</button>
+        <!-- 新增 button & 顯示按鍵數/4 -->
+        <!-- templateBtnSelect -->
+        <div v-if="carouselItem.actions.length < 4" class>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <label for="templateBtnType" class="input-group-text">選擇按鍵類型</label>
+            </div>
+            <select
+              name="templateBtnType"
+              id="templateBtnType"
+              class="custom-select"
+              v-model="templateBtnSelect"
+            >
+              <option
+                v-for="(item, index) in templateBtnSelection"
+                :value="item.value"
+                :key="index"
+              >{{item.display}}</option>
+            </select>
+          </div>
+          <button
+            class="btn btn-primary btn-sm my-3"
+            @click.stop.prevent="handleTemplateAddBtnAddClick(carouselItemIndex)"
+          >新增按鍵</button>
+        </div>
+        <small class="mx-1 my-3">按鍵數：{{carouselItem.actions.length}} / {{limit.templateBtnLimit}}</small>
       </div>
-      <small class="mx-1 my-3">按鍵數：{{carouselItem.actions.length}} / {{limit.templateBtnLimit}}</small>
     </div>
 
     <!-- 新增欄位 -->
-
     <button class="btn btn-primary my-2 mr-3" @click.stop.prevent="handleAddColumnBtnClick">新增欄位</button>
     <small class="h6">欄位數：{{templateItem.template.columns.length}} / {{limit.columnsLimit}}</small>
   </div>
@@ -392,6 +417,11 @@ export default {
         const columnSchema = carouselTemplateSchema.template.columns[0];
         this.templateItem.template.columns.push(columnSchema);
       }
+    },
+    // 點擊編輯按鈕
+    toggleDisplay(carouselItemIndex) {
+      console.log(carouselItemIndex);
+      this.isEditing = this.isEditing === true ? false : true;
     },
   },
 };
