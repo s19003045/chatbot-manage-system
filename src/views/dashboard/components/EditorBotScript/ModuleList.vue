@@ -1,33 +1,34 @@
 <template>
-  <div class="mb-5 py-1 px-1 border border-secondary">
-    <h5 class="mb-3 py-2 px-3 bg-secondary text-dark border border-secondary rounded">模組列表</h5>
+  <div class="module-list-component-wrapper">
+    <div class="module-list-component">
+      <h5 class="mb-3 py-2 px-3 bg-secondary text-dark border border-secondary rounded">模組列表</h5>
 
-    <div class="w-100"></div>
-    <div class="custom-scrollbar-css my-1 border-top border-bottom" id="moduleListContent">
-      <ul class="nav flex-md-column my-0">
-        <li
-          v-for="(replyModule,index) in replyModules"
-          v-bind:key="replyModule.id"
-          class="nav-item px-0 py-0 my-2 my-lg-1 mx-1 mx-lg-2 border-primary"
-          :class="{'module-select-color': moduleClick.index === index, 'shadow':moduleClick.index === index}"
-          :data-reply-module-uuid="replyModule.uuid"
-          @click.stop.prevent="handleClickModule(index)"
-        >
-          <div class="card">
-            <div class="card-body pl-3 py-3">
-              <h6
-                class="card-subtitle mb-2 text-muted"
-              >{{replyModule.name === null || replyModule.name === "" || replyModule.name === undefined ? "尚未命名" : replyModule.name}}</h6>
+      <div class="w-100"></div>
+      <div class="custom-scrollbar-css my-1 border-top border-bottom" id="moduleListContent">
+        <ul class="nav flex-md-column my-0">
+          <li
+            v-for="(replyModule,index) in replyModules"
+            v-bind:key="replyModule.id"
+            class="nav-item px-0 py-0 my-2 my-lg-1 mx-1 mx-lg-2 border-primary"
+            :class="{'module-select-color': moduleClick.index === index, 'shadow':moduleClick.index === index}"
+            :data-reply-module-uuid="replyModule.uuid"
+            @click.stop.prevent="handleClickModule(index)"
+          >
+            <div class="card">
+              <div class="card-body pl-3 py-3">
+                <h6
+                  class="card-subtitle mb-2 text-muted"
+                >{{replyModule.name === null || replyModule.name === "" || replyModule.name === undefined ? "尚未命名" : replyModule.name}}</h6>
 
-              <button
-                class="btn btn-outline-danger btn-sm"
-                @click.stop.prevent="handleDeleteBtnClick(index,replyModule.uuid)"
-                :disabled="isProcessing"
-              >刪除</button>
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  @click.stop.prevent="handleDeleteBtnClick(index,replyModule.uuid)"
+                  :disabled="isProcessing"
+                >刪除</button>
+              </div>
             </div>
-          </div>
 
-          <!-- <div
+            <!-- <div
             class="mb-2"
           >{{replyModule.name === null || replyModule.name === "" || replyModule.name === undefined ? "尚未命名" : replyModule.name}}</div>
 
@@ -35,16 +36,17 @@
             class="btn btn-outline-danger btn-sm"
             @click.stop.prevent="handleDeleteBtnClick(index,replyModule.uuid)"
             :disabled="isProcessing"
-          >刪除</button>-->
-        </li>
-      </ul>
-    </div>
+            >刪除</button>-->
+          </li>
+        </ul>
+      </div>
 
-    <button
-      class="btn btn-primary my-3 ml-2 btn-sm"
-      @click.stop.prevent="handleAddBtnClick"
-      :disabled="isProcessing"
-    >新增模組</button>
+      <button
+        class="btn btn-primary my-3 ml-2 btn-sm"
+        @click.stop.prevent="handleAddBtnClick"
+        :disabled="isProcessing"
+      >新增模組</button>
+    </div>
   </div>
 </template>
 
@@ -216,6 +218,7 @@ li.module-select-color {
   height: 100%;
 }
 
+/* small */
 @media only screen and (min-width: 576px) {
   #moduleListContent.custom-scrollbar-css ul {
     overflow-x: scroll;
@@ -223,6 +226,7 @@ li.module-select-color {
   }
 }
 
+/* medium */
 @media only screen and (min-width: 768px) {
   /* Custom Scrollbar using CSS */
   #moduleListContent.custom-scrollbar-css {

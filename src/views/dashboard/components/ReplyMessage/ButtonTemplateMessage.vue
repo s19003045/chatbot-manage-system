@@ -183,7 +183,7 @@
           </select>
         </div>
         <button
-          class="btn btn-warning btn-sm my-3"
+          class="btn btn-primary btn-sm my-3"
           @click.stop.prevent="handleTemplateAddBtnAddClick"
         >新增按鍵</button>
       </div>

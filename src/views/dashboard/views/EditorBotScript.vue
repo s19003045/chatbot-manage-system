@@ -29,21 +29,18 @@
               />
             </div>
           </div>
+          <div class="w-100"></div>
           <!-- 回應訊息編輯區 & 預覽區-->
           <div class="row">
             <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
-            <div class="col-12 col-md-6">
-              <div class="mb-5 py-1 px-1 border border-secondary rounded">
+            <div class="col-12 col-lg-6">
+              <div class="mb-5 py-2 px-2 border border-secondary rounded shadow-lg">
                 <h5
                   class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
                 >回應訊息編輯</h5>
                 <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
-                <div v-if="moduleClick.status" class="custom-scrollbar-css border border-secondary">
+                <div v-if="moduleClick.status" class="custom-scrollbar-css">
                   <!-- 編輯回應訊息名稱 -->
-                  <div class="mb-4">
-                    <!-- 顯示總訊息數 -->
-                    <span class="text-muted">訊息數：{{replyMessage ? replyMessage.length : 0 }} / 5</span>
-                  </div>
 
                   <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
                   <div v-if="replyMessage" class>
@@ -85,7 +82,7 @@
               </div>
             </div>
             <!-- 預覽區 -->
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-lg-6">
               <!-- 預覽回應訊息 => 待編輯-->
               <Review />
             </div>
