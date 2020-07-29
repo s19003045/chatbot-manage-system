@@ -332,6 +332,14 @@ export default {
     },
     // 新增按鍵
     handleTemplateAddBtnAddClick() {
+      //確認使用者是否已選取按鍵類別
+      if (this.templateBtnSelect === "") {
+        return Toast.fire({
+          icon: "info",
+          text: "尚未選取按鍵類別!",
+        });
+      }
+
       // 判斷按鍵數量是否超過
       if (this.templateItem.template.actions.length === 4) {
         Toast.fire({
