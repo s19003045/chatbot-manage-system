@@ -376,6 +376,23 @@ export default {
         1
       );
     },
+    // 新增欄位
+    handleAddColumnBtnClick() {
+      if (
+        this.templateItem.template.columns.length === this.limit.columnsLimit
+      ) {
+        Toast.fire({
+          icon: "warning",
+          text: "已達欄位上限囉~",
+        });
+      } else {
+        const carouselTemplateSchema = JSON.parse(
+          JSON.stringify(msgGenerator({ type: "carouselTemplate" }))
+        );
+        const columnSchema = carouselTemplateSchema.template.columns[0];
+        this.templateItem.template.columns.push(columnSchema);
+      }
+    },
   },
 };
 </script>
