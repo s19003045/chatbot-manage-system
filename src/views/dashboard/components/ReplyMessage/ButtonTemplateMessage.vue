@@ -172,14 +172,11 @@
             class="custom-select"
             v-model="templateBtnSelect"
           >
-            <option value="message">訊息動作</option>
-            <option value="postback">回傳動作</option>
-            <option value="uri">連結網址</option>
-            <!-- 暫時關閉用不到的動作 -->
-            <!-- <option value="datetimepicker">日期時間選擇器動作</option>
-            <option value="camera">拍照</option>
-            <option value="cameraRoll">上傳照片動作</option>
-            <option value="location" selected>Location 動作</option>-->
+            <option
+              v-for="(item, index) in templateBtnSelection"
+              :value="item.value"
+              :key="index"
+            >{{item.display}}</option>
           </select>
         </div>
         <button
@@ -191,32 +188,6 @@
         class="mx-1 my-3"
       >按鍵數：{{templateItem.template.actions.length}} / {{limit.templateBtnLimit}}</small>
     </div>
-    <!-- 取消 button template 的 quick reply 功能 -->
-    <!-- 若資料沒有 quick reply，則詢問是否要加入 quick reply，但須建議 quick reply 應加在最後一個訊息中 -->
-
-    <!-- <div class="py-3 px-2 border">
-      <h5>快速回覆編輯區</h5>
-      <h6 class="mb-3 text-muted">
-        說明：
-        <br />1.建議將快速回覆功能放在該模組的最後一個訊息樣版
-        <br />2.快速回覆訊息數最多13個
-      </h6>
-      <button
-        v-if="!quickReplyDisplay"
-        class="btn btn-primary btn-sm"
-        @click="setUpQuickReply"
-      >建立快速回覆</button>
-      <button
-        v-else
-        class="btn btn-outline-danger btn-sm"
-        @click="clearQuickReply"
-        :disabled="isProcessing"
-      >清空所有快速回覆訊息</button>
-  
-      <div v-if="quickReplyDisplay" class="py-3 px-2">
-        <QuickReply :quick-reply="templateItem.quickReply" :reply-module-list="replyModuleList" />
-      </div>
-    </div>-->
   </div>
 </template>
 
@@ -226,11 +197,8 @@
 import ActionObject from "./core/ActionObject.vue";
 
 // import helpers
-import { Toast, ToastDelete } from "../../../../utils/helpers";
-import {
-  msgGenerator,
-  actionGenerator,
-} from "../../../../utils/templateGenerator.js";
+import { Toast } from "../../../../utils/helpers";
+import { actionGenerator } from "../../../../utils/templateGenerator.js";
 
 export default {
   name: "ButtonTemplateMessage",
@@ -262,7 +230,33 @@ export default {
       defaultActionDisplay: false,
       // 使用者選擇的範本按鍵類型
       templateBtnSelect: "",
-
+      //按鍵訊息種類
+      templateBtnSelection: [
+        {
+          value: "message",
+          display: "訊息動作",
+        },
+        {
+          value: "postback",
+          display: "回傳動作",
+        },
+        // {
+        //   value: "datetimepicker",
+        //   display: "日期時間選擇器動作",
+        // },
+        // {
+        //   value: "camera",
+        //   display: "拍照",
+        // },
+        // {
+        //   value: "cameraRoll",
+        //   display: "上傳照片動作",
+        // },
+        // {
+        //   value: "location",
+        //   display: "Location 動作",
+        // },
+      ],
       // 限制
       limit: {
         titleTextLength: 40, //title 限制
@@ -314,41 +308,6 @@ export default {
   computed: {},
 
   methods: {
-    //建立快速回覆
-    setUpQuickReply() {
-      //複製 schema
-      this.templateItem.quickReply = JSON.parse(
-        JSON.stringify(
-          msgGenerator({
-            type: "quickReply",
-          })
-        )
-      );
-      //顯示 quickReply 編輯 區
-      this.quickReplyDisplay = true;
-    },
-    //清空快速回覆
-    clearQuickReply() {
-      this.isProcessing = true;
-      //跳出警示訊息，詢問是否清空
-      ToastDelete.fire().then((result) => {
-        if (!result.value) {
-          this.isProcessing = false;
-          return;
-        }
-        //確定要刪除
-        if (result.value) {
-          //清空使用者建立的 quickReply
-          this.templateItem.quickReply = undefined;
-          //隱藏 quickReply 編輯區
-          this.quickReplyDisplay = false;
-          //提示刪除成功
-          Toast.fire("Deleted!", "Quick reply has been deleted.", "success");
-
-          this.isProcessing = false;
-        }
-      });
-    },
     // 建立預設動作
     addDefaultAction() {
       // 載入合適的 actionSchema
