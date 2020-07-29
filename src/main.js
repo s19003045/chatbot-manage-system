@@ -28,11 +28,6 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 //import Konva for canvas
 import VueKonva from 'vue-konva'
 Vue.use(VueKonva)
-//import VCalender for datetime picker
-import VCalendar from 'v-calendar';
-Vue.use(VCalendar, {
-  componentPrefix: 'vc',  // Use <vc-calendar /
-});
 
 Vue.config.productionTip = false
 

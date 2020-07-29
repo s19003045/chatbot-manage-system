@@ -216,21 +216,7 @@
           aria-describedby
         />
       </div>
-      <!-- 套件 VCalendar -->
-      <vc-date-picker mode="range" :value="null" color="blue" is-inline />
-      <div class="input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id>data</span>
-        </div>
-        <input
-          v-model="actionObject.data"
-          type="text"
-          class="form-control"
-          placeholder="data"
-          aria-label="data"
-          aria-describedby
-        />
-      </div>
+
       <!-- 第二列 -->
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
@@ -301,7 +287,6 @@ export default {
   },
   data() {
     return {
-      datetimepickerModeSelect: "",
       moduleSelect: -1,
     };
   },
