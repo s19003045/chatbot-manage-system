@@ -9,7 +9,13 @@ export default new Vuex.Store({
     currentUser: {
     },
     // bot 資料
-    bot: {
+    chatbot: {
+      botId: 'bot-1111'
+    },
+    // channel 資料
+    channel: {
+      id: 1,
+      channelName: '鱷魚醫生',
       botId: 'bot-1111'
     },
     count: 1,

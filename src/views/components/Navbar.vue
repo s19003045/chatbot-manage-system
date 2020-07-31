@@ -8,7 +8,9 @@
     <b-btn v-b-toggle.console-sidebar variant="outline-light" class="mr-4">
       <b-icon icon="list" font-scale="1.5" scale="1.3"></b-icon>
     </b-btn>
-    <b-navbar-brand :to="{name:'overview'}">WoaWoaBot</b-navbar-brand>
+    <b-navbar-brand :to="{name:'overview',params:{
+      botId:chatbot.botId
+    }}">WoaWoaBot</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -34,5 +36,15 @@
 </template>
 
 <script>
-export default {};
+// import helpers
+import { mapState } from "vuex";
+
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState(["chatbot", "channel"]),
+  },
+};
 </script>

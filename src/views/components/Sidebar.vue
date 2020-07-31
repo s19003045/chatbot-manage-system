@@ -13,7 +13,7 @@
         <b-nav-item
           v-for="(item, index) in navLinks"
           :key="index"
-          :to="{name:item.routeName,params:{botId:bot.botId}}"
+          :to="{name:item.routeName,params:{botId:chatbot.botId}}"
         >{{item.displayName}}</b-nav-item>
       </b-nav>
     </b-sidebar>
@@ -81,7 +81,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["bot", "currentUser"]),
+    ...mapState(["chatbot", "currentUser"]),
   },
 };
 </script>
