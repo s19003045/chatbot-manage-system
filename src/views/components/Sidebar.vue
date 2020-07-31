@@ -13,7 +13,7 @@
         <b-nav-item
           v-for="(item, index) in navLinks"
           :key="index"
-          :to="{name:item.routeName}"
+          :to="{name:item.routeName,params:{botId:bot.botId}}"
         >{{item.displayName}}</b-nav-item>
       </b-nav>
     </b-sidebar>
@@ -73,10 +73,10 @@ export default {
           routeName: "setting",
           displayName: "機器人設定",
         },
-        {
-          routeName: "konva",
-          displayName: "Konva",
-        },
+        // {
+        //   routeName: "dialogFlow",
+        //   displayName: "機器對話流程圖",
+        // },
       ],
     };
   },
