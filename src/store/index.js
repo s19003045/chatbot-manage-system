@@ -8,6 +8,11 @@ export default new Vuex.Store({
     //user 資料
     currentUser: {
     },
+    // bot 資料
+    bot: {
+      botId: 'bot-1111'
+    },
+    count: 1,
     //是否已驗證
     isAuthenticated: false,
     token: '',

@@ -21,6 +21,9 @@
 </template>
 
 <script>
+// import store
+import { mapState } from "vuex";
+
 export default {
   props: {},
   data() {
@@ -77,5 +80,10 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState(["bot", "currentUser"]),
+  },
 };
 </script>
+
+
