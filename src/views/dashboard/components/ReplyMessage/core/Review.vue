@@ -1,12 +1,54 @@
 <template>
-  <div class="my-3 mx-2">
+  <div class="my-3 mx-2 Review-container">
     <!-- Button trigger modal -->
-    <button
+    <b-button v-b-modal.reviewReplyMsg>預覽訊息</b-button>
+    <b-modal id="reviewReplyMsg" title="預覽訊息">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <!-- chatbot 回應訊息顯示區 -->
+          <div class="modal-body custom-scrollbar-css py-0">
+            <div class="container-fluid px-0 py-0">
+              <!-- 單一 template 訊息顯示區 -->
+              <div class="row px-4 pt-3 pb-4">
+                <div
+                  class="buttons-template col col-lg-8 py-0 px-0 mr-auto border-0 rounded rounded-lg bg-light"
+                >
+                  <div class="button-template-image rounded-top rounded-lg">
+                    <!-- <img
+                      src="https://picsum.photos/id/1005/300/200"
+                      class="img-fluid mx-auto d-block rounded-top"
+                      alt="image display"
+                    />-->
+                  </div>
+
+                  <h5 class="px-3 pt-3">服務選單-產前檢查</h5>
+                  <hr />
+                  <p class="text-primary text-center">查詢健保給付項目</p>
+                  <p class="text-primary text-center">查詢自費項目</p>
+                  <p class="text-primary text-center">依週期數查詢產檢項目</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 使用者輸入框 -->
+          <div class="modal-footer py-0 px-2">
+            <font-awesome-icon class="px-1" :icon="['fas', 'list-ul']" pull="left" size="lg" />
+            <font-awesome-icon class="px-1" :icon="['fas', 'plus']" pull="left" size="lg" />
+            <font-awesome-icon class="px-1" :icon="['fas', 'camera']" pull="left" size="lg" />
+            <font-awesome-icon class="px-1" :icon="['fas', 'image']" pull="left" size="lg" />
+            <!-- 使用者文字輸入框 -->
+            <input class="form-control rounded-pill w-50 mx-auto" value="Aa" />
+            <font-awesome-icon class="px-1" :icon="['fas', 'microphone']" pull="right" size="lg" />
+          </div>
+        </div>
+      </div>
+    </b-modal>
+    <!-- <button
       type="button"
       class="btn btn-primary"
       data-toggle="modal"
       data-target="#reviewReplyMsg"
-    >預覽訊息</button>
+    >預覽訊息</button>-->
 
     <!-- Modal -->
     <div
@@ -70,7 +112,8 @@
 export default {};
 </script>
 
-<style scoped>
+
+<style  scoped>
 .modal-body {
   scrollbar-width: thin;
 }
