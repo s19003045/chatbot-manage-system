@@ -1,19 +1,33 @@
 <template>
-  <b-row class="mt-5 mx-auto justify-content-center">
-    <b-col sm="2" lg="2">
-      <label for="welcome-msg" class="h5">歡迎訊息</label>
-    </b-col>
-    <b-col sm="10" lg="6">
-      <b-form-textarea
-        id="welcome-msg"
-        size="lg"
-        placeholder="輸入歡迎訊息"
-        rows="5"
-        max-rows="8"
-        v-model="welcomeMessage.text"
-      ></b-form-textarea>
-    </b-col>
-  </b-row>
+  <div class="mb-2">
+    <b-container class="py-4 px-0">
+      <h4>歡迎訊息設定</h4>
+      <b-row class="py-1 justify-content-center">
+        <!-- 編輯區 -->
+        <b-col cols="12" md="10" lg="7">
+          <b-row class="mt-5 mx-auto justify-content-center">
+            <b-col sm="12" lg="12">
+              <label for="welcome-msg" class="h5">歡迎訊息：</label>
+              <b-form-textarea
+                id="welcome-msg"
+                size="lg"
+                placeholder="輸入歡迎訊息"
+                rows="8"
+                max-rows="8"
+                class="shadow border border-radius"
+                v-model="welcomeMessage.text"
+              ></b-form-textarea>
+              <b-button variant="outline-primary" class="my-3" size block pill>儲存</b-button>
+            </b-col>
+          </b-row>
+        </b-col>
+        <!-- 顯示區 -->
+        <b-col cols="12" md="10" lg="5">
+          <h5 class="mt-5">預覽歡迎訊息：</h5>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
 <script>
