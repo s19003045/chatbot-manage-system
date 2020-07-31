@@ -23,7 +23,10 @@
     "jquery": "^3.5.1",
     "konva": "^7.0.3",
     "moment": "^2.27.0",
+    "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.2",
     "sweetalert2": "^9.15.2",
     "v-jsoneditor": "^1.4.1",
     "vue": "^2.6.11",
@@ -42,8 +45,6 @@
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",
     "fibers": "^5.0.0",
-    "sass": "^1.26.10",
-    "sass-loader": "^9.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
