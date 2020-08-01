@@ -1,11 +1,13 @@
 <template>
-  <div class="mb-2">
-    <div class="container-fluid py-4 px-0">
+  <div class="mb-2 mt-4">
+    <div class="container-fluid px-1">
       <h4>機器人腳本</h4>
-      <div class="row py-1">
+      <div class="row py-3">
         <!-- 模組列表 -->
         <div class="col-12 col-md-3 col-lg-2">
           <ModuleList
+            id="moduleList"
+            class
             :reply-modules="replyModules"
             :module-click="moduleClick"
             @after-delete-reply-module="afterDeleteReplyModule"
@@ -300,5 +302,10 @@ export default {
 };
 </script>
 
+<style scoped>
+#moduleList {
+  position: sticky;
+  top: 70px;
+}
+</style>
 
-<style  scoped>
