@@ -80,7 +80,7 @@ export default {
 
 /* template 中的 button */
 .template-btn-item:hover {
-  background-color: #ccc;
+  background-color: #ddd;
 
   /* template 中的 button:last child */
   &:last-child:hover {
