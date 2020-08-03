@@ -87,7 +87,7 @@
             <!-- 預覽區 -->
             <div class="col-12 col-lg-6">
               <!-- 預覽回應訊息 => 待編輯-->
-              <Review />
+              <Review :reply-message="replyMessage" />
             </div>
           </div>
         </div>
