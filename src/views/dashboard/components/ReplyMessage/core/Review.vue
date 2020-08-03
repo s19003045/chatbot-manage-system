@@ -6,8 +6,8 @@
       <div class="container-fluid px-0 py-4 mx-0 chatting-wrapper custom-scrollbar-css">
         <!-- 多個 template 訊息顯示區 -->
         <!-- v-for -->
-        <div v-for="item in replyMessage" :key="item.id">
-          <ReviewSwitcher :reply-msg-item="item" />
+        <div v-for="(item,index) in replyMessage" :key="item.id">
+          <ReviewSwitcher :reply-msg-item="item" :reply-msg-index="index" />
         </div>
       </div>
 

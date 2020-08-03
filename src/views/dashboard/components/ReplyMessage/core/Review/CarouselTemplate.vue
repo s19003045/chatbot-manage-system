@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="carousel-wrapper">
     <!-- avatar -->
     <div class="avatar mb-2">
       <img src="https://picsum.photos/id/157/50/50" alt />
@@ -10,7 +10,7 @@
       <!-- 向右按鍵 -->
       <b-icon class="carousel-btn carousel-right" icon="chevron-right" @click="scroll_right"></b-icon>
     </div>
-    <div class="px-4 py-3 carousel" ref="carousel">
+    <div class="px-4 py-3 carousel" :class="msgContainerClass" ref="carousel">
       <!-- v-for 帶出每個 column -->
       <div v-for="column in replyMsgItem.template.columns" :key="column.id" class="column-message">
         <div class="message-template-item py-0 mb-3 border-0 rounded rounded-lg bg-white centered">
@@ -51,14 +51,26 @@ export default {
         return {};
       },
     },
+    replyMsgIndex: {
+      type: Number,
+      default: -1,
+    },
+  },
+  computed: {
+    msgContainerClass() {
+      console.log(`carousel-${this.replyMsgIndex}`);
+      return `carousel-${this.replyMsgIndex}`;
+    },
   },
   methods: {
     scroll_left() {
-      let content = document.querySelector(".carousel");
+      console.log(`carousel-${this.replyMsgIndex}`);
+      let content = document.querySelector(`.${this.msgContainerClass}`);
       content.scrollLeft -= 100;
     },
     scroll_right() {
-      let content = document.querySelector(".carousel");
+      console.log(`carousel-${this.replyMsgIndex}`);
+      let content = document.querySelector(`.${this.msgContainerClass}`);
       content.scrollLeft += 100;
     },
   },
@@ -97,6 +109,7 @@ export default {
 
 // 向右及向左按鍵
 .carousel-btn-wrapper {
+  position: relative;
   .carousel-btn {
     min-width: 40px;
     min-height: 40px;
@@ -114,14 +127,24 @@ export default {
   // carousel 向左 icon
   .carousel-left {
     position: absolute;
-    top: 150px;
+    top: 60px;
     left: calc(50% - 230px);
+
+    &:hover {
+      background-color: #ccc;
+      color: #111;
+    }
   }
   // carousel 向右 icon
   .carousel-right {
     position: absolute;
-    top: 150px;
+    top: 60px;
     right: calc(50% - 230px);
+
+    &:hover {
+      background-color: #ccc;
+      color: #111;
+    }
   }
 }
 

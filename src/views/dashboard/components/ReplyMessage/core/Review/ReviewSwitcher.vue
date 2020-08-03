@@ -2,17 +2,17 @@
   <div>
     <!-- text message -->
     <div v-if="replyMsgItem.type === 'text'" class>
-      <TextMessage :reply-msg-item="replyMsgItem" />
+      <TextMessage :reply-msg-item="replyMsgItem" :reply-msg-index="replyMsgIndex" />
     </div>
 
     <!-- button template message -->
     <div v-if="replyMsgItem.type === 'template' && replyMsgItem.template.type === 'buttons'" class>
-      <ButtonsTemplate :reply-msg-item="replyMsgItem" />
+      <ButtonsTemplate :reply-msg-item="replyMsgItem" :reply-msg-index="replyMsgIndex" />
     </div>
 
     <!-- carousel template message -->
     <div v-if="replyMsgItem.type === 'template' && replyMsgItem.template.type === 'carousel'" class>
-      <CarouselTemplate :reply-msg-item="replyMsgItem" />
+      <CarouselTemplate :reply-msg-item="replyMsgItem" :reply-msg-index="replyMsgIndex" />
     </div>
   </div>
 </template>
@@ -29,6 +29,10 @@ export default {
       default() {
         return {};
       },
+    },
+    replyMsgIndex: {
+      type: Number,
+      default: -1,
     },
   },
   components: {
