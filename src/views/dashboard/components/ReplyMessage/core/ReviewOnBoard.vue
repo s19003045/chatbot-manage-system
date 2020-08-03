@@ -56,6 +56,7 @@ export default {
   border-radius: 50px;
   padding: 40px 20px 30px 20px;
   width: 80%;
+  min-height: 400px;
   max-height: 600px;
   border: 1px solid #aaa;
 
@@ -90,6 +91,7 @@ export default {
 
 .custom-scrollbar-css {
   scrollbar-width: thin;
+  min-height: 350px;
   max-height: 420px;
   overflow-y: scroll;
   overflow-x: hidden;
