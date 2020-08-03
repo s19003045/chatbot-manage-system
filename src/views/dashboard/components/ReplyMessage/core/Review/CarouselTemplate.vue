@@ -1,7 +1,7 @@
 <template>
   <div class="carousel-wrapper">
     <!-- avatar -->
-    <div class="avatar mb-2">
+    <div class="avatar mb-0 ml-2">
       <img src="https://picsum.photos/id/157/50/50" alt />
     </div>
     <div class="carousel-btn-wrapper">
@@ -10,7 +10,7 @@
       <!-- 向右按鍵 -->
       <b-icon class="carousel-btn carousel-right" icon="chevron-right" @click="scroll_right"></b-icon>
     </div>
-    <div class="px-4 py-3 carousel" :class="msgContainerClass" ref="carousel">
+    <div class="px-4 py-1 carousel" :class="msgContainerClass" ref="carousel">
       <!-- v-for 帶出每個 column -->
       <div v-for="column in replyMsgItem.template.columns" :key="column.id" class="column-message">
         <div class="message-template-item py-0 mb-3 border-0 rounded rounded-lg bg-white centered">
@@ -128,7 +128,7 @@ export default {
   .carousel-left {
     position: absolute;
     top: 60px;
-    left: calc(50% - 230px);
+    left: calc(50% - 160px);
 
     &:hover {
       background-color: #ccc;
@@ -139,7 +139,7 @@ export default {
   .carousel-right {
     position: absolute;
     top: 60px;
-    right: calc(50% - 230px);
+    right: calc(50% - 160px);
 
     &:hover {
       background-color: #ccc;

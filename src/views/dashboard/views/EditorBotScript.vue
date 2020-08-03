@@ -87,7 +87,7 @@
             <!-- 預覽區 -->
             <div class="col-12 col-lg-6">
               <!-- 預覽回應訊息 => 待編輯-->
-              <Review :reply-message="replyMessage" />
+              <ReviewOnBoard :reply-message="replyMessage" />
             </div>
           </div>
         </div>
@@ -101,7 +101,8 @@
 import ModuleList from "../components/EditorBotScript/ModuleList.vue";
 import ModuleEditor from "../components/EditorBotScript/ModuleEditor.vue";
 import ReplyMsgEditor from "../components/EditorBotScript/ReplyMsgEditor.vue";
-import Review from "../components/ReplyMessage/core/Review.vue";
+// import Review from "../components/ReplyMessage/core/Review.vue";
+import ReviewOnBoard from "../components/ReplyMessage/core/ReviewOnBoard.vue";
 
 // import helpers
 import botScriptAPI from "../../../apis/botScript.js";
@@ -114,7 +115,8 @@ export default {
     ModuleList,
     ModuleEditor,
     ReplyMsgEditor,
-    Review, //預覽
+    // Review, //預覽(Modal)
+    ReviewOnBoard, //預覽
   },
   data() {
     return {
