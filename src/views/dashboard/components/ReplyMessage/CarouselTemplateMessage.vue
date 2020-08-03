@@ -10,6 +10,9 @@
     >
       <!-- 欄位編輯區 -->
       <h5>欄位 {{['一','二','三','四','五','六','七','八','九','十'][carouselItemIndex] }}</h5>
+      <h5>標題：{{carouselItem.title}}</h5>
+      <p class="text-muted">文字：{{carouselItem.text}}</p>
+
       <div v-if="!isEditing" class>
         <div class="d-flex justify-content-between">
           <button
@@ -370,7 +373,7 @@ export default {
       // 判斷按鍵數量是否超過
       if (
         this.templateItem.template.columns[carouselItemIndex].actions.length ===
-        4
+        this.limit.templateBtnLimit
       ) {
         Toast.fire({
           icon: "warning",
@@ -416,6 +419,7 @@ export default {
         );
         const columnSchema = carouselTemplateSchema.template.columns[0];
         this.templateItem.template.columns.push(columnSchema);
+        this.isEditing = !this.isEditing;
       }
     },
     // 點擊刪除欄位按鍵
