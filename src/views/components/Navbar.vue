@@ -16,19 +16,37 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav fill>
-        <!-- <b-nav-item active>link</b-nav-item>
-        <b-nav-item active>Go</b-nav-item>-->
+        <!-- <b-nav-item active>link</b-nav-item> -->
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown fill text right>
+        <b-nav-item-dropdown right class="mr-3">
+          <template v-slot:button-content right>
+            <b-icon font-scale="2" icon="bell" class="user-notify"></b-icon>
+            <b-badge class="user-notify-badge">{{userNotification.length}}</b-badge>
+          </template>
+
+          <b-dropdown-item
+            variant="light"
+            v-for="(notify,index) in userNotification"
+            :key="index"
+            href="#"
+            class="user-notify-item py-0"
+          >
+            {{notify.title}}
+            <br />
+            {{notify.text}}
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item-dropdown right>
           <template v-slot:button-content right>
             <b-icon font-scale="2" icon="person-circle"></b-icon>
           </template>
 
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+          <b-dropdown-item variant="light" href="#">個人資料</b-dropdown-item>
+          <b-dropdown-item variant="light" href="#">個人帳單</b-dropdown-item>
+          <b-dropdown-item variant="light" href="#">登出</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -44,7 +62,20 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["chatbot", "channel"]),
+    ...mapState(["chatbot", "channel", "userNotification"]),
   },
+  created() {},
 };
 </script>
+
+<style lang="scss" scoped>
+.user-notify-badge {
+  border-radius: 5px;
+  min-width: 15px;
+  min-height: 15px;
+  font-size: 12px;
+  padding: 3px 7px;
+  line-height: 15px;
+  text-align: center;
+}
+</style>

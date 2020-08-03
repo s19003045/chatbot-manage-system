@@ -22,6 +22,17 @@ export default new Vuex.Store({
     //是否已驗證
     isAuthenticated: false,
     token: '',
+    // 使用者通知
+    userNotification: [
+      {
+        title: '新功能公告',
+        text: '系統增設模擬手機畫面功能'
+      },
+      {
+        title: '系統維護公告',
+        text: '系統將於 2020/8/15 05:00-06:00 暫停服務，造成不便請見諒'
+      }
+    ]
   },
   mutations: {
 
