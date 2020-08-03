@@ -3,7 +3,7 @@
     <!-- Button trigger modal -->
     <b-button v-b-modal.reviewReplyMsg>預覽訊息</b-button>
     <b-modal id="reviewReplyMsg" title="預覽訊息" ok-only>
-      <div class="container-fluid px-0 py-0 mx-0 chatting-wrapper custom-scrollbar-css">
+      <div class="container-fluid px-0 py-4 mx-0 chatting-wrapper custom-scrollbar-css">
         <!-- 多個 template 訊息顯示區 -->
         <!-- v-for -->
         <div v-for="item in replyMessage" :key="item.id">
@@ -47,6 +47,10 @@ export default {
 
 
 <style  lang="scss" scoped>
+.container-fluid {
+  background-color: #7ca2de;
+}
+
 .custom-scrollbar-css {
   scrollbar-width: thin;
   height: 300px;
