@@ -21,7 +21,7 @@
                   name=""
                   id="keyword-status"
                   class="custom-select"
-                  v-modal="keyword.status"
+                  v-model="keyword.status"
                   @change="handleKeywordStatusSelect(index)"
                 >
                   <option value="edited" :selected="keyword.status === 'edited'"
@@ -80,6 +80,10 @@
 </template>
 
 <script>
+// import helpers
+import keywordAPI from "../../../../apis/keyword.js";
+import { Toast } from "../../../../utils/helpers";
+
 export default {
   props: {
     keywords: {
@@ -113,13 +117,58 @@ export default {
       return this.keywords.filter((d) => d.status === "in-use").length;
     },
   },
+  created() {},
   methods: {
     // keyword status 選單被選取
     handleKeywordStatusSelect(index) {
       alert(`${index} => ${this.keywords[index].status}`);
     },
     //點擊新增關鍵字
-    handleAddKeywordBtnClick() {},
+    async handleAddKeywordBtnClick() {
+      try {
+        // 檢查請求需要的資料
+        const apiData = {
+          params: {
+            botId: this.$store.state.chatbot.botId,
+          },
+          data: {
+            ChatbotId: 1,
+          },
+        };
+
+        // 發送請求
+        const { statusText, data } = await keywordAPI.createKeyword(apiData);
+
+        if (statusText === "OK" && data.status === "success") {
+          // 整理取得的資料，加入 triggerModuleId
+          data.data.keyword.triggerModuleId = this.replyModuleList[
+            this.moduleClick.index
+          ].id;
+
+          this.keywords.push({
+            ...data.data.keyword,
+          });
+
+          return Toast.fire({
+            icon: "success",
+            title: "存取成功",
+            text: "",
+          });
+        } else {
+          return Toast.fire({
+            icon: "error",
+            title: "存取失敗，請稍後再試",
+            text: "",
+          });
+        }
+      } catch (err) {
+        return Toast.fire({
+          icon: "error",
+          title: "存取失敗，請稍後再試",
+          text: `${err.message}`,
+        });
+      }
+    },
     //點擊刪除關鍵字
     handleDeleteKeywordBtnClick(keywordId) {
       console.log(keywordId);
