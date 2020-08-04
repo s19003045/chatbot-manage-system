@@ -22,7 +22,6 @@
                   id="keyword-status"
                   class="custom-select"
                   v-model="keyword.status"
-                  @change="handleKeywordStatusSelect(index)"
                 >
                   <option value="edited" :selected="keyword.status === 'edited'"
                     >edited</option
@@ -119,10 +118,6 @@ export default {
   },
   created() {},
   methods: {
-    // keyword status 選單被選取
-    handleKeywordStatusSelect(index) {
-      alert(`${index} => ${this.keywords[index].status}`);
-    },
     //點擊新增關鍵字
     async handleAddKeywordBtnClick() {
       try {

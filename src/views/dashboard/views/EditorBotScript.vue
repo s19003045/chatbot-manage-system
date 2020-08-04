@@ -146,6 +146,7 @@ import ReviewOnBoard from "../components/ReplyMessage/core/ReviewOnBoard.vue";
 
 // import helpers
 import botScriptAPI from "../../../apis/botScript.js";
+import keywordAPI from "../../../apis/keyword.js";
 import { Toast } from "../../../utils/helpers";
 import { msgGenerator } from "../../../utils/templateGenerator.js";
 
@@ -240,7 +241,7 @@ export default {
       try {
         this.isProcessing = true;
 
-        const apiData = {
+        const apiDataPutReply = {
           params: {
             botId: 1, //之後會從 this.$store 或從 this.$route 取得
           },
@@ -252,9 +253,37 @@ export default {
           },
         };
 
-        const { statusText, data } = await botScriptAPI.putReplyModule(apiData);
+        const res1 = await botScriptAPI.putReplyModule(apiDataPutReply);
 
-        if (statusText === "OK" && data.status === "success") {
+        // 匯集各 resplyModule 的 keywords 資料
+        const _keywords = [];
+
+        for (let i = 0; i < this.replyModules.length; i++) {
+          for (let j = 0; j < this.replyModules[i].Keywords.length; j++) {
+            _keywords.push(this.replyModules[i].Keywords[j]);
+          }
+        }
+
+        const apiDataPutKeywords = {
+          params: {
+            botId: this.$store.state.chatbot.botId, //之後會從 this.$store 或從 this.$route 取得
+          },
+          query: {},
+          data: {
+            ChatbotId: 1, //之後會從 this.$store 取得
+            action: action,
+            keywords: _keywords,
+          },
+        };
+
+        const res2 = await keywordAPI.putKeyword(apiDataPutKeywords);
+
+        if (
+          res1.statusText === "OK" &&
+          res1.data.status === "success" &&
+          res2.statusText === "OK" &&
+          res2.data.status === "success"
+        ) {
           this.isProcessing = false;
           return Toast.fire({
             icon: "success",
@@ -274,7 +303,7 @@ export default {
 
         return Toast.fire({
           icon: "error",
-          title: "系統異常，請稍後再試",
+          title: "存取失敗，請稍後再試",
           text: `${err.message}`,
         });
       }
