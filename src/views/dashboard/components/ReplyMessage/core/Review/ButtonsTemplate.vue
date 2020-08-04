@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <div class="row px-4 py-0">
+  <div class="container-fluid">
+    <div class="row px-2 py-0 mb-2">
       <!-- avatar -->
       <div class="avatar">
         <img src="https://picsum.photos/id/157/50/50" alt />
       </div>
       <div
-        class="message-template-item col-8 col-lg-8 py-0 px-0 mr-auto mb-3 border-0 rounded rounded-lg bg-white centered"
+        class="message-template-item col-8 col-sm-6 col-md-8 col-lg-8 px-0 pb-0 mb-3 mr-auto border-0 rounded rounded-lg bg-white centered"
       >
         <!-- 顯示圖片 -->
         <div
@@ -28,7 +28,7 @@
         <p
           v-for="item in replyMsgItem.template.actions"
           :key="item.id"
-          class="template-btn-item text-primary text-center py-2 my-0"
+          class="template-btn-item text-primary text-center py-1 px-3 my-0"
         >{{item.label}}</p>
       </div>
     </div>
@@ -64,6 +64,15 @@ export default {
       border-radius: 50%;
     }
   }
+  h5 {
+    font-size: 0.7rem;
+  }
+  h6 {
+    font-size: 0.6rem;
+  }
+  p {
+    font-size: 0.6rem;
+  }
 }
 
 /* buttons template */
@@ -86,6 +95,50 @@ export default {
   &:last-child:hover {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+  }
+}
+/* x-small viewport */
+@media only screen and (min-width: 450px) {
+  .row {
+    h5 {
+      font-size: 0.8rem;
+    }
+    h6 {
+      font-size: 0.7rem;
+    }
+    p {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+/* x-small viewport */
+@media only screen and (min-width: 576px) {
+  .row {
+    h5 {
+      font-size: 1rem;
+    }
+    h6 {
+      font-size: 0.8rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+/* medium */
+@media only screen and (min-width: 768px) {
+  .row {
+    h5 {
+      font-size: 1rem;
+    }
+    h6 {
+      font-size: 0.8rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
   }
 }
 </style>
