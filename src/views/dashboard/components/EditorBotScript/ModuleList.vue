@@ -184,7 +184,7 @@ export default {
 <style  lang="scss" scoped>
 #moduleListContent.custom-scrollbar-css {
   overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch; //for mobile touch scrolling
   /* scrollbar track =>scrollbar 整體樣式 */
   &::-webkit-scrollbar {
     width: 10px; /*高寬分別對應橫豎滾動條的尺寸*/
