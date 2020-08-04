@@ -35,51 +35,67 @@
           <div class="w-100"></div>
           <!-- 回應訊息編輯區 & 預覽區-->
           <div class="row">
-            <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
             <div class="col-12 col-lg-6">
-              <div class="mb-5 py-2 px-2 border border-secondary rounded shadow-lg">
-                <h5
-                  class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
-                >回應訊息編輯</h5>
-                <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
-                <div v-if="moduleClick.status" class="custom-scrollbar-css">
-                  <!-- 編輯回應訊息名稱 -->
-
-                  <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
-                  <div v-if="replyMessage" class>
-                    <div v-for="(templateItem, index) in replyMessage" :key="index" class="mt-3">
-                      <ReplyMsgEditor
-                        :template-item="templateItem"
-                        :template-index="index"
-                        :reply-module-list="replyModuleList"
-                        @handle-delete-reply-msg="handleDeleteReplyMsg"
-                      />
-                    </div>
-                  </div>
-
-                  <!-- 新增回應訊息按鈕 -->
-                  <!-- 下面為回應訊息類別選擇區 -->
+              <div class="row">
+                <div class="col-12 border border-danger">
+                  <!-- 關鍵字設定 -->
+                  <KeywordEditor />
                 </div>
-                <!-- ↑ ↑ 回應訊息編輯區 (scroll bar 邊界)↑ ↑ -->
-                <div v-if="moduleClick.status" class="mb-5 mt-4">
-                  <button
-                    class="btn btn-primary mb-2 mr-3"
-                    @click="handleClickAddReplyMsgBtn"
-                  >新增回應訊息</button>
-                  <!-- 顯示總訊息數 -->
-                  <span class="text-muted">訊息數：{{replyMessage ? replyMessage.length :0 }} / 5</span>
-                  <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
+                <div class="col-12">
+                  <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
+                  <div class="mb-5 py-2 px-2 border border-secondary rounded shadow-lg">
+                    <h5
+                      class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
+                    >回應訊息編輯</h5>
+                    <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
+                    <div v-if="moduleClick.status" class="custom-scrollbar-css">
+                      <!-- 編輯回應訊息名稱 -->
+
+                      <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
+                      <div v-if="replyMessage" class>
+                        <div
+                          v-for="(templateItem, index) in replyMessage"
+                          :key="index"
+                          class="mt-3"
+                        >
+                          <ReplyMsgEditor
+                            :template-item="templateItem"
+                            :template-index="index"
+                            :reply-module-list="replyModuleList"
+                            @handle-delete-reply-msg="handleDeleteReplyMsg"
+                          />
+                        </div>
+                      </div>
+
+                      <!-- 新增回應訊息按鈕 -->
+                      <!-- 下面為回應訊息類別選擇區 -->
                     </div>
-                    <select class="custom-select" id="messageTypeSelect" v-model="componentSelect">
-                      <option value="text" selected>文字訊息</option>
-                      <!-- 暫停使用確認範本訊息 => 待確認範本訊息功能完整後再啟用 -->
-                      <!-- <option value="confirmTemplate">確認範本訊息</option> -->
-                      <option value="buttonsTemplate">按鍵範本訊息</option>
-                      <option value="carouselTemplate" selected>輪播範本訊息</option>
-                    </select>
+                    <!-- ↑ ↑ 回應訊息編輯區 (scroll bar 邊界)↑ ↑ -->
+                    <div v-if="moduleClick.status" class="mb-5 mt-4">
+                      <button
+                        class="btn btn-primary mb-2 mr-3"
+                        @click="handleClickAddReplyMsgBtn"
+                      >新增回應訊息</button>
+                      <!-- 顯示總訊息數 -->
+                      <span class="text-muted">訊息數：{{replyMessage ? replyMessage.length :0 }} / 5</span>
+                      <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
+                        </div>
+                        <select
+                          class="custom-select"
+                          id="messageTypeSelect"
+                          v-model="componentSelect"
+                        >
+                          <option value="text" selected>文字訊息</option>
+                          <!-- 暫停使用確認範本訊息 => 待確認範本訊息功能完整後再啟用 -->
+                          <!-- <option value="confirmTemplate">確認範本訊息</option> -->
+                          <option value="buttonsTemplate">按鍵範本訊息</option>
+                          <option value="carouselTemplate" selected>輪播範本訊息</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -101,7 +117,7 @@
 import ModuleList from "../components/EditorBotScript/ModuleList.vue";
 import ModuleEditor from "../components/EditorBotScript/ModuleEditor.vue";
 import ReplyMsgEditor from "../components/EditorBotScript/ReplyMsgEditor.vue";
-// import Review from "../components/ReplyMessage/core/Review.vue";
+import KeywordEditor from "../components/EditorBotScript/KeywordEditor.vue";
 import ReviewOnBoard from "../components/ReplyMessage/core/ReviewOnBoard.vue";
 
 // import helpers
@@ -115,8 +131,8 @@ export default {
     ModuleList,
     ModuleEditor,
     ReplyMsgEditor,
-    // Review, //預覽(Modal)
     ReviewOnBoard, //預覽
+    KeywordEditor,
   },
   data() {
     return {
