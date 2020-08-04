@@ -1,9 +1,11 @@
 <template>
   <div class="carousel-wrapper">
     <!-- avatar -->
-    <div class="avatar mb-0 ml-2">
+
+    <div class="avatar mb-1 ml-2">
       <img src="https://picsum.photos/id/157/50/50" alt />
     </div>
+
     <div class="carousel-btn-wrapper">
       <!-- 向左按鍵 -->
       <b-icon class="carousel-btn carousel-left" icon="chevron-left" @click="scroll_left"></b-icon>
@@ -79,14 +81,14 @@ export default {
 
 <style lang="scss" scoped>
 .avatar {
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   vertical-align: middle;
   margin: 0px 10px auto 0px;
   border-radius: 50%;
   img {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     border-radius: 50%;
   }
 }
@@ -199,6 +201,15 @@ export default {
 
 /* x-small viewport */
 @media only screen and (min-width: 450px) {
+  .avatar {
+    height: 25px;
+    width: 25px;
+    margin: 0px 10px auto 0px;
+    img {
+      height: 25px;
+      width: 25px;
+    }
+  }
   .carousel {
     h5 {
       font-size: 0.8rem;
@@ -234,6 +245,15 @@ export default {
 
 /* small viewport */
 @media only screen and (min-width: 576px) {
+  .avatar {
+    height: 30px;
+    width: 30px;
+    margin: 0px 10px auto 0px;
+    img {
+      height: 30px;
+      width: 30px;
+    }
+  }
   .carousel {
     h5 {
       font-size: 1rem;
@@ -278,6 +298,15 @@ export default {
 
 /* medium */
 @media only screen and (min-width: 768px) {
+  .avatar {
+    height: 30px;
+    width: 30px;
+    margin: 0px 10px auto 0px;
+    img {
+      height: 30px;
+      width: 30px;
+    }
+  }
   .carousel {
     h5 {
       font-size: 1rem;
