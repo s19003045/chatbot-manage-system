@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <div class="row px-4 py-0">
+  <div class="container-fluid">
+    <div class="row px-2 py-0 mb-2">
       <!-- avatar -->
       <div class="avatar">
         <img src="https://picsum.photos/id/157/50/50" alt />
       </div>
-      <div class="message-template-item py-0 px-0 mr-auto mb-3 border-0 bg-white">
+      <div class="message-template-item py-0 px-0 mr-auto mb-2 mt-1 border-0 bg-white">
         <!-- 文字訊息 -->
-        <p class="py-2 px-3 my-0">{{replyMsgItem.text}}</p>
+        <p class="py-1 px-2 my-0 py-md-2">{{replyMsgItem.text}}</p>
       </div>
     </div>
   </div>
@@ -31,24 +31,91 @@ export default {
   background-color: #7ca2de;
 
   .avatar {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     vertical-align: middle;
     margin: 0px 10px auto 0px;
     border-radius: 50%;
     img {
-      height: 30px;
-      width: 30px;
+      height: 20px;
+      width: 20px;
       border-radius: 50%;
     }
   }
   .message-template-item {
     max-width: 80%;
-    border-radius: 15px;
+    border-radius: 20px;
 
     p {
-      border-radius: 15px;
-      font-size: 0.9rem;
+      border-radius: 20px;
+      font-size: 0.6rem;
+      line-height: 0.6rem;
+    }
+  }
+}
+
+/* x-small viewport */
+@media only screen and (min-width: 450px) {
+  .row {
+    .avatar {
+      height: 25px;
+      width: 25px;
+      margin: 0px 10px auto 0px;
+      img {
+        height: 25px;
+        width: 25px;
+      }
+    }
+    .message-template-item {
+      p {
+        border-radius: 20px;
+        font-size: 0.7rem;
+        line-height: 0.7rem;
+      }
+    }
+  }
+}
+
+/* x-small viewport */
+@media only screen and (min-width: 576px) {
+  .row {
+    .avatar {
+      height: 30px;
+      width: 30px;
+      margin: 0px 10px auto 0px;
+      img {
+        height: 30px;
+        width: 30px;
+      }
+    }
+    .message-template-item {
+      p {
+        border-radius: 20px;
+        font-size: 0.7rem;
+        line-height: 0.7rem;
+      }
+    }
+  }
+}
+
+/* medium */
+@media only screen and (min-width: 768px) {
+  .row {
+    .avatar {
+      height: 30px;
+      width: 30px;
+      margin: 0px 10px auto 0px;
+      img {
+        height: 30px;
+        width: 30px;
+      }
+    }
+    .message-template-item {
+      p {
+        border-radius: 20px;
+        font-size: 0.8rem;
+        line-height: 0.8rem;
+      }
     }
   }
 }
