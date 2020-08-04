@@ -42,16 +42,16 @@
           <div class="row">
             <div class="col-12 col-lg-6">
               <div class="row">
-                <div class="col-12 border border-danger">
-                  <!-- 關鍵字設定 -->
+                <!-- 關鍵字編輯區 -->
+                <div class="col-12">
                   <KeywordEditor
                     :keywords="keywords"
                     :module-click="moduleClick"
                     :reply-module-list="replyModuleList"
                   />
                 </div>
+                <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
                 <div class="col-12">
-                  <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
                   <div
                     class="mb-5 py-2 px-2 border border-secondary rounded shadow-lg"
                   >
