@@ -15,8 +15,9 @@
         <b-nav-item
           v-for="(item, index) in navLinks"
           :key="index"
-          :to="{name:item.routeName,params:{botId:chatbot.botId}}"
-        >{{item.displayName}}</b-nav-item>
+          :to="{ name: item.routeName, params: { botId: chatbot.botId } }"
+          >{{ item.displayName }}</b-nav-item
+        >
       </b-nav>
     </b-sidebar>
   </div>
@@ -43,10 +44,10 @@ export default {
           routeName: "editor-bot-welcome",
           displayName: "歡迎訊息",
         },
-        {
-          routeName: "editor-bot-keyword-reply",
-          displayName: "關鍵字設定",
-        },
+        // {
+        //   routeName: "editor-bot-keyword-reply",
+        //   displayName: "關鍵字設定",
+        // },
         {
           routeName: "editor-bot-script",
           displayName: "機器人腳本",
@@ -88,7 +89,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss">
 .left-sidebar {
   font-size: 1.1rem;
@@ -117,5 +117,3 @@ export default {
   }
 }
 </style>
-
-
