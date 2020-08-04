@@ -53,11 +53,11 @@ export default {
 <style  lang="scss" scoped>
 .mobile-view {
   box-shadow: 0px 0px 10px grey;
-  border-radius: 50px;
-  padding: 40px 20px 30px 20px;
-  width: 80%;
-  min-height: 400px;
-  max-height: 600px;
+  border-radius: 3.125rem;
+  padding: 1.5rem 1rem 1rem 1rem;
+  width: 85%;
+  min-height: 25rem;
+  max-height: 37.5rem;
   border: 1px solid #aaa;
 
   .mobile-phone-top {
@@ -65,16 +65,16 @@ export default {
     height: 7px;
     border-radius: 5px;
     background-color: #aaa;
-    margin: 0px auto 20px;
+    margin: 0rem auto 1rem;
   }
 
   .mobile-phone-bottom {
     width: 25%;
-    height: 30px;
-    border-radius: 20px;
+    height: 1.5rem;
+    border-radius: 1.25rem;
     background-color: #fff;
     border: #8a8a5f 2px solid;
-    margin: 15px auto 20px;
+    margin: 0.875rem auto 1rem;
     // box-shadow: 0px 0px 2px #cfcf44;
     .inner {
       width: 100%;
@@ -119,5 +119,30 @@ export default {
   margin: 0px auto;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+/* small viewport */
+@media only screen and (min-width: 450px) {
+  .mobile-view {
+    width: 80%;
+    min-height: 30rem;
+    max-height: 40rem;
+  }
+  .custom-scrollbar-css {
+    min-height: 21.875rem;
+    max-height: 26.25rem;
+  }
+}
+/* small viewport */
+@media only screen and (min-width: 576px) {
+  .mobile-view {
+    width: 75%;
+    min-height: 40rem;
+    max-height: 45rem;
+  }
+  .custom-scrollbar-css {
+    min-height: 30rem;
+    max-height: 35rem;
+  }
 }
 </style>

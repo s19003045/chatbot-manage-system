@@ -230,13 +230,6 @@ export default {
   }
 }
 
-// /* small */
-// @media only screen and (min-width: 576px) {
-//   #moduleListContent.custom-scrollbar-css ul {
-//     // scrollbar-width: thin;
-//   }
-// }
-
 /* medium */
 @media only screen and (min-width: 768px) {
   /* Custom Scrollbar using CSS */
