@@ -4,10 +4,12 @@
       id="console-sidebar"
       bg-variant="white"
       text-variant="dark"
-      width="10rem"
+      width="13rem"
       shadow
       visible
       backdrop
+      sidebar-class="left-sidebar"
+      body-class="left-sidebar-body"
     >
       <b-nav vertical pills>
         <b-nav-item
@@ -85,5 +87,35 @@ export default {
   },
 };
 </script>
+
+
+<style lang="scss">
+.left-sidebar {
+  font-size: 1.1rem;
+  padding-bottom: 30px;
+
+  .left-sidebar-body {
+    height: 100%;
+    /* scrollbar track =>scrollbar 整體樣式 */
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* scrollbar handle =>滑塊*/
+    &::-webkit-scrollbar-thumb {
+      border-radius: 1rem;
+      background-color: #8a8a8a;
+      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /** scrollbar track => 軌道 */
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      background: #ededed;
+    }
+  }
+}
+</style>
 
 
