@@ -63,7 +63,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&display=swap");
 
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap");
@@ -74,5 +74,13 @@ export default {
 
 main {
   min-height: 100%;
+}
+
+button.btn {
+  border-radius: 3px;
+}
+
+button.rounded {
+  border-radius: 5px;
 }
 </style>
