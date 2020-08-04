@@ -1,20 +1,22 @@
 <template>
-  <div class="module-list-component-wrapper">
+  <div class="module-list-component-wrapper border border-secondary shadow mb-2">
     <div class="module-list-component">
-      <h5 class="mb-3 py-2 px-3 bg-secondary text-dark border border-secondary rounded">模組列表</h5>
+      <h5
+        class="mb-3 py-2 px-3 bg-secondary text-white bg-info border border-secondary rounded"
+      >模組列表</h5>
 
       <div class="w-100"></div>
-      <div class="custom-scrollbar-css my-1 border-top border-bottom" id="moduleListContent">
+      <div class="custom-scrollbar-css mx-1 my-1 border-top border-bottom" id="moduleListContent">
         <ul class="nav flex-md-column my-0">
           <li
             v-for="(replyModule,index) in replyModules"
             v-bind:key="replyModule.id"
-            class="nav-item px-0 py-0 my-2 my-lg-1 mx-1 mx-lg-2 border-primary"
+            class="nav-item px-0 py-0 my-2 my-lg-1 mx-1 border-primary"
             :class="{'module-select-color': moduleClick.index === index, 'shadow':moduleClick.index === index}"
             :data-reply-module-uuid="replyModule.uuid"
             @click.stop.prevent="handleClickModule(index)"
           >
-            <div class="card">
+            <div class="card mx-auto">
               <div class="card-body pl-3 py-3">
                 <h6
                   class="card-subtitle mb-2 text-muted"
@@ -179,52 +181,61 @@ export default {
 };
 </script>
 
-<style  scoped>
-#moduleListContent.custom-scrollbar-css ul {
-  overflow-x: hidden;
-  /* scrollbar-width: thin; */
-}
-
-/* scrollbar track */
-.custom-scrollbar-css::-webkit-scrollbar-track {
-  background: #eee;
-}
-
-/* scrollbar handle */
-.custom-scrollbar-css::-webkit-scrollbar-thumb {
-  border-radius: 1rem;
-  background-color: #8a8a8a;
-  /* background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%); */
-}
-
-/* moduleList */
-#moduleListContent ul {
-  flex-wrap: nowrap;
+<style  lang="scss" scoped>
+#moduleListContent.custom-scrollbar-css {
   overflow-x: scroll;
-}
+  -webkit-overflow-scrolling: touch;
+  /* scrollbar track =>scrollbar 整體樣式 */
+  &::-webkit-scrollbar {
+    width: 10px; /*高寬分別對應橫豎滾動條的尺寸*/
+    height: 10px;
+  }
 
-/* moduleList item */
-li.module-select-color {
-  border: solid 2px;
-}
+  /* scrollbar handle =>滑塊*/
+  &::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #8a8a8a;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    /* background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%); */
+  }
 
-/* moduleList item :hover */
-.custom-scrollbar-css ul li:hover {
-  border: 2px solid #e1f2f8;
-}
-/* moduleList item card */
-.custom-scrollbar-css ul .card {
-  width: 10rem;
-  height: 100%;
-}
+  /** scrollbar track => 軌道 */
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: #ededed;
+  }
 
-/* small */
-@media only screen and (min-width: 576px) {
-  #moduleListContent.custom-scrollbar-css ul {
-    overflow-x: scroll;
-    scrollbar-width: thin;
+  ul {
+    display: flex;
+    flex-wrap: nowrap;
+
+    /* moduleList item */
+    li {
+      &.module-select-color {
+        border: solid 2px;
+      }
+
+      /* moduleList item :hover */
+      &:hover {
+        border: 2px solid #e1f2f8;
+      }
+    }
+
+    /* moduleList item card */
+    .card {
+      width: 9rem;
+      height: 100%;
+    }
   }
 }
+
+// /* small */
+// @media only screen and (min-width: 576px) {
+//   #moduleListContent.custom-scrollbar-css ul {
+//     // scrollbar-width: thin;
+//   }
+// }
 
 /* medium */
 @media only screen and (min-width: 768px) {
@@ -233,14 +244,12 @@ li.module-select-color {
     max-height: 60vh;
     overflow-x: hidden;
     overflow-y: scroll;
-    scrollbar-width: thin;
   }
 
-  /* scrollbar width */
+  //   /* scrollbar width */
   .custom-scrollbar-css::-webkit-scrollbar {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-width: thin;
+    // overflow-x: hidden;
+    // overflow-y: scroll;
   }
   #moduleListContent ul {
     width: 100%;
