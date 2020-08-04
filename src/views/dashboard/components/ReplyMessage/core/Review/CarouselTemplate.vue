@@ -34,7 +34,7 @@
           <p
             v-for="item in column.actions"
             :key="item.id"
-            class="template-btn-item text-primary text-center py-2 my-0"
+            class="template-btn-item text-primary text-center py-1 px-3 my-0"
           >{{item.label}}</p>
         </div>
       </div>
@@ -95,7 +95,33 @@ export default {
   background-color: #7ca2de;
   overflow-x: scroll;
   display: flex;
-  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #8a8a8a;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: #ededed;
+  }
+
+  h5 {
+    font-size: 0.7rem;
+  }
+  h6 {
+    font-size: 0.6rem;
+  }
+  p {
+    font-size: 0.6rem;
+  }
 
   // carousel template 中的每一個 column
   .column-message {
@@ -128,7 +154,7 @@ export default {
   .carousel-left {
     position: absolute;
     top: 60px;
-    left: calc(50% - 160px);
+    left: calc(50% - 7em);
 
     &:hover {
       background-color: #ccc;
@@ -139,7 +165,7 @@ export default {
   .carousel-right {
     position: absolute;
     top: 60px;
-    right: calc(50% - 160px);
+    right: calc(50% - 7em);
 
     &:hover {
       background-color: #ccc;
@@ -168,6 +194,130 @@ export default {
   &:last-child:hover {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+  }
+}
+
+/* x-small viewport */
+@media only screen and (min-width: 450px) {
+  .carousel {
+    h5 {
+      font-size: 0.8rem;
+    }
+    h6 {
+      font-size: 0.7rem;
+    }
+    p {
+      font-size: 0.7rem;
+    }
+  }
+  // 向右及向左按鍵
+  .carousel-btn-wrapper {
+    .carousel-btn {
+    }
+    // carousel 向左 icon
+    .carousel-left {
+      top: 60px;
+      left: calc(50% - 9rem);
+
+      &:hover {
+        background-color: #ccc;
+        color: #111;
+      }
+    }
+    // carousel 向右 icon
+    .carousel-right {
+      top: 60px;
+      right: calc(50% - 9rem);
+    }
+  }
+}
+
+/* small viewport */
+@media only screen and (min-width: 576px) {
+  .carousel {
+    h5 {
+      font-size: 1rem;
+    }
+    h6 {
+      font-size: 0.8rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
+
+    // carousel template 中的每一個 column
+    .column-message {
+      min-width: 70%;
+      margin-right: 15px;
+    }
+    .column-message:last-child {
+      margin-right: 50px;
+    }
+  }
+  // 向右及向左按鍵
+  .carousel-btn-wrapper {
+    .carousel-btn {
+    }
+    // carousel 向左 icon
+    .carousel-left {
+      top: 60px;
+      left: calc(50% - 11rem);
+
+      &:hover {
+        background-color: #ccc;
+        color: #111;
+      }
+    }
+    // carousel 向右 icon
+    .carousel-right {
+      top: 60px;
+      right: calc(50% - 11rem);
+    }
+  }
+}
+
+/* medium */
+@media only screen and (min-width: 768px) {
+  .carousel {
+    h5 {
+      font-size: 1rem;
+    }
+    h6 {
+      font-size: 0.8rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
+
+    // carousel template 中的每一個 column
+    .column-message {
+      min-width: 70%;
+      margin-right: 15px;
+    }
+    .column-message:last-child {
+      margin-right: 50px;
+    }
+  }
+
+  // 向右及向左按鍵
+  .carousel-btn-wrapper {
+    .carousel-btn {
+    }
+    // carousel 向左 icon
+    .carousel-left {
+      top: 60px;
+      left: calc(50% - 10.5rem);
+
+      &:hover {
+        background-color: #ccc;
+        color: #111;
+      }
+    }
+    // carousel 向右 icon
+    .carousel-right {
+      top: 60px;
+      right: calc(50% - 10.5rem);
+    }
   }
 }
 </style>
