@@ -53,14 +53,14 @@ export default {
   background-color: #7ca2de;
 
   .avatar {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     vertical-align: middle;
     margin: 0px 10px auto 0px;
     border-radius: 50%;
     img {
-      height: 30px;
-      width: 30px;
+      height: 20px;
+      width: 20px;
       border-radius: 50%;
     }
   }
@@ -100,6 +100,15 @@ export default {
 /* x-small viewport */
 @media only screen and (min-width: 450px) {
   .row {
+    .avatar {
+      height: 25px;
+      width: 25px;
+      margin: 0px 10px auto 0px;
+      img {
+        height: 25px;
+        width: 25px;
+      }
+    }
     h5 {
       font-size: 0.8rem;
     }
@@ -115,6 +124,15 @@ export default {
 /* x-small viewport */
 @media only screen and (min-width: 576px) {
   .row {
+    .avatar {
+      height: 30px;
+      width: 30px;
+      margin: 0px 10px auto 0px;
+      img {
+        height: 30px;
+        width: 30px;
+      }
+    }
     h5 {
       font-size: 1rem;
     }
@@ -130,6 +148,15 @@ export default {
 /* medium */
 @media only screen and (min-width: 768px) {
   .row {
+    .avatar {
+      height: 30px;
+      width: 30px;
+      margin: 0px 10px auto 0px;
+      img {
+        height: 30px;
+        width: 30px;
+      }
+    }
     h5 {
       font-size: 1rem;
     }
