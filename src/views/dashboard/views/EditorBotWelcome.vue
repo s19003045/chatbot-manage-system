@@ -102,6 +102,7 @@ import ReviewOnBoard from "../components/ReplyMessage/core/ReviewOnBoard.vue";
 import botScriptAPI from "../../../apis/botScript.js";
 import { mapState } from "vuex";
 import { Toast } from "../../../utils/helpers";
+import { msgGenerator } from "../../../utils/templateGenerator.js";
 
 // faked data(from API)
 const welcomeMessageFromAPI = {
@@ -229,6 +230,57 @@ export default {
       });
     });
   },
-  methods: {},
+  methods: {
+    //儲存所有模組
+    async handleClickSaveBtn() {},
+    //新增回應訊息
+    async handleClickAddReplyMsgBtn() {
+      try {
+        // 先判斷 replyMessage.messageTemplate.length
+        // 若 length === 5，則跳出訊息"已超過訊息數限制"
+        if (this.replyMessage.length === this.limit.replyMessagePerSend) {
+          Toast.fire({
+            icon: "warning",
+            text: "已超出訊息限制 5 則!",
+          });
+          return;
+        } else if (this.componentSelect === "") {
+          Toast.fire({
+            icon: "warning",
+            text: "請選擇訊息類別!",
+          });
+        } else {
+          // 若 length < 5，則replyMessage.messageTemplate.push(合適的樣版)
+          //帶入參數產生新樣版
+          const messageTemplateCreate = JSON.parse(
+            JSON.stringify(
+              msgGenerator({
+                type: this.componentSelect,
+              })
+            )
+          );
+          //將新樣版整合至  messageTemplate
+          this.replyMessage.push(messageTemplateCreate);
+
+          // 成功新增訊息
+          Toast.fire({
+            icon: "success",
+            text: "訊息已新增",
+          });
+        }
+      } catch (err) {
+        Toast.fire({
+          icon: "warning",
+          text: "系統異常!",
+        });
+      }
+    },
+    //刪除 replyMsg(子層傳遞上來的事件)
+    handleDeleteReplyMsg([index]) {
+      this.replyMessage.splice(index, 1);
+
+      Toast.fire("Deleted!", "Quick reply has been deleted.", "success");
+    },
+  },
 };
 </script>
