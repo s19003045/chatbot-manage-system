@@ -10,6 +10,20 @@
         <p class="py-1 px-2 my-0 py-sm-2 px-sm-3">{{replyMsgItem.text}}</p>
       </div>
     </div>
+
+    <div
+      v-if="replyMsgItem.quickReply && replyMsgItem.quickReply.items"
+      class="mb-3 quick-reply-wrapper"
+      id="quick-reply-btn-container"
+    >
+      <ul class="quick-reply-btn-list mx-0 px-0 mb-2">
+        <li v-for="(item,index) in replyMsgItem.quickReply.items" :key="index">
+          <button
+            class="btn btn-secondary border-0 mx-1 mt-2 px-2 py-1 text-white quick-reply-btn"
+          >{{item.action.label}}</button>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -50,6 +64,40 @@ export default {
       border-radius: 20px;
       font-size: 0.6rem;
       line-height: 0.6rem;
+    }
+  }
+}
+
+/** quick reply */
+.quick-reply-wrapper {
+  width: 100%;
+  overflow-x: scroll;
+  position: relative;
+  padding: 0px 0px;
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #8a8a8a;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background-color: #ededed;
+  }
+
+  .quick-reply-btn-list {
+    display: flex;
+    list-style: none;
+
+    .quick-reply-btn {
+      min-width: 50px;
+      min-height: 1.6rem;
+      white-space: nowrap;
+      font-size: 0.7rem;
+      background-color: #315885;
+      opacity: 0.8;
+      border-radius: 30px;
     }
   }
 }
