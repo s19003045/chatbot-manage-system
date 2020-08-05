@@ -94,34 +94,140 @@
 
 <script>
 // import components
+import ReplyMsgEditor from "../components/EditorBotScript/ReplyMsgEditor.vue";
+import ReviewOnBoard from "../components/ReplyMessage/core/ReviewOnBoard.vue";
 
 // import helpers
+// import welcomeMsgAPI from "../../../apis/welcomeMsg.js";
+import botScriptAPI from "../../../apis/botScript.js";
 import { mapState } from "vuex";
+import { Toast } from "../../../utils/helpers";
 
 // faked data(from API)
 const welcomeMessageFromAPI = {
-  id: 1,
-  text: `{Nickname}，您好(hello)！
-      感謝您成為{channel.channelName}的好友！
-
-      若不想接收提醒，可以點畫面右上方的選單圖示，然後關閉「提醒」喔。`,
+  replyMessage: [
+    {
+      type: "text",
+      text:
+        "{Nickname}，您好(hello)！\n      感謝您成為{channel.channelName}的好友！\n\n\n      若不想接收提醒，可以點畫面右上方的選單圖示，然後關閉「提醒」喔。",
+    },
+    {
+      type: "text",
+      text: "↓↓聊天室下方有圖文選單，提供給你快速查詢相關資訊喔~~",
+    },
+  ],
+  id: 15,
+  name: "歡迎訊息",
+  uuid: "f161536c-4c13-4fee-9f74-ec6aa42a4bc9",
+  moduleUsedCount: 0,
+  status: "edited",
+  ChatbotId: 1,
+  createdAt: "2020-08-04T14:42:22.000Z",
+  updatedAt: "2020-08-05T04:16:29.000Z",
+  deletedAt: null,
+  Keywords: [],
 };
 
 export default {
-  components: {},
+  components: {
+    ReplyMsgEditor,
+    ReviewOnBoard,
+  },
   data() {
     return {
-      welcomeMessage: {},
+      replyModules: [], // API 取得的資料
+      replyModule: {}, // API 取得的資料，用於回應訊息編輯
+      replyMessage: {},
+      isProcessing: false,
+      moduleClick: {
+        status: true,
+        index: -1,
+      },
+      replyModuleList: [], // API 取得的資料replyModules，取部分值成模組清單，用於各 components 之模組清單
+
+      componentSelect: "", //使用者選擇的回應訊息樣版
+      limit: {
+        replyMessagePerSend: 5,
+      },
     };
   },
   computed: {
     ...mapState(["chatbot", "channel"]),
   },
-  created() {
-    // query API for welcome message
+  async created() {
+    try {
+      // 檢查請求資料
+      let apiDataWelcome = {
+        params: {
+          botId: this.chatbot.botId,
+        },
+        query: {
+          ChatbotId: 1,
+        },
+      };
+      console.log(apiDataWelcome);
 
-    // 先用假資料代替
-    this.welcomeMessage = welcomeMessageFromAPI;
+      let apiDataReplyModule = {
+        params: {
+          botId: this.chatbot.botId,
+        },
+        query: {
+          ChatbotId: 1,
+        },
+      };
+      // query API for welcome message
+      // const res1 = await welcomeMsgAPI.getWelcomeMsgModule(apiDataWelcome);
+
+      // query API for reply Module
+      const res2 = await botScriptAPI.getReplyModules(apiDataReplyModule);
+      // 先用假資料代替
+
+      // 判斷 query 成功否
+      if (res2.statusText === "OK" && res2.data.status === "success") {
+        this.replyModules = [...res2.data.data.replyModules];
+        // 整理取得的資料
+        this.replyModule = welcomeMessageFromAPI;
+        //welcomMessage.replyMessage 轉成 array
+        if (!Array.isArray(this.replyModule.replyMessage)) {
+          this.replyModule.replyMessage = [
+            { ...this.replyModule.replyMessage },
+          ];
+        }
+      }
+      // 整理取得的資料
+      this.replyModule = welcomeMessageFromAPI;
+      //welcomMessage.replyMessage 轉成 array
+      if (!Array.isArray(this.replyModule.replyMessage)) {
+        this.replyModule.replyMessage = [{ ...this.replyModule.replyMessage }];
+      }
+
+      this.replyMessage = this.replyModule.replyMessage;
+
+      return Toast.fire({
+        icon: "success",
+        title: "成功取得資料",
+        text: "",
+      });
+    } catch (err) {
+      return Toast.fire({
+        icon: "error",
+        title: "取得資料失敗，請稍後再試",
+        text: `${err.message}`,
+      });
+    }
+  },
+  beforeUpdate() {
+    //清空 replyModuleList
+    this.replyModuleList = [];
+    //再把 replyModules 的資料放進去
+    this.replyModules.forEach((d) => {
+      this.replyModuleList.push({
+        id: d.id,
+        name: d.name,
+        uuid: d.uuid,
+        status: d.status,
+      });
+    });
   },
   methods: {},
 };
