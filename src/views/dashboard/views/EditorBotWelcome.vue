@@ -53,7 +53,7 @@
                             class="form-control"
                             id="default-welcome-msg"
                             rows="8"
-                            v-model="LINEdefaultWelcomeMsg.text"
+                            v-model="LINEdefaultWelcomeMsg[0].text"
                             disabled
                           ></textarea>
                         </div>
@@ -118,8 +118,15 @@
             </div>
             <!-- 預覽區 -->
             <div class="col-12 col-lg-6">
-              <!-- 預覽回應訊息 => 待編輯-->
-              <ReviewOnBoard :reply-message="replyMessage" />
+              <!-- 預覽回應訊息 -->
+              <!-- 不啟用自訂歡迎訊息，顯示官方預設歡迎訊息 -->
+              <ReviewOnBoard
+                v-if="displayLineDefaultWelcomeMsg"
+                :reply-message="LINEdefaultWelcomeMsg"
+              />
+
+              <!-- 啟用自訂歡迎訊息 -->
+              <ReviewOnBoard v-else :reply-message="replyMessage" />
             </div>
           </div>
         </div>
@@ -166,7 +173,7 @@ export default {
         replyMessagePerSend: 5,
       },
       // LINE 官方預設歡迎訊息
-      LINEdefaultWelcomeMsg: welcomeMsgGenerator({ type: "LINE" }),
+      LINEdefaultWelcomeMsg: [welcomeMsgGenerator({ type: "LINE" })],
     };
   },
   computed: {
