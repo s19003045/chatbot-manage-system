@@ -16,6 +16,8 @@ const cameraRollSchema = require('./actionSchema/cameraRollSchema.json')
 const locationSchema = require('./actionSchema/locationSchema.json')
 const datetimePickerSchema = require('./actionSchema/datetimePickerSchema.json')
 
+// 載入歡迎訊息樣版
+const LINEwelcomeMsgSchema = require('./welcomeMsgSchema/LINEwelcomeMsgSchema.json')
 
 module.exports = {
   msgGenerator: (config) => {
@@ -83,5 +85,16 @@ module.exports = {
         }
     }
 
+  },
+  welcomeMsgGenerator: (config) => {
+    if (config.type === undefined) {
+      throw new Error("config.type undefined !!")
+    }
+    switch (config.type) {
+      case 'LINE':
+        return JSON.parse(JSON.stringify(LINEwelcomeMsgSchema))
+      default:
+        return JSON.parse(JSON.stringify(LINEwelcomeMsgSchema))
+    }
   }
 }
