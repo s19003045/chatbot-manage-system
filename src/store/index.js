@@ -10,13 +10,14 @@ export default new Vuex.Store({
     },
     // bot 資料
     chatbot: {
-      botId: 'bot-1111'
+      id: 1,
+      botId: 'bot-12345'
     },
     // channel 資料
     channel: {
       id: 1,
       channelName: '鱷魚醫生',
-      botId: 'bot-1111'
+      botId: 'bot-12345'
     },
     count: 1,
     //是否已驗證

@@ -44,12 +44,25 @@
                       </div>
                       <!-- 說明文字 -->
                       <p>說明：當使用者不啟用自訂歡迎訊息時，則會啟用 LINE 官方預設歡迎訊息</p>
-                      <!-- 使用者不啟用 -->
+                      <!-- 使用者不啟用，顯示官方預設歡迎訊息 -->
+                      <div v-if="displayLineDefaultWelcomeMsg" class="mb-5">
+                        <label for="default-welcome-msg" class="h5">LINE 官方預設歡迎訊息</label>
+                        <div class="input-group">
+                          <textarea
+                            name
+                            class="form-control"
+                            id="default-welcome-msg"
+                            rows="8"
+                            v-model="LINEdefaultWelcomeMsg.text"
+                            disabled
+                          ></textarea>
+                        </div>
+                      </div>
 
-                      <!-- 使用者啟用 -->
+                      <!-- 使用者啟用，顯示自訂歡迎訊息 -->
 
                       <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
-                      <div v-if="replyMessage" class>
+                      <div v-if="replyMessage && !displayLineDefaultWelcomeMsg" class>
                         <div
                           v-for="(templateItem, index) in replyMessage"
                           :key="index"
@@ -68,7 +81,10 @@
                       <!-- 下面為回應訊息類別選擇區 -->
                     </div>
                     <!-- ↑ ↑ 回應訊息編輯區 (scroll bar 邊界)↑ ↑ -->
-                    <div v-if="moduleClick.status" class="mb-5 mt-4">
+                    <div
+                      v-if="moduleClick.status && replyMessage && !displayLineDefaultWelcomeMsg"
+                      class="mb-5 mt-4"
+                    >
                       <button
                         class="btn btn-primary mb-2 mr-3"
                         @click="handleClickAddReplyMsgBtn"
@@ -122,7 +138,10 @@ import welcomeMsgAPI from "../../../apis/welcomeMsg.js";
 import botScriptAPI from "../../../apis/botScript.js";
 import { mapState } from "vuex";
 import { Toast } from "../../../utils/helpers";
-import { msgGenerator } from "../../../utils/templateGenerator.js";
+import {
+  msgGenerator,
+  welcomeMsgGenerator,
+} from "../../../utils/templateGenerator.js";
 
 export default {
   name: "EditorBotWelcome",
@@ -146,10 +165,19 @@ export default {
       limit: {
         replyMessagePerSend: 5,
       },
+      // LINE 官方預設歡迎訊息
+      LINEdefaultWelcomeMsg: welcomeMsgGenerator({ type: "LINE" }),
     };
   },
   computed: {
     ...mapState(["chatbot", "channel"]),
+    displayLineDefaultWelcomeMsg() {
+      if (this.replyModule.status === "edited") {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   async created() {
     try {
