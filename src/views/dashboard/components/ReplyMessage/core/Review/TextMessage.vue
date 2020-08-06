@@ -7,7 +7,7 @@
       </div>
       <div class="message-template-item py-0 px-0 mr-auto mb-2 mt-1 border-0 bg-white">
         <!-- 文字訊息 -->
-        <p class="py-1 px-2 my-0 py-sm-2 px-sm-3">{{replyMsgItem.text}}</p>
+        <p class="py-1 px-2 my-0 py-sm-2 px-sm-3" v-html="replyMsgItem.text"></p>
       </div>
     </div>
 

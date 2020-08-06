@@ -98,38 +98,14 @@ import ReplyMsgEditor from "../components/EditorBotScript/ReplyMsgEditor.vue";
 import ReviewOnBoard from "../components/ReplyMessage/core/ReviewOnBoard.vue";
 
 // import helpers
-// import welcomeMsgAPI from "../../../apis/welcomeMsg.js";
+import welcomeMsgAPI from "../../../apis/welcomeMsg.js";
 import botScriptAPI from "../../../apis/botScript.js";
 import { mapState } from "vuex";
 import { Toast } from "../../../utils/helpers";
 import { msgGenerator } from "../../../utils/templateGenerator.js";
 
-// faked data(from API)
-const welcomeMessageFromAPI = {
-  replyMessage: [
-    {
-      type: "text",
-      text:
-        "{Nickname}，您好(hello)！\n      感謝您成為{channel.channelName}的好友！\n\n\n      若不想接收提醒，可以點畫面右上方的選單圖示，然後關閉「提醒」喔。",
-    },
-    {
-      type: "text",
-      text: "↓↓聊天室下方有圖文選單，提供給你快速查詢相關資訊喔~~",
-    },
-  ],
-  id: 15,
-  name: "歡迎訊息",
-  uuid: "f161536c-4c13-4fee-9f74-ec6aa42a4bc9",
-  moduleUsedCount: 0,
-  status: "edited",
-  ChatbotId: 1,
-  createdAt: "2020-08-04T14:42:22.000Z",
-  updatedAt: "2020-08-05T04:16:29.000Z",
-  deletedAt: null,
-  Keywords: [],
-};
-
 export default {
+  name: "EditorBotWelcome",
   components: {
     ReplyMsgEditor,
     ReviewOnBoard,
@@ -138,7 +114,7 @@ export default {
     return {
       replyModules: [], // API 取得的資料
       replyModule: {}, // API 取得的資料，用於回應訊息編輯
-      replyMessage: {},
+      replyMessage: [],
       isProcessing: false,
       moduleClick: {
         status: true,
@@ -163,52 +139,51 @@ export default {
           botId: this.chatbot.botId,
         },
         query: {
-          ChatbotId: 1,
+          ChatbotId: this.chatbot.id,
         },
       };
-      console.log(apiDataWelcome);
 
       let apiDataReplyModule = {
         params: {
           botId: this.chatbot.botId,
         },
         query: {
-          ChatbotId: 1,
+          ChatbotId: this.chatbot.id,
         },
       };
       // query API for welcome message
-      // const res1 = await welcomeMsgAPI.getWelcomeMsgModule(apiDataWelcome);
+      const res1 = await welcomeMsgAPI.getWelcomeMsg(apiDataWelcome);
 
       // query API for reply Module
       const res2 = await botScriptAPI.getReplyModules(apiDataReplyModule);
-      // 先用假資料代替
 
+      console.log("res1=>>>", res1);
       // 判斷 query 成功否
-      if (res2.statusText === "OK" && res2.data.status === "success") {
-        this.replyModules = [...res2.data.data.replyModules];
-        // 整理取得的資料
-        this.replyModule = welcomeMessageFromAPI;
-        //welcomMessage.replyMessage 轉成 array
-        if (!Array.isArray(this.replyModule.replyMessage)) {
-          this.replyModule.replyMessage = [
-            { ...this.replyModule.replyMessage },
-          ];
+      if (
+        res1.statusText === "OK" &&
+        res1.data.status === "success" &&
+        res2.statusText === "OK" &&
+        res2.data.status === "success"
+      ) {
+        // 整理取得的 welcomeMsg
+        if (!Array.isArray(res1.data.data.welcomeMsg.replyMessage)) {
+          //welcomeMsg 轉成 array
+          this.replyMessage = [{ ...res1.data.data.welcomeMsg.replyMessage }];
+        } else {
+          this.replyMessage = [...res1.data.data.welcomeMsg.replyMessage];
         }
-      }
-      // 整理取得的資料
-      this.replyModule = welcomeMessageFromAPI;
-      //welcomMessage.replyMessage 轉成 array
-      if (!Array.isArray(this.replyModule.replyMessage)) {
-        this.replyModule.replyMessage = [{ ...this.replyModule.replyMessage }];
-      }
 
-      this.replyMessage = this.replyModule.replyMessage;
+        this.replyModule = res1.data.data.welcomeMsg;
 
-      return Toast.fire({
-        icon: "success",
-        title: "成功取得資料",
-        text: "",
-      });
+        // 整理取得的 replyModules
+        this.replyModules = [...res2.data.data.replyModules];
+
+        return Toast.fire({
+          icon: "success",
+          title: "成功取得資料",
+          text: "",
+        });
+      }
     } catch (err) {
       return Toast.fire({
         icon: "error",
