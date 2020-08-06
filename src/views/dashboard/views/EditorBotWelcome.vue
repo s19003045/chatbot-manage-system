@@ -7,10 +7,10 @@
           <div class="row justify-content-between">
             <div v-if="moduleClick.status" class="col-12 col-md-3 order-md-last mb-3">
               <button
-                class="btn btn-info rounded"
+                class="btn btn-outline-primary rounded rounded"
                 @click.stop.prevent="handleClickSaveBtn('edited')"
                 :disabled="isProcessing"
-              >儲存所有模組</button>
+              >儲存歡迎訊息</button>
             </div>
           </div>
           <div class="w-100"></div>
@@ -26,7 +26,27 @@
                     >歡迎訊息編輯</h5>
                     <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
                     <div v-if="moduleClick.status" class="custom-scrollbar-css">
-                      <!-- 編輯回應訊息名稱 -->
+                      <!-- 是否啟用自訂的歡迎訊息 -->
+                      <!-- 切換鈕 -->
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">是否啟用自訂歡迎訊息</div>
+                        </div>
+                        <select
+                          name="welcome-msg-is-active"
+                          id
+                          class="custom-select"
+                          v-model="replyModule.status"
+                        >
+                          <option value="edited" :selected="replyModule.status === 'edited'">不啟用</option>
+                          <option value="in-use" :selected="replyModule.status === 'in-use'">啟用</option>
+                        </select>
+                      </div>
+                      <!-- 說明文字 -->
+                      <p>說明：當使用者不啟用自訂歡迎訊息時，則會啟用 LINE 官方預設歡迎訊息</p>
+                      <!-- 使用者不啟用 -->
+
+                      <!-- 使用者啟用 -->
 
                       <!-- 回應訊息樣版編輯區 ，把 messageTemplate(array) 各元件傳到 component 中編輯-->
                       <div v-if="replyMessage" class>
