@@ -8,7 +8,7 @@
             <div v-if="moduleClick.status" class="col-12 col-md-3 order-md-last mb-3">
               <button
                 class="btn btn-outline-primary rounded rounded"
-                @click.stop.prevent="handleClickSaveBtn('edited')"
+                @click.stop.prevent="handleClickSaveBtn"
                 :disabled="isProcessing"
               >儲存歡迎訊息</button>
             </div>
@@ -170,7 +170,9 @@ export default {
     };
   },
   computed: {
+    // 載入 store.state
     ...mapState(["chatbot", "channel"]),
+    // 是否顯示官方預設歡迎訊息
     displayLineDefaultWelcomeMsg() {
       if (this.replyModule.status === "edited") {
         return true;
@@ -205,7 +207,6 @@ export default {
       // query API for reply Module
       const res2 = await botScriptAPI.getReplyModules(apiDataReplyModule);
 
-      console.log("res1=>>>", res1);
       // 判斷 query 成功否
       if (
         res1.statusText === "OK" &&
@@ -214,14 +215,13 @@ export default {
         res2.data.status === "success"
       ) {
         // 整理取得的 welcomeMsg
-        if (!Array.isArray(res1.data.data.welcomeMsg.replyMessage)) {
-          //welcomeMsg 轉成 array
-          this.replyMessage = [{ ...res1.data.data.welcomeMsg.replyMessage }];
-        } else {
-          this.replyMessage = [...res1.data.data.welcomeMsg.replyMessage];
-        }
-
         this.replyModule = res1.data.data.welcomeMsg;
+
+        if (!Array.isArray(this.replyModule.replyMessage)) {
+          //welcomeMsg 轉成 array
+          this.replyModule.replyMessage = [this.replyModule.replyMessage];
+        }
+        this.replyMessage = this.replyModule.replyMessage;
 
         // 整理取得的 replyModules
         this.replyModules = [...res2.data.data.replyModules];
@@ -255,7 +255,49 @@ export default {
   },
   methods: {
     //儲存所有模組
-    async handleClickSaveBtn() {},
+    async handleClickSaveBtn() {
+      try {
+        this.isProcessing = true;
+        // 檢查請求資料
+        let apiData = {
+          params: {
+            botId: this.chatbot.botId,
+          },
+          query: {},
+          data: {
+            ChatbotId: this.chatbot.id,
+            welcomeMsg: this.replyModule,
+          },
+        };
+
+        // 發送請求
+        const { statusText, data } = await welcomeMsgAPI.putWelcomeMsg(apiData);
+
+        // 判斷 response
+        if (statusText === "OK" && data.status === "success") {
+          this.isProcessing = false;
+          return Toast.fire({
+            icon: "success",
+            title: "存取成功",
+            text: "",
+          });
+        } else {
+          this.isProcessing = false;
+          return Toast.fire({
+            icon: "error",
+            title: "存取資料失敗",
+            text: "",
+          });
+        }
+      } catch (err) {
+        this.isProcessing = false;
+        return Toast.fire({
+          icon: "error",
+          title: "存取資料失敗，請稍後再試",
+          text: `${err.message}`,
+        });
+      }
+    },
     //新增回應訊息
     async handleClickAddReplyMsgBtn() {
       try {

@@ -16,5 +16,12 @@ export default {
     })
   },
   // 儲存歡迎訊息
-
+  putWelcomeMsg({
+    params: {
+      botId: botId
+    },
+    data: data
+  }) {
+    return apiHelper.put(`/bots/${botId}/welcome`, data)
+  },
 }
