@@ -23,6 +23,7 @@
           >{{item.action.label}}</button>
         </li>
       </ul>
+      <small class="text-center text-light">註：正式聊天視窗中不會出現下方的捲軸</small>
     </div>
   </div>
 </template>
