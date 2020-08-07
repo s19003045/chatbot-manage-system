@@ -3,17 +3,7 @@
     <div class="container">
       <div class="row py-5">
         <div class="col">
-          <ModuleKeywordAnalysis />
-        </div>
-      </div>
-      <div class="row py-5">
-        <div class="col">
-          <ModulePostBackAnalysis />
-        </div>
-      </div>
-      <div class="row py-5">
-        <div class="col">
-          <ReplyMessageAnalysis />
+          <ReplyModuleAnalysis />
         </div>
       </div>
     </div>
@@ -21,9 +11,7 @@
 </template>
 
 <script>
-import ModuleKeywordAnalysis from "../components/AnalyticsTemplate/ModuleKeywordAnalysis.vue";
-import ModulePostBackAnalysis from "../components/AnalyticsTemplate/ModulePostBackAnalysis.vue";
-import ReplyMessageAnalysis from "../components/AnalyticsTemplate/ReplyMessageAnalysis.vue";
+import ReplyModuleAnalysis from "../components/AnalyticsTemplate/ReplyModuleAnalysis.vue";
 
 //chart default setting
 import Chart from "chart.js";
@@ -52,15 +40,13 @@ Chart.defaults.global.elements.point.borderColor = "rgba(0, 0, 0, 0.3)";
 export default {
   name: "AnalyticsTemplate",
   components: {
-    ModuleKeywordAnalysis,
-    ModulePostBackAnalysis,
-    ReplyMessageAnalysis
+    ReplyModuleAnalysis,
   },
   data() {
     return {};
   },
   created() {},
   beforeUpdate() {},
-  methods: {}
+  methods: {},
 };
 </script>

@@ -44,5 +44,19 @@ export default {
     return apiHelper.get(`/bots/${botId}/reply-message-analysis?${queryString}`, {
     })
   },
+  // 分析模組-取得回應模組(replyModule)使用數據
+  getReplyModuleAnalysis({
+    params: {
+      botId: botId
+    },
+    query: {
+      ChatbotId: ChatbotId
+    }
+  }) {
+    let queryString = `ChatbotId=${ChatbotId}`
+
+    return apiHelper.get(`/bots/${botId}/reply-module-analysis?${queryString}`, {
+    })
+  },
 
 }
