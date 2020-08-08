@@ -162,16 +162,24 @@ export default {
       componentSelect: "",
     };
   },
+  computed: {
+    ...mapState(["chatbot", "currentUser", "isSaved"]),
+  },
   props: {},
   async created() {
     try {
-      //faked data
+      // 變更 store.isSaved 為 true
+      this.changeSavingStatus({
+        isEditing: false,
+      });
+
+      //request data
       let apiData = {
         params: {
-          botId: "bot-x12345",
+          botId: this.chatbot.botId,
         },
         query: {
-          ChatbotId: 1,
+          ChatbotId: this.chatbot.id,
         },
       };
       const { statusText, data } = await botScriptAPI.getReplyModules(apiData);
@@ -220,11 +228,9 @@ export default {
     });
   },
   mounted() {},
-  computed: {
-    ...mapState(["chatbot", "currentUser", "isSaved"]),
-  },
   methods: {
     ...mapMutations(["changeSavingStatus"]),
+
     //儲存所有模組
     async handleClickSaveBtn(action) {
       try {
@@ -274,7 +280,7 @@ export default {
           res2.data.status === "success"
         ) {
           this.isProcessing = false;
-          // 改變 store.state
+          // 改變 store.state.isSaved
           this.changeSavingStatus({ isEditing: false });
 
           return Toast.fire({
@@ -369,6 +375,7 @@ export default {
   },
   watch: {
     componentSelect() {
+      // 改變 store.state.isSaved
       this.changeSavingStatus({ isEditing: true });
     },
   },

@@ -196,6 +196,9 @@
 // import QuickReply from "./core/QuickReply.vue";
 import ActionObject from "./core/ActionObject.vue";
 
+// import store
+import { mapState, mapMutations } from "vuex";
+
 // import helpers
 import { Toast } from "../../../../utils/helpers";
 import { actionGenerator } from "../../../../utils/templateGenerator.js";
@@ -274,6 +277,40 @@ export default {
       quickReplyDisplay: false,
     };
   },
+  computed: {
+    ...mapState(["chatbot", "currentUser", "isSaved"]),
+    templateThumbnailImageUrl() {
+      return this.templateItem.template.thumbnailImageUrl;
+    },
+    templateTitle() {
+      return this.templateItem.template.title;
+    },
+    templateText() {
+      return this.template.text;
+    },
+  },
+  watch: {
+    withImage() {
+      // 改變 store.state.isSaved
+      this.changeSavingStatus({ isEditing: true });
+    },
+    templateThumbnailImageUrl() {
+      // 改變 store.state.isSaved
+      this.changeSavingStatus({ isEditing: true });
+    },
+    templateTitle() {
+      // 改變 store.state.isSaved
+      this.changeSavingStatus({ isEditing: true });
+    },
+    templateText() {
+      // 改變 store.state.isSaved
+      this.changeSavingStatus({ isEditing: true });
+    },
+    templateBtnSelect() {
+      // 改變 store.state.isSaved
+      this.changeSavingStatus({ isEditing: true });
+    },
+  },
   created() {
     // 判斷載入的資料是否使用圖片
     if (!this.templateItem.template.thumbnailImageUrl) {
@@ -305,9 +342,9 @@ export default {
       this.templateItem.template.thumbnailImageUrl = null;
     }
   },
-  computed: {},
-
   methods: {
+    ...mapMutations(["changeSavingStatus"]),
+
     // 建立預設動作
     addDefaultAction() {
       // 載入合適的 actionSchema
