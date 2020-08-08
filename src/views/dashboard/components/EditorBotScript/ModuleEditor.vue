@@ -34,6 +34,14 @@ export default {
       return this.replyModule.name;
     },
   },
+  watch: {
+    replyModuleName() {
+      // 改變 store.state.isSaved
+      this.changeSavingStatus({
+        isEditing: true,
+      });
+    },
+  },
   created() {},
   beforeUpdate() {
     this.focusInput();
@@ -45,14 +53,6 @@ export default {
     ...mapMutations(["changeSavingStatus"]),
     focusInput() {
       this.$refs.moduleName.focus();
-    },
-  },
-  watch: {
-    replyModuleName() {
-      // 改變 store.state.isSaved
-      this.changeSavingStatus({
-        isEditing: true,
-      });
     },
   },
 };
