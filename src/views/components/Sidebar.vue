@@ -11,49 +11,20 @@
       sidebar-class="left-sidebar"
       body-class="left-sidebar-body"
     >
-      <!-- <b-nav vertical pills> -->
-      <div class="list-group">
-        <!-- <li
-          v-for="(item, index) in navLinks"
-          :key="index"
-          class="list-group-item h5 mb-2 border-bottom-0"
-        >-->
+      <ul class="list-group">
         <li
           v-for="(item, index) in navLinks"
           :key="index"
           @click.prevent.stop="handleSidebarItemClick(item)"
+          class="my-0 py-0"
         >
           <router-link
             :to="{name:item.routeName,params:{botId:chatbot.botId}}"
             :event="disabled ? '' : 'click'"
-            class="list-group-item list-group-item-action h5 border-bottom-0"
+            class="list-group-item list-group-item-action h5 py-3 my-0 border-bottom-0 border-top-0"
           >{{item.displayName}}</router-link>
         </li>
-
-        <!-- </li> -->
-        <!-- <li
-          v-for="(item, index) in navLinks"
-          :key="index"
-          class="list-group-item h5 mb-2 border-bottom-0"
-          @click.prevent.stop="handleSidebarItemClick(item)"
-        >{{item.displayName}}</li>-->
-      </div>
-
-      <!-- <router-link
-          v-for="(item, index) in navLinks"
-          :key="index"
-          :to="{ name: item.routeName, params: { botId: chatbot.botId } }"
-          @click.native.prevent="handleOpenModal"
-      >{{ item.displayName }}</router-link>-->
-
-      <!-- <b-nav-item
-          v-for="(item, index) in navLinks"
-          :key="index"
-          :to="{ name: item.routeName, params: { botId: chatbot.botId } }"
-          @click.native.prevent="handleOpenModal"
-      >{{ item.displayName }}</b-nav-item>-->
-
-      <!-- </b-nav> -->
+      </ul>
     </b-sidebar>
   </div>
 </template>
@@ -185,10 +156,12 @@ export default {
     }
 
     .list-group {
-      .list-group-item {
-        &:hover {
-          background-color: #008cba;
-          color: #fff;
+      li {
+        .list-group-item {
+          &:hover {
+            background-color: #008cba;
+            color: #fff;
+          }
         }
       }
     }
