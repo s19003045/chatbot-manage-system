@@ -53,6 +53,9 @@
 </template>
 
 <script>
+// import store
+import { mapState } from "vuex";
+
 // import helpers
 import botScriptAPI from "../../../../apis/botScript.js";
 import { Toast, ToastDelete } from "../../../../utils/helpers";
@@ -72,16 +75,22 @@ export default {
       isProcessing: false,
     };
   },
+  computed: {
+    ...mapState(["chatbot", "currentUser", "isSaved"]),
+  },
   created() {},
   methods: {
     // 點擊〈新增模組按鍵〉
     async handleAddBtnClick() {
       this.isProcessing = true;
-      //faked data
+
+      //request data
       const apiData = {
-        params: 1,
+        params: {
+          botId: this.chatbot.botId,
+        },
         data: {
-          ChatbotId: 1,
+          ChatbotId: this.chatbot.id,
         },
       };
       const { statusText, data } = await botScriptAPI.createReplyModule(
