@@ -16,6 +16,9 @@
 </template>
 
 <script>
+// import store
+import { mapMutations } from "vuex";
+
 export default {
   name: "ModuleEditor",
   props: {
@@ -26,6 +29,11 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    replyModuleName() {
+      return this.replyModule.name;
+    },
+  },
   created() {},
   beforeUpdate() {
     this.focusInput();
@@ -34,8 +42,17 @@ export default {
     this.focusInput();
   },
   methods: {
+    ...mapMutations(["changeSavingStatus"]),
     focusInput() {
       this.$refs.moduleName.focus();
+    },
+  },
+  watch: {
+    replyModuleName() {
+      // 改變 store.state.isSaved
+      this.changeSavingStatus({
+        isEditing: true,
+      });
     },
   },
 };
