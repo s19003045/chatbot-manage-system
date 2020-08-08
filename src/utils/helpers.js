@@ -35,10 +35,10 @@ export const ToastDelete = Swal.mixin({
   timerProgressBar: true
 })
 
-//刪除提示
+//離開當前頁面提示
 export const ToastLeave = Swal.mixin({
-  title: "要前往下個頁面嗎?",
-  text: "記得儲存編輯結果",
+  title: "未儲存的編輯內容將會被捨棄。",
+  text: "",
   toast: false,
   icon: "info",
   position: "center",
@@ -46,8 +46,8 @@ export const ToastLeave = Swal.mixin({
   showConfirmButton: true,
   confirmButtonColor: "#3085d6",
   cancelButtonColor: "#d33",
-  confirmButtonText: "前往下個頁面",
-  cancelButtonText: "取消",
+  confirmButtonText: "取消",
+  cancelButtonText: "捨棄",
   focusConfirm: false,
   focusCancel: true,
   timer: 5000,

@@ -16,17 +16,12 @@
         </div>
         <div class="col-12 col-md-9 col-lg-10">
           <div class="row justify-content-between">
-            <div
-              v-if="moduleClick.status"
-              class="col-12 col-md-3 order-md-last mb-3"
-            >
+            <div v-if="moduleClick.status" class="col-12 col-md-3 order-md-last mb-3">
               <button
                 class="btn btn-info rounded"
                 @click.stop.prevent="handleClickSaveBtn('edited')"
                 :disabled="isProcessing"
-              >
-                儲存所有模組
-              </button>
+              >儲存所有模組</button>
             </div>
             <!-- 模組名稱編輯區 -->
             <div class="col-12 col-md-6 order-md-first">
@@ -52,14 +47,10 @@
                 </div>
                 <!-- ↓ ↓ 回應訊息編輯區 ↓ ↓ -->
                 <div class="col-12">
-                  <div
-                    class="mb-5 py-2 px-2 border border-secondary rounded shadow-lg"
-                  >
+                  <div class="mb-5 py-2 px-2 border border-secondary rounded shadow-lg">
                     <h5
                       class="mb-4 py-2 px-3 bg-secondary text-dark border border-secondary rounded"
-                    >
-                      回應訊息編輯
-                    </h5>
+                    >回應訊息編輯</h5>
                     <!-- 回應訊息編輯區，點擊模組後才可以編輯 -->
                     <div v-if="moduleClick.status" class="custom-scrollbar-css">
                       <!-- 編輯回應訊息名稱 -->
@@ -88,22 +79,16 @@
                       <button
                         class="btn btn-primary mb-2 mr-3"
                         @click="handleClickAddReplyMsgBtn"
-                      >
-                        新增回應訊息
-                      </button>
+                      >新增回應訊息</button>
                       <!-- 顯示總訊息數 -->
-                      <span class="text-muted"
-                        >訊息數：{{ replyMessage ? replyMessage.length : 0 }} /
-                        5</span
-                      >
+                      <span class="text-muted">
+                        訊息數：{{ replyMessage ? replyMessage.length : 0 }} /
+                        5
+                      </span>
                       <!-- 若點擊〈新增回應訊息按鈕〉且訊息數未超過 5 個，則讓使用者選擇訊息樣版 -->
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <label
-                            class="input-group-text"
-                            for="messageTypeSelect"
-                            >請選擇訊息樣版</label
-                          >
+                          <label class="input-group-text" for="messageTypeSelect">請選擇訊息樣版</label>
                         </div>
                         <select
                           class="custom-select"
@@ -114,9 +99,7 @@
                           <!-- 暫停使用確認範本訊息 => 待確認範本訊息功能完整後再啟用 -->
                           <!-- <option value="confirmTemplate">確認範本訊息</option> -->
                           <option value="buttonsTemplate">按鍵範本訊息</option>
-                          <option value="carouselTemplate" selected
-                            >輪播範本訊息</option
-                          >
+                          <option value="carouselTemplate" selected>輪播範本訊息</option>
                         </select>
                       </div>
                     </div>
@@ -144,6 +127,9 @@ import ReplyMsgEditor from "../components/EditorBotScript/ReplyMsgEditor.vue";
 import KeywordEditor from "../components/EditorBotScript/KeywordEditor.vue";
 import ReviewOnBoard from "../components/ReplyMessage/core/ReviewOnBoard.vue";
 
+// import store
+import { mapState, mapMutations } from "vuex";
+
 // import helpers
 import botScriptAPI from "../../../apis/botScript.js";
 import keywordAPI from "../../../apis/keyword.js";
@@ -162,7 +148,7 @@ export default {
   data() {
     return {
       replyModules: [], // API 取得的資料
-      replyMessage: {}, // 點擊模組列表的模組時，置換此值，用於回應訊息編輯
+      replyMessage: [], // 點擊模組列表的模組時，置換此值，用於回應訊息編輯
       replyModule: {}, // 點擊模組列表的模組時，置換此值，用於模組名稱編輯
       keywords: [], // 點擊模組列表的模組時，置換此值，用於關鍵字編輯
       isProcessing: false,
@@ -234,8 +220,11 @@ export default {
     });
   },
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapState(["chatbot", "currentUser", "isSaved"]),
+  },
   methods: {
+    ...mapMutations(["changeSavingStatus"]),
     //儲存所有模組
     async handleClickSaveBtn(action) {
       try {
@@ -285,6 +274,9 @@ export default {
           res2.data.status === "success"
         ) {
           this.isProcessing = false;
+          // 改變 store.state
+          this.changeSavingStatus({ isEditing: false });
+
           return Toast.fire({
             icon: "success",
             title: "存取成功",
@@ -373,6 +365,11 @@ export default {
       this.replyMessage.splice(index, 1);
 
       Toast.fire("Deleted!", "Quick reply has been deleted.", "success");
+    },
+  },
+  watch: {
+    componentSelect() {
+      this.changeSavingStatus({ isEditing: true });
     },
   },
 };

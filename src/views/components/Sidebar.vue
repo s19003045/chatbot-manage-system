@@ -11,14 +11,49 @@
       sidebar-class="left-sidebar"
       body-class="left-sidebar-body"
     >
-      <b-nav vertical pills>
-        <b-nav-item
+      <!-- <b-nav vertical pills> -->
+      <div class="list-group">
+        <!-- <li
+          v-for="(item, index) in navLinks"
+          :key="index"
+          class="list-group-item h5 mb-2 border-bottom-0"
+        >-->
+        <li
+          v-for="(item, index) in navLinks"
+          :key="index"
+          @click.prevent.stop="handleSidebarItemClick(item)"
+        >
+          <router-link
+            :to="{name:item.routeName,params:{botId:chatbot.botId}}"
+            :event="disabled ? '' : 'click'"
+            class="list-group-item list-group-item-action h5 border-bottom-0"
+          >{{item.displayName}}</router-link>
+        </li>
+
+        <!-- </li> -->
+        <!-- <li
+          v-for="(item, index) in navLinks"
+          :key="index"
+          class="list-group-item h5 mb-2 border-bottom-0"
+          @click.prevent.stop="handleSidebarItemClick(item)"
+        >{{item.displayName}}</li>-->
+      </div>
+
+      <!-- <router-link
           v-for="(item, index) in navLinks"
           :key="index"
           :to="{ name: item.routeName, params: { botId: chatbot.botId } }"
-          >{{ item.displayName }}</b-nav-item
-        >
-      </b-nav>
+          @click.native.prevent="handleOpenModal"
+      >{{ item.displayName }}</router-link>-->
+
+      <!-- <b-nav-item
+          v-for="(item, index) in navLinks"
+          :key="index"
+          :to="{ name: item.routeName, params: { botId: chatbot.botId } }"
+          @click.native.prevent="handleOpenModal"
+      >{{ item.displayName }}</b-nav-item>-->
+
+      <!-- </b-nav> -->
     </b-sidebar>
   </div>
 </template>
@@ -26,11 +61,13 @@
 <script>
 // import store
 import { mapState } from "vuex";
+import { ToastLeave } from "../../utils/helpers";
 
 export default {
   props: {},
   data() {
     return {
+      disabled: false,
       navLinks: [
         {
           routeName: "overview",
@@ -84,7 +121,39 @@ export default {
     };
   },
   computed: {
-    ...mapState(["chatbot", "currentUser"]),
+    ...mapState(["chatbot", "currentUser", "editStatus", "isSaved"]),
+  },
+  watch: {
+    isSaved(val) {
+      this.disabled = !val;
+    },
+  },
+  beforeUpdate() {},
+  methods: {
+    handleSidebarItemClick(item) {
+      // 使用者未儲存編輯結果
+      if (!this.isSaved) {
+        ToastLeave.fire().then((result) => {
+          if (result.value) {
+            // 留在當前頁面
+            return;
+          } else {
+            // 離開此頁面
+            this.$router.push({
+              name: item.routeName,
+              params: { botId: this.chatbot.botId },
+            });
+          }
+        });
+      } else {
+        // 使用者已儲存或未編輯，則可以離開此頁面
+        this.$router.push({
+          name: item.routeName,
+          params: { botId: this.chatbot.botId },
+        });
+      }
+      //
+    },
   },
 };
 </script>
@@ -113,6 +182,15 @@ export default {
       -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
       background: #ededed;
+    }
+
+    .list-group {
+      .list-group-item {
+        &:hover {
+          background-color: #008cba;
+          color: #fff;
+        }
+      }
     }
   }
 }

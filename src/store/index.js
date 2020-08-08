@@ -23,6 +23,7 @@ export default new Vuex.Store({
     //是否已驗證
     isAuthenticated: false,
     token: '',
+    isSaved: true,
     // 使用者通知
     userNotification: [
       {
@@ -35,12 +36,27 @@ export default new Vuex.Store({
       }
     ]
   },
-  mutations: {
+  getters: {
 
   },
+  mutations: {
+    /**
+     * 
+     * @param {*} state 
+     * @param {Object} payload
+     * @param {boolean} payload.isEditing - is user editing? 
+     */
+    changeSavingStatus(state, payload) {
+      // 若使用者正在編輯，則變更 isSaved 為 false
+      // 若使用者已儲存編輯，則改更 isSaved 為 true
+      state.isSaved = !payload.isEditing
+    }
+  },
+  // synchronous method
   actions: {
 
   },
+  // asynchronous method
   modules: {
   }
 })
