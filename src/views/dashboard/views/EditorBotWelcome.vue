@@ -144,7 +144,7 @@ import ReviewOnBoard from "../components/ReplyMessage/core/ReviewOnBoard.vue";
 import welcomeMsgAPI from "../../../apis/welcomeMsg.js";
 import botScriptAPI from "../../../apis/botScript.js";
 import { mapState } from "vuex";
-import { Toast } from "../../../utils/helpers";
+import { Toast, ToastLeave } from "../../../utils/helpers";
 import {
   msgGenerator,
   welcomeMsgGenerator,
@@ -353,6 +353,17 @@ export default {
 
       Toast.fire("Deleted!", "Quick reply has been deleted.", "success");
     },
+  },
+  beforeRouteLeave(to, from, next) {
+    return ToastLeave.fire().then((result) => {
+      // 放棄儲存
+      if (!result.value) {
+        next();
+      } else {
+        // 繼續留在此頁
+        next(false);
+      }
+    });
   },
 };
 </script>

@@ -133,7 +133,7 @@ import { mapState, mapMutations } from "vuex";
 // import helpers
 import botScriptAPI from "../../../apis/botScript.js";
 import keywordAPI from "../../../apis/keyword.js";
-import { Toast } from "../../../utils/helpers";
+import { Toast, ToastLeave } from "../../../utils/helpers";
 import { msgGenerator } from "../../../utils/templateGenerator.js";
 
 export default {
@@ -378,6 +378,17 @@ export default {
       // 改變 store.state.isSaved
       this.changeSavingStatus({ isEditing: true });
     },
+  },
+  beforeRouteLeave(to, from, next) {
+    return ToastLeave.fire().then((result) => {
+      // 放棄儲存
+      if (!result.value) {
+        next();
+      } else {
+        // 繼續留在此頁
+        next(false);
+      }
+    });
   },
 };
 </script>
