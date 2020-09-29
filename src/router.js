@@ -22,6 +22,11 @@ const router = new Router({
       component: SignIn
     },
     {
+      path: '/signup',
+      name: 'sign-up',
+      component: () => import('./views/SignUp.vue')
+    },
+    {
       path: '/console/bots/:botId',
       component: () => import('./views/dashboard/Main.vue'),
       children: [
