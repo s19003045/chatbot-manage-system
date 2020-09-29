@@ -38,7 +38,9 @@
             class="btn btn-lg btn-primary btn-block mb-3"
             type="submit"
             :disabled="isProcessing"
-          >Submit</button>
+          >
+            Submit
+          </button>
 
           <div class="text-center mb-3">
             <p>
@@ -46,7 +48,9 @@
             </p>
           </div>
 
-          <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
+          <p class="mt-5 mb-3 text-muted text-center">
+            &copy; 2020 WoaWoaBot All Rights Reserved
+          </p>
         </form>
       </div>
     </div>
