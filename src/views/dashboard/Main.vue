@@ -9,7 +9,7 @@
 // import { ToastLeave } from "../../utils/helpers";
 
 export default {
-  name: "Index",
+  name: "Main",
   components: {},
 };
 </script>

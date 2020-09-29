@@ -23,7 +23,7 @@ const router = new Router({
     },
     {
       path: '/console/bots/:botId',
-      component: () => import('./views/dashboard/Index.vue'),
+      component: () => import('./views/dashboard/Main.vue'),
       children: [
         // 客戶可以設定歡迎訊息
         {
