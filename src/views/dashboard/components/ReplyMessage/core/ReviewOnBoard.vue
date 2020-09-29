@@ -103,7 +103,7 @@ export default {
 
   /* scrollbar track */
   &::-webkit-scrollbar-track {
-    background: #eee;
+    background: #7ca2de;
   }
 
   /* scrollbar handle */
