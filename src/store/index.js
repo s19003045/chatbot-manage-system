@@ -21,7 +21,7 @@ export default new Vuex.Store({
     },
     count: 1,
     //是否已驗證
-    isAuthenticated: false,
+    isAuthenticated: true,
     token: '',
     isSaved: true,
     // 使用者通知

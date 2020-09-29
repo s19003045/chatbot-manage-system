@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import NotFound from './views/NotFound.vue'
 import SignIn from './views/SignIn.vue'
 
+import store from './store'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -118,5 +120,25 @@ const router = new Router({
   ]
 })
 
+
+router.beforeEach((to, from, next) => {
+  // 從 localStorage 取得 token
+
+  // 若未取得 token
+
+  // 若有 token
+
+
+  // 使用者要註冊
+  if (to.name === 'sign-up' && !store.state.isAuthenticated) {
+    next()
+  }
+  // 使用者連結至非 signIn 之其他頁面 & 未經過驗證
+  else if (to.name !== 'sign-in' && !store.state.isAuthenticated) {
+    next({ name: 'sign-in' })
+  }
+
+  next()
+})
 
 export default router
